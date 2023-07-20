@@ -1,4 +1,4 @@
-import { CardGroup, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import { useState, useEffect } from "react";
 import API, { endpoints } from "~/config/API";
