@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -18,26 +17,30 @@ export default function Header() {
 
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+      <Navbar
+        fixed="top"
+        bg="dark"
+        data-bs-theme="dark"
+        collapseOnSelect
+        expand="lg"
+        className="bg-body-tertiary"
+      >
         <Container>
           <Navbar.Brand as={Link} to="/">
             <img
               alt="brand-logo"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Icons8_flat_shop.svg/1200px-Icons8_flat_shop.svg.png"
+              src="https://res.cloudinary.com/nhn1909/image/upload/v1690041731/ktypjs6ap3ykjv6eydqu.png"
               width="30"
               height="30"
               className="d-inline-block align-top"
             />{" "}
-            Nam Sờ Mốk
+            CIGAR FOR BOSS
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/">
                 Trang chủ
-              </Nav.Link>
-              <Nav.Link as={Link} to="/new-arrival">
-                Hàng mới về
               </Nav.Link>
               <Nav.Link as={Link} to="/products">
                 Sản phẩm
@@ -50,8 +53,9 @@ export default function Header() {
               </Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link href="#">Register</Nav.Link>
-              <Nav.Link href="#">Login</Nav.Link>
+              <Nav.Link as={Link} to="/admin/product">
+                ProductAdmin
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

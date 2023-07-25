@@ -9,7 +9,12 @@ export default function BrandCarousels() {
   };
 
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect} interval="3000">
+    <Carousel
+      activeIndex={index}
+      onSelect={handleSelect}
+      interval="3000"
+      style={{ width: "100%" }}
+    >
       <Carousel.Item>
         <img
           className="d-block w-100"
