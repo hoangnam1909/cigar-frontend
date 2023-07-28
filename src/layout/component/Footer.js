@@ -75,7 +75,12 @@ export default function Footer() {
               </p>
               <p>
                 <FontAwesomeIcon icon={faEnvelope} className="me-2" />
-                {process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}
+
+                <a
+                  href={`mailto:${process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}`}
+                >
+                  {process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}
+                </a>
               </p>
               <p>
                 <FontAwesomeIcon icon={faPhone} className="me-2" />

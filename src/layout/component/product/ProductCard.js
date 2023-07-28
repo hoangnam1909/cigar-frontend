@@ -47,7 +47,7 @@ export default function ProductCard(props) {
               to={`/products/${props.product.id}`}
               style={{ color: "unset" }}
             >
-              <h5 className="card-title cut-title" style={{ height: "4rem" }}>
+              <h5 className="card-title cut-title" style={{ height: "3rem" }}>
                 {props.product.name}
               </h5>
             </Link>
