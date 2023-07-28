@@ -89,7 +89,16 @@ export default function ProductDetail() {
                 className="mt-2 pr-3 content"
                 style={{ textAlign: "justify" }}
               >
-                <p>{result.result.description}</p>
+                {/* <p>{result.result.description}</p> */}
+                {result.result.description ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: result.result.description,
+                    }}
+                  />
+                ) : (
+                  "Mô tả sản phẩm"
+                )}
               </div>
             </div>
             <div className="bottom-panel">

@@ -26,8 +26,8 @@ export default function BaseLayout() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/contact" element={<Contact />} />
-          {/* <Route path="/admin" element={<LandingPage />} />
-          <Route path="/admin/product" element={<EditProduct />} /> */}
+          <Route path="/admin" element={<LandingPage />} />
+          <Route path="/admin/product" element={<EditProduct />} />
         </Routes>
       </Container>
       <Footer />

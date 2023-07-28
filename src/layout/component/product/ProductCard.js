@@ -51,15 +51,15 @@ export default function ProductCard(props) {
                 {props.product.name}
               </h5>
             </Link>
-            <p className="card-text cut-description">
+            {/* <p className="card-text cut-description">
               {props.product.description}
-            </p>
+            </p> */}
           </div>
 
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
             {props.product.salePrice == 0 || props.product.unitsInStock == 0 ? (
               <>
-                <h5 className="card-title text-end text-primary text-center">
+                <h5 className="card-title text-end text-primary text-center mb-3">
                   Liên hệ qua Zalo
                 </h5>
                 <h5 className="card-title text-end text-danger text-center mb-2">
