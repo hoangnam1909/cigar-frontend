@@ -7,7 +7,7 @@ export default function TextBox(props) {
   return (
     <>
       <div className="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">
+        <label for="exampleFormControlInput1" className="form-label">
           Email address
         </label>
         <input

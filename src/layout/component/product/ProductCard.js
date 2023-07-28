@@ -27,7 +27,7 @@ export default function ProductCard(props) {
           {props.product.unitsInStock == 0 ? (
             <>
               <span
-                class="badge bg-danger"
+                className="badge bg-danger"
                 style={{
                   position: "absolute",
                   top: "10px",

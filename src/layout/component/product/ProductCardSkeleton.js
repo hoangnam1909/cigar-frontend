@@ -34,10 +34,13 @@ export default function ProductCardSkeleton() {
             >
               Liên hệ zalo
             </h5>
-            <h5 class="card-title rounded-3 mb-2" style={{ height: "3rem" }}>
+            <h5
+              className="card-title rounded-3 mb-2"
+              style={{ height: "3rem" }}
+            >
               Zalo
             </h5>
-            <button class="btn btn-outline-secondary w-100">
+            <button className="btn btn-outline-secondary w-100">
               Xem chi tiết
             </button>
           </div>

@@ -7,10 +7,10 @@ export default function Contact() {
           <form className="needs-validation">
             <div className="row g-3">
               <div className="col-12">
-                <div class="form-floating">
+                <div className="form-floating">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="floatingInput"
                     placeholder="fullname"
                   />
@@ -19,10 +19,10 @@ export default function Contact() {
               </div>
 
               <div className="col-12">
-                <div class="form-floating">
+                <div className="form-floating">
                   <input
                     type="email"
-                    class="form-control"
+                    className="form-control"
                     id="floatingInput"
                     placeholder="name@example.com"
                   />
