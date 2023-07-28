@@ -13,3 +13,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.product-card {
+  width: 19rem;
+}

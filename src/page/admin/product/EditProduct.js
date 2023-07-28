@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -10,9 +9,11 @@ import {
   Row,
 } from "react-bootstrap";
 import API, { endpoints } from "~/config/API";
-import { ImagesUpload } from "../component/form/ImagesUpload";
 import axios from "axios";
-import { toVND, numberWithSpaces } from "~/utils/currency";
+import { toVND } from "~/utils/currency";
+import { ImagesUpload } from "../../../layout/component/form/ImagesUpload";
+import RichTextEditor from "~/layout/component/form/RichTextEditor";
+import { ZaloIcon } from "~/layout/component/icon/ZaloIcon";
 
 export default function EditProduct() {
   console.log("EditProduct ==> re-render");
@@ -20,9 +21,9 @@ export default function EditProduct() {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [originalPrice, setOriginalPrice] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [unitsInStock, setUnitsInStock] = useState("");
+  const [originalPrice, setOriginalPrice] = useState("0");
+  const [salePrice, setSalePrice] = useState("0");
+  const [unitsInStock, setUnitsInStock] = useState("0");
   const [categoryId, setCategoryId] = useState(0);
   const [brandId, setBrandId] = useState(0);
   const [images, setImages] = useState([]);
@@ -30,6 +31,10 @@ export default function EditProduct() {
 
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    console.log(originalPrice == 0 || salePrice == 0);
+  }, [salePrice, originalPrice]);
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -100,12 +105,10 @@ export default function EditProduct() {
     getBrands();
   }, []);
 
-  console.log("images", images);
-
   return (
     <>
       <div className="row mt-4">
-        <div className="col-md-5">
+        <div className="col-md-12 col-lg-5 col-xl-5">
           <Card className="mt-3">
             <Card.Body>
               <Form onSubmit={handleSubmitForm}>
@@ -161,43 +164,38 @@ export default function EditProduct() {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Mô tả sản phẩm</Form.Label>
-                  <Form.Control
-                    id="description-input"
-                    as="textarea"
-                    rows={3}
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
-                  />
+                  <RichTextEditor data={description} setData={setDescription} />
                 </Form.Group>
 
-                <Row className="g-2 mb-3">
-                  <Col>
-                    <InputGroup>
-                      <Form.Control
-                        placeholder="Giá gốc"
-                        aria-label="Giá gốc"
-                        aria-describedby="basic-addon2"
-                        value={originalPrice}
-                        onChange={(e) =>
-                          handleNumberInputOnly(e, setOriginalPrice)
-                        }
-                      />
-                      <InputGroup.Text id="basic-addon2">VNĐ</InputGroup.Text>
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <Form.Control
-                        placeholder="Giá sau khuyến mại"
-                        aria-label="Giá sau khuyến mại"
-                        aria-describedby="basic-addon2"
-                        value={salePrice}
-                        onChange={(e) => handleNumberInputOnly(e, setSalePrice)}
-                      />
-                      <InputGroup.Text id="basic-addon2">VNĐ</InputGroup.Text>
-                    </InputGroup>
-                  </Col>
-                </Row>
+                <Form.Group className="mb-3">
+                  <Form.Label>Giá gốc</Form.Label>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder="Giá gốc"
+                      aria-label="Giá gốc"
+                      aria-describedby="basic-addon2"
+                      value={originalPrice}
+                      onChange={(e) =>
+                        handleNumberInputOnly(e, setOriginalPrice)
+                      }
+                    />
+                    <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
+                  </InputGroup>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Giá sau khuyến mại</Form.Label>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder="Giá sau khuyến mại"
+                      aria-label="Giá sau khuyến mại"
+                      aria-describedby="basic-addon2"
+                      value={salePrice}
+                      onChange={(e) => handleNumberInputOnly(e, setSalePrice)}
+                    />
+                    <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
+                  </InputGroup>
+                </Form.Group>
 
                 <Form.Group
                   className="mb-3"
@@ -222,7 +220,7 @@ export default function EditProduct() {
           </Card>
         </div>
 
-        <div className="col-md">
+        <div className="col-md-12 col-lg-5 col-xl-7">
           <div className="card my-3">
             <div className="d-flex flex-column">
               <div className="border-end">
@@ -271,23 +269,74 @@ export default function EditProduct() {
                     className="mt-2 pr-3 content"
                     style={{ textAlign: "justify" }}
                   >
-                    <p>{description ? description : "Mô tả sản phẩm"}</p>
+                    <p>
+                      {description ? (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: description,
+                          }}
+                        />
+                      ) : (
+                        "Mô tả sản phẩm"
+                      )}
+                    </p>
                   </div>
                 </div>
                 <div className="bottom-panel">
                   <div className="prices">
-                    <h4 className="text-decoration-line-through">
-                      {originalPrice
-                        ? `${toVND(originalPrice)} VNĐ`
-                        : "Original price"}
-                    </h4>
-                    <h4>
-                      {salePrice ? `${toVND(salePrice)} VNĐ` : "Sale price"}
-                    </h4>
-                  </div>
-                  <div className="buttons d-flex flex-row gap-3">
-                    <button className="btn btn-outline-dark">Buy Now</button>{" "}
-                    <button className="btn btn-dark">Add to Basket</button>
+                    {salePrice == 0 || unitsInStock == 0 ? (
+                      <>
+                        <h5 className="card-title text-end text-primary text-center">
+                          Liên hệ qua Zalo
+                        </h5>
+                        <h5 className="card-title text-end text-danger text-center mb-2">
+                          <div className="w-100">
+                            <button
+                              type="button"
+                              className="btn btn-primary w-100"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <ZaloIcon className="me-2" size="35px" />
+                              Zalo
+                            </button>
+                            <ul className="dropdown-menu w-100">
+                              <li>
+                                <a
+                                  className="dropdown-item"
+                                  target="_blank"
+                                  href={`https://zalo.me/${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}
+                                >
+                                  <ZaloIcon className="me-2" size="35px" />
+                                  Hà Nội
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className="dropdown-item"
+                                  target="_blank"
+                                  href={`https://zalo.me/${process.env.REACT_APP_HCM_ZALO_NUMBER}`}
+                                >
+                                  <ZaloIcon className="me-2" size="35px" />
+                                  Thành phố Hồ Chí Minh
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </h5>
+                      </>
+                    ) : (
+                      <>
+                        <h4 className="text-decoration-line-through">
+                          {originalPrice
+                            ? `${toVND(originalPrice)} VND`
+                            : "Original price"}
+                        </h4>
+                        <h4>
+                          {salePrice ? `${toVND(salePrice)} VND` : "Sale price"}
+                        </h4>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

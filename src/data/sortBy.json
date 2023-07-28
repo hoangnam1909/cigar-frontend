@@ -1,0 +1,14 @@
+{
+  "filterKey": "sort",
+  "filterName": "Sắp xếp theo",
+  "filterList": [
+    {
+      "name": "Giá tăng dần",
+      "value": "price-asc"
+    },
+    {
+      "name": "Giá giảm dần",
+      "value": "price-desc"
+    }
+  ]
+}
