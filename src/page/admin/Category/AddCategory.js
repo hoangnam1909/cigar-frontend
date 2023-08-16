@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { Button, Card, Form, InputGroup } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Card, Form } from "react-bootstrap";
 import { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
-import RichTextEditor from "~/components/Input/RichTextEditor";
 
 export default function AddCategory() {
   const [isSuccess, setIsSuccess] = useState(false);

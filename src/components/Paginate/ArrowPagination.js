@@ -7,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 
 export default function ArrowPagination(props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const paginate = [];
 
   return (
     <>

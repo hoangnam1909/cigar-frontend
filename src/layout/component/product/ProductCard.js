@@ -2,7 +2,7 @@ import "./css/ProductCard.css";
 
 import { toVND } from "~/utils/currency";
 import { Link } from "react-router-dom";
-import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 

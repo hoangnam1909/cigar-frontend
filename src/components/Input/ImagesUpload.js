@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Form, Image } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 export const ImagesUpload = ({ images, setImages }) => {
   const handleChooseImage = (e) => {

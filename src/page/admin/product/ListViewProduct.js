@@ -2,12 +2,11 @@ import { faGear, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
-import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
-import Pagination from "~/components/Paginate/Pagination";
+import Pagination from "~/components/paginate/Pagination";
 import { routes } from "~/routers/routes";
-import { toVND } from "~/utils/currency";
 
 export default function ListViewProduct() {
   const [dataImpact, setDataImpact] = useState(0);

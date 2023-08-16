@@ -1,8 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
-import { isTokenExpired, verifyToken } from "~/service/AuthService";
+import { isTokenExpired } from "~/service/AuthService";
 import { parseJwt } from "~/utils/JwtUtil";
 import API, { endpoints } from "./API";
 

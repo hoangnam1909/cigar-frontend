@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
-import Pagination from "~/components/Paginate/Pagination";
+import Pagination from "~/components/paginate/Pagination";
 import { routes } from "~/routers/routes";
 
 export default function ListViewCategory() {

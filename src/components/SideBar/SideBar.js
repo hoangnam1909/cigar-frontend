@@ -1,10 +1,9 @@
+import "./SideBar.css";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./SideBar.css";
 import Cookies from "js-cookie";
 import { routes } from "~/routers/routes";
 import { useEffect, useState } from "react";
 import API, { endpoints } from "~/api/API";
-import { logout } from "~/service/AuthService";
 
 export default function SideBar() {
   const [user, setUser] = useState({});

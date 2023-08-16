@@ -9,11 +9,11 @@ import {
 } from "react-bootstrap";
 import API, { endpoints } from "~/api/API";
 import { toVND } from "~/utils/currency";
-import RichTextEditor from "~/components/Input/RichTextEditor";
+import RichTextEditor from "~/components/input/RichTextEditor";
 import { ZaloIcon } from "~/assets/img/ZaloIcon";
-import { ImagesUpload } from "~/components/Input/ImagesUpload";
+import { ImagesUpload } from "~/components/input/ImagesUpload";
 import AuthAPI from "~/api/AuthAPI";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AddProduct() {
   const navigate = useNavigate();
@@ -29,11 +29,6 @@ export default function AddProduct() {
 
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
-
-  const [isSuccess, setSuccess] = useState(false);
-  const [isError, setError] = useState(false);
-
-  // verifyToken();
 
   useEffect(() => {
     console.log(originalPrice === 0 || salePrice === 0);

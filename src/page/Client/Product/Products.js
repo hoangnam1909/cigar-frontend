@@ -9,8 +9,8 @@ import { FilterCard } from "~/layout/component/product/FilterCard";
 import FilterDropdown from "~/layout/component/product/FilterDropdown";
 import ProductsView from "~/layout/component/product/ProductsView";
 import ProductsSkeletonView from "~/layout/component/product/ProductsSkeletonView";
-import ArrowPagination from "~/components/Paginate/ArrowPagination";
-import Pagination from "~/components/Paginate/Pagination";
+import ArrowPagination from "~/components/paginate/ArrowPagination";
+import Pagination from "~/components/paginate/Pagination";
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  FloatingLabel,
-  Form,
-  Image,
-  InputGroup,
-} from "react-bootstrap";
+import { Button, Card, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
-import { ImagesUpload } from "~/components/Input/ImagesUpload";
-import RichTextEditor from "~/components/Input/RichTextEditor";
+import { ImagesUpload } from "~/components/input/ImagesUpload";
+import RichTextEditor from "~/components/input/RichTextEditor";
 import ListImagePreview from "~/layout/component/img/ListImagePreview";
 import { numberInputOnly } from "~/utils/input";
 
