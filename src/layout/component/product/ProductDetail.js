@@ -70,10 +70,7 @@ export default function ProductDetail() {
                 <h3>{result.result.name}</h3>
               </div>
               {result.result.attributes.length > 0 ? (
-                <div
-                  className="mt-2 pr-3 content"
-                  style={{ textAlign: "justify" }}
-                >
+                <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
                   <p>
                     <strong>
                       {
