@@ -82,10 +82,7 @@ export default function ProductDetail() {
                   </p>
                 </div>
               ) : null}
-              <div
-                className="mt-2 pr-3 content"
-                style={{ textAlign: "justify" }}
-              >
+              <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
                 {/* <p>{result.result.description}</p> */}
                 {result.result.description ? (
                   <div
