@@ -1,14 +1,11 @@
 import "./css/Home.css";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Container } from "react-bootstrap";
-import API, { endpoints } from "~/config/API";
+import API, { endpoints } from "~/api/API";
 import SpecifyCard from "~/layout/home/SpecifyCards/SpecifyCard";
 import specify from "~/data/specify.json";
 import ProductsView from "~/layout/component/product/ProductsView";
 import { Link } from "react-router-dom";
-import Spinner from "~/layout/component/loading/Spinner";
-import ProductCardSkeleton from "~/layout/component/product/ProductCardSkeleton";
 import ProductsSkeletonView from "~/layout/component/product/ProductsSkeletonView";
 
 export default function Home() {
@@ -16,14 +13,16 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchProducts() {
-      await API.get(endpoints.products, {
-        params: {
-          page: "1",
-          size: "6",
-        },
-      }).then((res) => {
-        setProducts(res.data.result.content);
-      });
+      await API()
+        .get(endpoints.products, {
+          params: {
+            page: "1",
+            size: "6",
+          },
+        })
+        .then((res) => {
+          setProducts(res.data.result.content);
+        });
     }
 
     fetchProducts();

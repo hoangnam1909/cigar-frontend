@@ -4,7 +4,7 @@ import { toVND } from "~/utils/currency";
 import { Link } from "react-router-dom";
 import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ZaloIcon } from "../icon/ZaloIcon";
+import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 
 export default function ProductCard(props) {
   return (
@@ -17,8 +17,8 @@ export default function ProductCard(props) {
           <img
             style={{ height: "320px", objectFit: "cover" }}
             src={
-              props.product.productImages[0].linkToImage.startsWith("http")
-                ? props.product.productImages[0].linkToImage
+              props.product.productImages[0]?.linkToImage.startsWith("http")
+                ? props.product.productImages[0]?.linkToImage
                 : "https://en.pimg.jp/042/085/505/1/42085505.jpg"
             }
             alt={`${props.product.name} image`}
@@ -78,6 +78,7 @@ export default function ProductCard(props) {
                         <a
                           className="dropdown-item"
                           target="_blank"
+                          rel="noreferrer"
                           href={`https://zalo.me/${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}
                         >
                           <ZaloIcon className="me-2" size="35px" />
@@ -88,6 +89,7 @@ export default function ProductCard(props) {
                         <a
                           className="dropdown-item"
                           target="_blank"
+                          rel="noreferrer"
                           href={`https://zalo.me/${process.env.REACT_APP_HCM_ZALO_NUMBER}`}
                         >
                           <ZaloIcon className="me-2" size="35px" />

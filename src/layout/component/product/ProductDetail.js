@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import { endpoints } from "~/config/API";
+import { endpoints } from "~/api/API";
 import "./css/ProductDetail.css";
 import useAxios from "~/utils/useAxios";
 import { toVND } from "~/utils/currency";
-import { ZaloIcon } from "../icon/ZaloIcon";
+import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
 
 export default function ProductDetail() {
@@ -35,7 +35,7 @@ export default function ProductDetail() {
             <div className="d-flex flex-column justify-content-center">
               <div className="main_image">
                 <img
-                  src={result.result.productImages[0].linkToImage}
+                  src={result.result.productImages[0]?.linkToImage}
                   id="main_product_image"
                   height="450"
                   style={{ objectFit: "cover", borderRadius: "4px" }}
@@ -147,6 +147,7 @@ export default function ProductDetail() {
                       <a
                         className="dropdown-item"
                         target="_blank"
+                        rel="noreferrer"
                         href={`https://zalo.me/${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}
                       >
                         <ZaloIcon className="me-2" size="35px" />
@@ -157,6 +158,7 @@ export default function ProductDetail() {
                       <a
                         className="dropdown-item"
                         target="_blank"
+                        rel="noreferrer"
                         href={`https://zalo.me/${process.env.REACT_APP_HCM_ZALO_NUMBER}`}
                       >
                         <ZaloIcon className="me-2" size="35px" />

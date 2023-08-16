@@ -43,6 +43,8 @@ export default function Pagination(props) {
   }
 
   return (
-    <ul className="pagination d-flex justify-content-center">{paginate}</ul>
+    <ul className="pagination d-flex justify-content-center mb-2">
+      {paginate}
+    </ul>
   );
 }

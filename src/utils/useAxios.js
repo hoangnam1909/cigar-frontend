@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import API from "~/config/API";
+import API from "~/api/API";
 
 export default ({ url, method, data, options }) => {
   const [result, setResult] = useState(null);
@@ -19,9 +19,9 @@ export default ({ url, method, data, options }) => {
       let response = null;
 
       if (method.toLowerCase() === "get".toLowerCase()) {
-        response = await API[method](url, options);
+        response = await API()[method](url, options);
       } else {
-        response = await API[method](url, data, options);
+        response = await API()[method](url, data, options);
       }
 
       setIsLoading(false);

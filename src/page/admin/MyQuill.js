@@ -1,8 +1,4 @@
-import "react-quill/dist/quill.snow.css";
-import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-
-export default function LandingPage() {
+export default function MyQuill() {
   const [value, setValue] = useState("");
 
   useEffect(() => {

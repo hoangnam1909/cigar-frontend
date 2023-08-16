@@ -2,16 +2,15 @@ import "./css/Products.css";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import API, { endpoints } from "~/config/API";
+import API, { endpoints } from "~/api/API";
 import queryString from "query-string";
 import sortData from "~/data/sortBy.json";
 import { FilterCard } from "~/layout/component/product/FilterCard";
 import FilterDropdown from "~/layout/component/product/FilterDropdown";
 import ProductsView from "~/layout/component/product/ProductsView";
-import Pagination from "~/layout/component/pagination/Pagination";
-import ArrowPagination from "~/layout/component/pagination/ArrowPagination";
-import Spinner from "~/layout/component/loading/Spinner";
 import ProductsSkeletonView from "~/layout/component/product/ProductsSkeletonView";
+import ArrowPagination from "~/components/Paginate/ArrowPagination";
+import Pagination from "~/components/Paginate/Pagination";
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,7 +23,7 @@ export default function Products() {
 
   useEffect(() => {
     async function getCategories() {
-      const res = await API.get(endpoints.categories);
+      const res = await API().get(endpoints.categories);
       const data = res.data.result;
       setCategories(data);
     }
@@ -34,7 +33,7 @@ export default function Products() {
 
   useEffect(() => {
     async function getBrands() {
-      const res = await API.get(endpoints.brands);
+      const res = await API().get(endpoints.brands);
       const data = res.data.result;
       setBrands(data);
     }
@@ -47,18 +46,20 @@ export default function Products() {
 
     async function getProducts() {
       setLoading(true);
-      await API.get(endpoints.products, {
-        params: {
-          ...params,
-          page: searchParams.get("page")
-            ? parseInt(searchParams.get("page"))
-            : 1,
-          size: PAGE_SIZE,
-        },
-      }).then((res) => {
-        setProductsRes(res.data.result);
-        setLoading(false);
-      });
+      await API()
+        .get(endpoints.products, {
+          params: {
+            ...params,
+            page: searchParams.get("page")
+              ? parseInt(searchParams.get("page"))
+              : 1,
+            size: PAGE_SIZE,
+          },
+        })
+        .then((res) => {
+          setProductsRes(res.data.result);
+          setLoading(false);
+        });
     }
 
     getProducts();
