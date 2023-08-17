@@ -57,6 +57,10 @@ export default function EditProduct() {
         .then((response) => {
           console.log(response);
           if (response?.status === 200) {
+            setImages(
+              response?.data.result.productImages.map((img) => img.linkToImage)
+            );
+
             setProduct({
               ...product,
               name: response?.data.result.name
@@ -80,9 +84,7 @@ export default function EditProduct() {
               brandId: response?.data.result.brand.id
                 ? response?.data.result.brand.id
                 : 0,
-              productImages: response?.data.result.productImages
-                ? response?.data.result.productImages
-                : [],
+              productImages: response?.data.result.productImages ? images : [],
             });
             setImages(
               response?.data.result.productImages.map((img) => img.linkToImage)
@@ -117,7 +119,7 @@ export default function EditProduct() {
       <h2 className="mt-3">Chỉnh sửa thông tin sản phẩm</h2>
 
       {isSuccess ? (
-        <div className="alert alert-success" role="alert">
+        <div className="alert alert-success mb-0" role="alert">
           Sửa thông tin danh mục thành công!
         </div>
       ) : null}

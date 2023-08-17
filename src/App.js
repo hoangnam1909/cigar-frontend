@@ -28,6 +28,8 @@ import EditCategory from "./page/admin/category/EditCategory";
 import ListViewBrand from "./page/admin/brand/ListViewBrand";
 import AddBrand from "./page/admin/brand/AddBrand";
 import EditBrand from "./page/admin/brand/EditBrand";
+import ProductDetailSkeleton from "./layout/component/product/skeleton/ProductDetailSkeleton";
+import ProductCardSkeleton from "./layout/component/product/skeleton/ProductCardSkeleton";
 
 export default function BaseLayout() {
   const location = useLocation();
@@ -115,6 +117,7 @@ export default function BaseLayout() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
+          {/* <Route path="/products/skeleton" element={<ProductCardSkeleton />} /> */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/*" element={<NotFound404 />} />
         </Routes>

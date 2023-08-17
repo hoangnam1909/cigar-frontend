@@ -163,6 +163,7 @@ export default function SideBar() {
                   onClick={(e) => {
                     e.preventDefault();
                     Cookies.remove("accessToken");
+                    Cookies.remove("rememberMe");
                     navigate("/auth");
                   }}
                   className="link-body-emphasis d-inline-flex text-decoration-none rounded"

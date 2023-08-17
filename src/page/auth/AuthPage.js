@@ -8,6 +8,7 @@ export default function AuthPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [isError, setIsError] = useState();
 
   const handleSubmitForm = async (e) => {
@@ -21,6 +22,7 @@ export default function AuthPage() {
       const res = await API().post(endpoints.login, requestBody);
       if (res.status === 200) {
         Cookies.set("accessToken", res.data.token);
+        Cookies.set("rememberMe", rememberMe);
 
         if (tokenUserRole() === "ADMIN") {
           console.log("navigate to admin");
@@ -85,7 +87,8 @@ export default function AuthPage() {
               <input
                 className="form-check-input"
                 type="checkbox"
-                value="remember-me"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
               />
               <label className="form-check-label">Ghi nhớ đăng nhập</label>
             </div>

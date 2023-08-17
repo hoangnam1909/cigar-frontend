@@ -6,7 +6,7 @@ import SpecifyCard from "~/layout/home/specify-cards/SpecifyCard";
 import specify from "~/data/specify.json";
 import ProductsView from "~/layout/component/product/ProductsView";
 import { Link } from "react-router-dom";
-import ProductsSkeletonView from "~/layout/component/product/ProductsSkeletonView";
+import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
 
 export default function Home() {
   const [products, setProducts] = useState([]);

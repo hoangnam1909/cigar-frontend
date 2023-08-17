@@ -8,7 +8,7 @@ import sortData from "~/data/sortBy.json";
 import { FilterCard } from "~/layout/component/product/FilterCard";
 import FilterDropdown from "~/layout/component/product/FilterDropdown";
 import ProductsView from "~/layout/component/product/ProductsView";
-import ProductsSkeletonView from "~/layout/component/product/ProductsSkeletonView";
+import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
 import ArrowPagination from "~/components/paginate/ArrowPagination";
 import Pagination from "~/components/paginate/Pagination";
 

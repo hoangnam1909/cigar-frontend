@@ -16,16 +16,13 @@ const AuthAPI = () =>
 
 AuthAPI().interceptors.request.use(
   async (request) => {
-    // console.log("dit me may", request);
-    console.log("jwt", parseJwt(Cookies.get("accessToken")));
-    console.log("isTokenExpired", isTokenExpired());
-
-    if (isTokenExpired()) {
+    if (isTokenExpired() && Cookies.get("rememberMe") === "true") {
+      console.log("refresh token");
       const res = await API().post(endpoints.refreshToken, {
         token: Cookies.get("accessToken"),
       });
       Cookies.set("accessToken", res.data.token);
-      request.headers.Authorization = `Bearer ${res.data.token}`;
+      request.headers.Authorization = `Bearer ${Cookies.get("accessToken")}`;
     }
 
     return request;

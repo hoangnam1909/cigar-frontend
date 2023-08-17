@@ -5,6 +5,7 @@ import useAxios from "~/utils/useAxios";
 import { toVND } from "~/utils/currency";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
+import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -20,11 +21,7 @@ export default function ProductDetail() {
   }
 
   if (!isSuccess || result.result == null) {
-    return (
-      <>
-        <h1>DO NOT HAVE DATA</h1>
-      </>
-    );
+    return <ProductDetailSkeleton />;
   }
 
   document.title = result?.result.name;
@@ -33,9 +30,9 @@ export default function ProductDetail() {
     <>
       <div className="card my-3">
         <div className="row g-0">
-          <div className="col-md border-end">
+          <div className="col-md-7 border-end">
             <div className="d-flex flex-column justify-content-center">
-              <div className="main_image">
+              <div className="main_image p-4">
                 <img
                   src={result.result.productImages[0]?.linkToImage}
                   id="main_product_image"
