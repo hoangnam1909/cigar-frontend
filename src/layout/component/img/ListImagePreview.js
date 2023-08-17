@@ -3,7 +3,7 @@ import { Image } from "react-bootstrap";
 export default function ListImagePreview({ imageList }) {
   return (
     <>
-      <div className="d-flex">
+      <div className="d-flex flex-wrap">
         {imageList?.map((image, index) => {
           return (
             <Image
@@ -12,7 +12,7 @@ export default function ListImagePreview({ imageList }) {
               style={{ height: "200px", objectFit: "cover" }}
               fluid
               rounded
-              className="me-2 border"
+              className="m-1 border"
             />
           );
         })}

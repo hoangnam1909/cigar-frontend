@@ -19,13 +19,15 @@ export default function ProductDetail() {
     }
   }
 
-  if (!isSuccess) {
+  if (!isSuccess || result.result == null) {
     return (
       <>
         <h1>DO NOT HAVE DATA</h1>
       </>
     );
   }
+
+  document.title = result?.result.name;
 
   return (
     <>

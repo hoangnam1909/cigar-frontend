@@ -1,4 +1,6 @@
 export default function Contact() {
+  document.title = "Cigar For Boss - Liên hệ";
+
   return (
     <>
       <div className="row g-5 mt-4">

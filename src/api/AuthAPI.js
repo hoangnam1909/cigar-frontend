@@ -24,9 +24,8 @@ AuthAPI().interceptors.request.use(
       const res = await API().post(endpoints.refreshToken, {
         token: Cookies.get("accessToken"),
       });
-
-      console.log("refresh response", res);
       Cookies.set("accessToken", res.data.token);
+      request.headers.Authorization = `Bearer ${res.data.token}`;
     }
 
     return request;

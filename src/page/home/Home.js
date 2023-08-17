@@ -11,6 +11,8 @@ import ProductsSkeletonView from "~/layout/component/product/ProductsSkeletonVie
 export default function Home() {
   const [products, setProducts] = useState([]);
 
+  document.title = "Cigar For Boss - Trang chủ";
+
   useEffect(() => {
     async function fetchProducts() {
       await API()

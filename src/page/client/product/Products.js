@@ -21,6 +21,8 @@ export default function Products() {
   const [productsRes, setProductsRes] = useState();
   const PAGE_SIZE = 6;
 
+  document.title = "Cigar For Boss - Sản phẩm";
+
   useEffect(() => {
     async function getCategories() {
       const res = await API().get(endpoints.categories);

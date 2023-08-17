@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
+import AuthAPI from "~/api/AuthAPI";
 import { ImagesUpload } from "~/components/input/ImagesUpload";
 import RichTextEditor from "~/components/input/RichTextEditor";
 import ListImagePreview from "~/layout/component/img/ListImagePreview";
@@ -10,31 +11,33 @@ import { numberInputOnly } from "~/utils/input";
 export default function EditProduct() {
   const { productId } = useParams();
   const [product, setProduct] = useState({
-    id: productId,
     name: "",
     description: "",
-    originalPrice: "",
-    salePrice: "",
-    unitsInStock: "",
-    categoryId: 0,
-    brandId: 0,
+    originalPrice: 0,
+    salePrice: 0,
+    unitsInStock: 0,
+    categoryId: 1,
+    brandId: 1,
     productImages: [],
   });
 
-  const [categoryId, setCategoryId] = useState(0);
-  const [brandId, setBrandId] = useState(0);
   const [images, setImages] = useState([]);
-
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const [isSuccess, setSuccess] = useState(false);
-  const [isError, setError] = useState(false);
-
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    setProduct([...product, images]);
+    setProduct({ ...product, productImages: images });
+
+    const res = await AuthAPI().put(
+      `${endpoints.products}/${productId}`,
+      product
+    );
+    if (res.status === 200) {
+      setIsSuccess(true);
+    }
     console.log("request body", product);
   };
 
@@ -64,22 +67,22 @@ export default function EditProduct() {
                 : "",
               originalPrice: response?.data.result.originalPrice
                 ? response?.data.result.originalPrice
-                : "",
+                : 0,
               salePrice: response?.data.result.salePrice
                 ? response?.data.result.salePrice
-                : "",
+                : 0,
               unitsInStock: response?.data.result.unitsInStock
                 ? response?.data.result.unitsInStock
-                : "",
-              categoryId: response?.data.result.categoryId
-                ? response?.data.result.categoryId
-                : "",
-              brandId: response?.data.result.brandId
-                ? response?.data.result.brandId
-                : "",
+                : 0,
+              categoryId: response?.data.result.category.id
+                ? response?.data.result.category.id
+                : 0,
+              brandId: response?.data.result.brand.id
+                ? response?.data.result.brand.id
+                : 0,
               productImages: response?.data.result.productImages
                 ? response?.data.result.productImages
-                : "",
+                : [],
             });
             setImages(
               response?.data.result.productImages.map((img) => img.linkToImage)
@@ -109,11 +112,15 @@ export default function EditProduct() {
     getProduct();
   }, []);
 
-  console.log("image", images);
-
   return (
     <>
       <h2 className="mt-3">Chỉnh sửa thông tin sản phẩm</h2>
+
+      {isSuccess ? (
+        <div className="alert alert-success" role="alert">
+          Sửa thông tin danh mục thành công!
+        </div>
+      ) : null}
 
       <Card className="my-3">
         <Card.Body>
@@ -122,11 +129,12 @@ export default function EditProduct() {
               className="mb-3"
               controlId="floatingSelect"
               label="Phân loại sản phẩm"
+              defaultValue={product?.category?.id}
               onChange={(e) =>
-                setProduct({ ...product, categoryId: e.target.value })
+                setProduct({ ...product, categoryId: parseInt(e.target.value) })
               }
             >
-              <Form.Select value={product?.category?.id}>
+              <Form.Select>
                 {categories?.map((c) => {
                   return (
                     <option key={c.id} value={c.id}>
@@ -141,11 +149,12 @@ export default function EditProduct() {
               className="mb-3"
               controlId="floatingSelect"
               label="Thương hiệu"
+              defaultValue={product?.brand?.id}
               onChange={(e) =>
-                setProduct({ ...product, brandId: e.target.value })
+                setProduct({ ...product, brandId: parseInt(e.target.value) })
               }
             >
-              <Form.Select value={product?.brand?.id}>
+              <Form.Select>
                 {brands?.map((b) => {
                   return (
                     <option key={b.id} value={b.id}>
@@ -184,12 +193,14 @@ export default function EditProduct() {
                   aria-label="Giá gốc"
                   aria-describedby="basic-addon2"
                   pattern="^[0-9]*$"
-                  value={product?.originalPrice}
+                  value={parseInt(
+                    product?.originalPrice ? product?.originalPrice : 0
+                  )}
                   onChange={(e) => {
                     if (numberInputOnly(e.target.value)) {
                       setProduct({
                         ...product,
-                        originalPrice: e.target.value,
+                        originalPrice: parseInt(e.target.value),
                       });
                     }
                   }}
@@ -205,12 +216,12 @@ export default function EditProduct() {
                   placeholder="Giá sau khuyến mại"
                   aria-label="Giá sau khuyến mại"
                   aria-describedby="basic-addon2"
-                  value={product?.salePrice}
+                  value={parseInt(product?.salePrice ? product?.salePrice : 0)}
                   onChange={(e) => {
                     if (numberInputOnly(e.target.value)) {
                       setProduct({
                         ...product,
-                        salePrice: e.target.value,
+                        salePrice: parseInt(e.target.value),
                       });
                     }
                   }}
@@ -222,12 +233,14 @@ export default function EditProduct() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Số lượng</Form.Label>
               <Form.Control
-                value={product?.unitsInStock}
+                value={parseInt(
+                  product?.unitsInStock ? product?.unitsInStock : 0
+                )}
                 onChange={(e) => {
                   if (numberInputOnly(e.target.value)) {
                     setProduct({
                       ...product,
-                      unitsInStock: e.target.value,
+                      unitsInStock: parseInt(e.target.value),
                     });
                   }
                 }}
