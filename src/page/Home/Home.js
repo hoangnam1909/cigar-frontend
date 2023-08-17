@@ -2,7 +2,7 @@ import "./css/Home.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import API, { endpoints } from "~/api/API";
-import SpecifyCard from "~/layout/home/specifyCards/SpecifyCard";
+import SpecifyCard from "~/layout/home/specify-cards/SpecifyCard";
 import specify from "~/data/specify.json";
 import ProductsView from "~/layout/component/product/ProductsView";
 import { Link } from "react-router-dom";
