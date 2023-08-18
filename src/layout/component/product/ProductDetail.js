@@ -2,7 +2,6 @@ import "./css/ProductDetail.css";
 
 import { useParams } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
-import useAxios from "~/utils/useAxios";
 import { toVND } from "~/utils/currency";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
@@ -12,11 +11,25 @@ import ProductCardMini from "./ProductCardMini";
 
 export default function ProductDetail() {
   const { productId } = useParams();
+  const [product, setProduct] = useState();
   const [productsSuggest, setProductsSuggest] = useState();
-  const [result, { isLoading, isSuccess, isError, error }] = useAxios({
-    url: endpoints.products.concat(`/${productId}`),
-    method: "get",
-  });
+  const [isSuccess, setIsSuccess] = useState(false);
+  // const [result, { isLoading, isSuccess, isError, error }] = useAxios({
+  //   url: endpoints.products.concat(`/${productId}`),
+  //   method: "get",
+  // });
+
+  useEffect(() => {
+    async function getProduct() {
+      const res = await API().get(`${endpoints.products}/${productId}`);
+      if (res.status === 200) {
+        setIsSuccess(true);
+        setProduct(res.data.result);
+      }
+    }
+
+    getProduct();
+  }, [productId]);
 
   useEffect(() => {
     async function getSuggestProducts() {
@@ -27,7 +40,7 @@ export default function ProductDetail() {
     }
 
     getSuggestProducts();
-  }, []);
+  }, [productId]);
 
   function changeProductImage(link) {
     if (isSuccess) {
@@ -35,11 +48,11 @@ export default function ProductDetail() {
     }
   }
 
-  if (!isSuccess || result.result == null) {
+  if (!isSuccess || product == null) {
     return <ProductDetailSkeleton />;
   }
 
-  document.title = result?.result.name;
+  document.title = product ? product.name : "Loading...";
 
   return (
     <>
@@ -49,7 +62,7 @@ export default function ProductDetail() {
             <div className="d-flex flex-column justify-content-center">
               <div className="main_image p-4">
                 <img
-                  src={result.result.productImages[0]?.linkToImage}
+                  src={product.productImages[0]?.linkToImage}
                   id="main_product_image"
                   height="450"
                   style={{ objectFit: "cover", borderRadius: "4px" }}
@@ -58,7 +71,7 @@ export default function ProductDetail() {
               </div>
               <div className="thumbnail_images">
                 <ul id="thumbnail">
-                  {result.result.productImages.map((image) => {
+                  {product.productImages.map((image) => {
                     if (image.linkToImage.startsWith("http")) {
                       return (
                         <li
@@ -82,10 +95,10 @@ export default function ProductDetail() {
           <div className="col-md-5 d-flex flex-column justify-content-between">
             <div className="p-4 right-side">
               <div className="d-flex justify-content-between align-items-center">
-                <h3>{result.result.name}</h3>
+                <h3>{product.name}</h3>
               </div>
 
-              {result.result.unitsInStock == 0 ? (
+              {product.unitsInStock == 0 ? (
                 <>
                   <div className="d-flex justify-content-between align-items-center">
                     <p className="fs-6 badge bg-danger my-1">Hết hàng</p>
@@ -99,25 +112,22 @@ export default function ProductDetail() {
                 </>
               )}
 
-              {result.result.attributes.length > 0 ? (
+              {product.attributes.length > 0 ? (
                 <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
                   <p>
                     <strong>
-                      {
-                        result.result.attributes[0].productAttributeResponse
-                          .name
-                      }
+                      {product.attributes[0].productAttributeResponse.name}
                     </strong>
-                    : {result.result.attributes[0].value}
+                    : {product.attributes[0].value}
                   </p>
                 </div>
               ) : null}
               <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
-                {/* <p>{result.result.description}</p> */}
-                {result.result.description ? (
+                {/* <p>{product.description}</p> */}
+                {product.description ? (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: result.result.description,
+                      __html: product.description,
                     }}
                   />
                 ) : (
@@ -126,19 +136,16 @@ export default function ProductDetail() {
               </div>
             </div>
             <div className="bottom-panel">
-              {result.result.originalPrice != 0 ||
-              result.result.salePrice != 0 ? (
+              {product.originalPrice != 0 || product.salePrice != 0 ? (
                 <>
                   <div className="prices">
                     <h4 className="text-decoration-line-through">
                       {isSuccess
-                        ? toVND(result.result.originalPrice)
+                        ? toVND(product.originalPrice)
                         : "Original price"}
                     </h4>
                     <h4>
-                      {isSuccess
-                        ? toVND(result.result.salePrice)
-                        : "Sale price"}
+                      {isSuccess ? toVND(product.salePrice) : "Sale price"}
                     </h4>
                   </div>
                 </>
