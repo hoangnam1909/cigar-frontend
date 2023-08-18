@@ -4,6 +4,7 @@ export let endpoints = {
   brands: "/brands",
   categories: "/categories",
   products: "/products",
+  productsSuggest: "/products/suggests",
   register: "/auth/register",
   login: "/auth/authenticate",
   verify: "/auth/verify",

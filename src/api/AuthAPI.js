@@ -1,7 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { isTokenExpired } from "~/service/AuthService";
-import { parseJwt } from "~/utils/JwtUtil";
 import API, { endpoints } from "./API";
 
 const AuthAPI = () =>

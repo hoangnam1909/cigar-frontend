@@ -28,8 +28,6 @@ import EditCategory from "./page/admin/category/EditCategory";
 import ListViewBrand from "./page/admin/brand/ListViewBrand";
 import AddBrand from "./page/admin/brand/AddBrand";
 import EditBrand from "./page/admin/brand/EditBrand";
-import ProductDetailSkeleton from "./layout/component/product/skeleton/ProductDetailSkeleton";
-import ProductCardSkeleton from "./layout/component/product/skeleton/ProductCardSkeleton";
 
 export default function BaseLayout() {
   const location = useLocation();
@@ -45,13 +43,6 @@ export default function BaseLayout() {
       );
     }
   }
-
-  console.log(
-    "condition",
-    location.pathname.startsWith("/admin") &&
-      verifyToken() &&
-      tokenUserRole() === "ADMIN"
-  );
 
   if (location.pathname.startsWith("/admin")) {
     if (verifyToken() && tokenUserRole() === "ADMIN") {

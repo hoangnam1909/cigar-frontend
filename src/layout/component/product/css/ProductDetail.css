@@ -30,15 +30,19 @@ body {
 }
 
 .thumbnail_images ul li:hover {
-  border: 2px solid #2b3035;
+  /* border: 2px solid #2b3035; */
 }
 
 .thumbnail_images ul li img {
   transition: all 0.5s;
 }
 
-.thumbnail_images ul li:hover img {
-  transform: scale(0.9);
+/* .thumbnail_images ul li:hover img {
+  transform: scale(0.98);
+} */
+
+.thumbnail_images ul li:active img {
+  transform: scale(0.92);
 }
 
 .main_image {

@@ -1,18 +1,33 @@
-import { useParams } from "react-router-dom";
-import { endpoints } from "~/api/API";
 import "./css/ProductDetail.css";
+
+import { useParams } from "react-router-dom";
+import API, { endpoints } from "~/api/API";
 import useAxios from "~/utils/useAxios";
 import { toVND } from "~/utils/currency";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
 import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
+import { useEffect, useState } from "react";
+import ProductCardMini from "./ProductCardMini";
 
 export default function ProductDetail() {
   const { productId } = useParams();
+  const [productsSuggest, setProductsSuggest] = useState();
   const [result, { isLoading, isSuccess, isError, error }] = useAxios({
     url: endpoints.products.concat(`/${productId}`),
     method: "get",
   });
+
+  useEffect(() => {
+    async function getSuggestProducts() {
+      const res = await API().get(`${endpoints.productsSuggest}/${productId}`);
+      if (res.status === 200) {
+        setProductsSuggest(res.data.result);
+      }
+    }
+
+    getSuggestProducts();
+  }, []);
 
   function changeProductImage(link) {
     if (isSuccess) {
@@ -63,11 +78,27 @@ export default function ProductDetail() {
               </div>
             </div>
           </div>
-          <div className="col-md d-flex flex-column justify-content-between">
+
+          <div className="col-md-5 d-flex flex-column justify-content-between">
             <div className="p-4 right-side">
               <div className="d-flex justify-content-between align-items-center">
                 <h3>{result.result.name}</h3>
               </div>
+
+              {result.result.unitsInStock == 0 ? (
+                <>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <p className="fs-6 badge bg-danger my-1">Hết hàng</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <p className="fs-6 badge bg-success my-1">Còn hàng</p>
+                  </div>
+                </>
+              )}
+
               {result.result.attributes.length > 0 ? (
                 <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
                   <p>
@@ -163,6 +194,15 @@ export default function ProductDetail() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="card my-3 p-4">
+        <h4 className="ps-2">Sản Phẩm Tương Tự</h4>
+        <div className="d-flex flex-wrap justify-content-center">
+          {productsSuggest?.map((p) => {
+            return <ProductCardMini product={p} />;
+          })}
         </div>
       </div>
     </>

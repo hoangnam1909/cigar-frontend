@@ -51,9 +51,6 @@ export default function ProductCard(props) {
                 {props.product.name}
               </h5>
             </Link>
-            {/* <p className="card-text cut-description">
-              {props.product.description}
-            </p> */}
           </div>
 
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
