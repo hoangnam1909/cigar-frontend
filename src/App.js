@@ -7,7 +7,7 @@ import Header from "./layout/component/Header";
 import { Container } from "react-bootstrap";
 import Footer from "./layout/component/Footer";
 import ScrollTop from "./utils/ScrollTop";
-import ProductDetail from "./layout/component/product/ProductDetail";
+import ProductDetail from "./page/client/product/ProductDetail";
 import Home from "./page/home/Home";
 import Products from "./page/client/product/Products";
 import Contact from "./page/client/Contact";

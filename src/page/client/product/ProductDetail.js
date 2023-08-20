@@ -3,11 +3,11 @@ import "./css/ProductDetail.css";
 import { useParams } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
 import { toVND } from "~/utils/currency";
-import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
-import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
 import { useEffect, useState } from "react";
-import ProductCardMini from "./ProductCardMini";
+import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
+import ProductCardMini from "~/layout/component/product/ProductCardMini";
+import { ZaloIcon } from "~/assets/img/ZaloIcon";
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -60,7 +60,7 @@ export default function ProductDetail() {
         <div className="row g-0">
           <div className="col-md-7 border-end">
             <div className="d-flex flex-column justify-content-center">
-              <div className="main_image p-4">
+              <div className="main_image p-4 pb-1">
                 <img
                   src={product.productImages[0]?.linkToImage}
                   id="main_product_image"
@@ -82,6 +82,7 @@ export default function ProductDetail() {
                             src={image.linkToImage}
                             height="100"
                             alt="thumbnail_image"
+                            className="rounded"
                           />
                         </li>
                       );
@@ -205,7 +206,7 @@ export default function ProductDetail() {
       </div>
 
       <div className="card my-3 p-4">
-        <h4 className="ps-2">Sản Phẩm Tương Tự</h4>
+        <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
         <div className="d-flex flex-wrap justify-content-center">
           {productsSuggest?.map((p) => {
             return <ProductCardMini product={p} />;

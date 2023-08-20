@@ -10,6 +10,7 @@ export default function FilterDropdown(props) {
         aria-label="filter-drop-down"
         onChange={(e) => {
           if (e.target.value != "none") {
+            searchParams.delete("page");
             searchParams.set(`${props.filterObj.filterKey}`, e.target.value);
             setSearchParams(searchParams);
           } else {
