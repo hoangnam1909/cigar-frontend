@@ -8,16 +8,13 @@ import { useEffect, useState } from "react";
 import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
 import ProductCardMini from "~/layout/component/product/ProductCardMini";
 import { ZaloIcon } from "~/assets/img/ZaloIcon";
+import ProductCardMiniSkeleton from "~/layout/component/product/skeleton/ProductCardMiniSkeleton";
 
 export default function ProductDetail() {
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [productsSuggest, setProductsSuggest] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
-  // const [result, { isLoading, isSuccess, isError, error }] = useAxios({
-  //   url: endpoints.products.concat(`/${productId}`),
-  //   method: "get",
-  // });
 
   useEffect(() => {
     async function getProduct() {
@@ -28,10 +25,6 @@ export default function ProductDetail() {
       }
     }
 
-    getProduct();
-  }, [productId]);
-
-  useEffect(() => {
     async function getSuggestProducts() {
       const res = await API().get(`${endpoints.productsSuggest}/${productId}`);
       if (res.status === 200) {
@@ -39,14 +32,15 @@ export default function ProductDetail() {
       }
     }
 
+    getProduct();
     getSuggestProducts();
   }, [productId]);
 
-  function changeProductImage(link) {
+  const changeProductImage = (link) => {
     if (isSuccess) {
       document.getElementById("main_product_image").src = link;
     }
-  }
+  };
 
   if (!isSuccess || product == null) {
     return <ProductDetailSkeleton />;

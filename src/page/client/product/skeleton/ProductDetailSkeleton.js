@@ -1,3 +1,4 @@
+import ProductCardMiniSkeleton from "~/layout/component/product/skeleton/ProductCardMiniSkeleton";
 import "../css/ProductDetail.css";
 
 export default function ProductDetailSkeleton() {
@@ -90,6 +91,16 @@ export default function ProductDetailSkeleton() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="card my-3 p-4 loading-skeleton">
+        <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
+        <div className="d-flex flex-wrap justify-content-center">
+          <ProductCardMiniSkeleton />
+          <ProductCardMiniSkeleton />
+          <ProductCardMiniSkeleton />
+          <ProductCardMiniSkeleton />
         </div>
       </div>
     </>
