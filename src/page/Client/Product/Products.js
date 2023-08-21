@@ -71,13 +71,17 @@ export default function Products() {
     <>
       <div className="row mt-4">
         <aside className="col-md-3">
+          <FilterCard type="text" filterName="Tên sản phẩm" filterKey="name" />
+
           <FilterCard
+            type="select"
             filterName="Danh mục"
             filterKey="categoryId"
             filterList={categories}
           />
 
           <FilterCard
+            type="select"
             filterName="Hãng sản xuất"
             filterKey="brandId"
             filterList={brands}

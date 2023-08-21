@@ -21,22 +21,22 @@ export default function ProductCardSkeleton() {
             </h5>
           </div>
 
-          <div class="card-body pt-0 d-flex flex-column justify-content-between">
-            <h5 class="card-title mb-3">Liên hệ qua Zalo</h5>
-            <h5 class="card-title text-end text-danger text-center mb-2">
-              <div class="w-100">
+          <div className="card-body pt-0 d-flex flex-column justify-content-between">
+            <h5 className="card-title mb-3">Liên hệ qua Zalo</h5>
+            <h5 className="card-title text-end text-danger text-center mb-2">
+              <div className="w-100">
                 <button
                   type="button"
-                  class="btn btn-primary w-100"
+                  className="btn btn-primary w-100"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Zalo
                 </button>
-                <ul class="dropdown-menu w-100">
+                <ul className="dropdown-menu w-100">
                   <li>
                     <a
-                      class="dropdown-item"
+                      className="dropdown-item"
                       target="_blank"
                       rel="noreferrer"
                       href="https://zalo.me/0328594647"
@@ -46,7 +46,7 @@ export default function ProductCardSkeleton() {
                   </li>
                   <li>
                     <a
-                      class="dropdown-item"
+                      className="dropdown-item"
                       target="_blank"
                       rel="noreferrer"
                       href="https://zalo.me/0988873547"
@@ -57,8 +57,8 @@ export default function ProductCardSkeleton() {
                 </ul>
               </div>
             </h5>
-            <a class="text-center">
-              <button class="btn btn-outline-secondary w-100">
+            <a className="text-center">
+              <button className="btn btn-outline-secondary w-100">
                 Xem chi tiết
               </button>
             </a>
