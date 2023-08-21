@@ -57,7 +57,7 @@ export const FilterCard = (props) => {
               type="text"
               className="form-control"
               onChange={(e) => {
-                console.log(e.target.value.length);
+                searchParams.delete("page");
                 if (e.target.value.length == 0) {
                   searchParams.delete(`${props.filterKey}`);
                   setSearchParams(searchParams);
