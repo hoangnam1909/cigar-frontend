@@ -1,4 +1,3 @@
-import ProductCardMiniSkeleton from "~/layout/component/product/skeleton/ProductCardMiniSkeleton";
 import "../css/ProductDetail.css";
 
 export default function ProductDetailSkeleton() {

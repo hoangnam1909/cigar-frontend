@@ -45,57 +45,72 @@ export default function Footer() {
             </div>
 
             <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Sản phẩm</h6>
+              <h6 className="text-uppercase fw-bold mb-4">Các chính sách</h6>
               <p>
                 <a href="#!" className="text-reset">
-                  Xì gà
+                  Chính sách đổi trả
                 </a>
               </p>
               <p>
                 <a as={Link} href="#!" className="text-reset">
-                  Phụ kiện xì gà
+                  Chính sách bảo mật
                 </a>
               </p>
               <p>
                 <a href="#!" className="text-reset">
-                  Rượu
+                  Chính sách vận chuyển
+                </a>
+              </p>
+              <p>
+                <a href="#!" className="text-reset">
+                  Hướng dẫn mua hàng
+                </a>
+              </p>
+              <p>
+                <a href="#!" className="text-reset">
+                  Hướng dẫn thanh toán
                 </a>
               </p>
             </div>
 
             <div className="col-md-5 col-lg-4 col-xl-4 mx-auto mb-md-0 mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Liên hệ</h6>
-              <p>
-                <FontAwesomeIcon icon={faHouse} className="me-2" />
-                {process.env.REACT_APP_HANOI_ADDRESS}
-              </p>
-              <p>
-                <FontAwesomeIcon icon={faHouse} className="me-2" />
-                {process.env.REACT_APP_HCM_ADDRESS}
-              </p>
-              <p>
-                <FontAwesomeIcon icon={faEnvelope} className="me-2" />
-
-                <a
-                  href={`mailto:${process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}`}
-                >
-                  {process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}
-                </a>
-              </p>
-              <p>
-                <FontAwesomeIcon icon={faPhone} className="me-2" />
-                <a href={`tel:${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}>
-                  {formatPhoneNumber(process.env.REACT_APP_HANOI_ZALO_NUMBER)}
-                </a>
-                {}
-              </p>
-              <p>
-                <FontAwesomeIcon icon={faPhone} className="me-2" />
-                <a href={`tel:${process.env.REACT_APP_HCM_ZALO_NUMBER}`}>
-                  {formatPhoneNumber(process.env.REACT_APP_HCM_ZALO_NUMBER)}
-                </a>
-                {}
-              </p>
+              <h6 className="text-uppercase fw-bold mb-4">các cửa hàng</h6>
+              <div className="store-info">
+                <h6 className="fw-bold">Cửa hàng 1</h6>
+                <p>Địa chỉ: {process.env.REACT_APP_HANOI_ADDRESS}</p>
+                <p>
+                  Email:{" "}
+                  <a
+                    href={`mailto:${process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}`}
+                  >
+                    {process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}
+                  </a>
+                </p>
+                <p>
+                  Số điện thoại:{" "}
+                  <a href={`tel:${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}>
+                    {formatPhoneNumber(process.env.REACT_APP_HANOI_ZALO_NUMBER)}
+                  </a>
+                </p>
+              </div>
+              <div className="store-info">
+                <h6 className="fw-bold">Cửa hàng 2</h6>
+                <p>Địa chỉ: {process.env.REACT_APP_HCM_ADDRESS}</p>
+                <p>
+                  Email:{" "}
+                  <a
+                    href={`mailto:${process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}`}
+                  >
+                    {process.env.REACT_APP_EMAIL_CONTACT_ADDRESS}
+                  </a>
+                </p>
+                <p>
+                  Số điện thoại:{" "}
+                  <a href={`tel:${process.env.REACT_APP_HCM_ZALO_NUMBER}`}>
+                    {formatPhoneNumber(process.env.REACT_APP_HCM_ZALO_NUMBER)}
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>

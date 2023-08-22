@@ -42,10 +42,6 @@ export default function ProductDetail() {
     }
   };
 
-  // if (!isSuccess || product == null) {
-  //   return <ProductDetailSkeleton />;
-  // }
-
   document.title = product ? product.name : "Loading...";
 
   return (

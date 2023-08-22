@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import API, { endpoints } from "~/api/API";
-import { REGEX_VIETNAMESE_PHONE_NUMBER } from "~/utils/regexUtils";
+import { formatPhoneNumber } from "~/utils/phoneNumber";
+import { REGEX_EMAIL, REGEX_VIETNAMESE_PHONE_NUMBER } from "~/utils/regexUtils";
 
 export default function Contact() {
   document.title = "Cigar For Boss - Liên hệ";
-  const [isEmailValid, setIsEmailValid] = useState();
-  const [isPhoneValid, setIsPhoneValid] = useState();
+  const [isEmailValid, setIsEmailValid] = useState(0);
+  const [isPhoneValid, setIsPhoneValid] = useState(0);
   const [customer, setCustomer] = useState({
-    name: "",
+    fullName: "",
     email: "",
     phone: "",
     address: "",
   });
-
-  const validateCustomer = () => {
-    if (!REGEX_VIETNAMESE_PHONE_NUMBER.test(customer.phone)) {
-      return false;
-    }
-
-    return true;
-  };
+  const [sendContactSuccessful, setSendContactSuccessful] = useState(false);
 
   const handlePhoneNumberInputOnly = (e, setData) => {
     let phoneValue = e.target.value;
@@ -32,26 +26,116 @@ export default function Contact() {
   };
 
   useEffect(() => {
-    const checkEmail = async () => {
-      const res = API().get(
-        `${endpoints.customer}/validate/email/${customer.email}`
-      );
-    };
+    if (REGEX_EMAIL.test(customer.email)) {
+      const checkEmail = async () => {
+        const res = await API().get(
+          `${endpoints.customer}/validate/${customer.email}`
+        );
+        setIsEmailValid(res.data.result ? 1 : -1);
+      };
+      checkEmail();
+    }
   }, [customer.email]);
 
-  useEffect(() => {}, [customer.phone]);
+  useEffect(() => {
+    if (customer.phone.length >= 10) {
+      const checkPhone = async () => {
+        const res = await API().get(
+          `${endpoints.customer}/validate/${customer.phone}`
+        );
+        setIsPhoneValid(res.data.result ? 1 : -1);
+      };
+      checkPhone();
+    }
+  }, [customer.phone]);
 
-  const handleSubmitForm = (e) => {
+  const clearForm = () => {
+    setCustomer({
+      ...customer,
+      fullName: "",
+      email: "",
+      phone: "",
+      address: "",
+    });
+  };
+
+  const changeMap = (e, link) => {
     e.preventDefault();
-    if (validateCustomer()) {
-      console.log(customer);
+    document.getElementById("embed-gmap").src = link;
+  };
+
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+
+    const res = await API().post(endpoints.customer, [customer]);
+    console.log(res);
+    if (res.status === 200) {
+      setSendContactSuccessful(true);
+      clearForm();
     }
   };
 
   return (
     <>
       <div className="row g-5 mt-4">
-        <div className="col-md-4 m-0">
+        <div className="col-sm-12 col-md-12 col-xl-3 m-0 mb-3">
+          <h4 className="mb-3">CÁC CỬA HÀNG</h4>
+          <div className="card mb-3">
+            <div className="card-body">
+              <h5 className="card-title">
+                <a
+                  href=""
+                  onClick={(e) =>
+                    changeMap(e, process.env.REACT_APP_HANOI_MAP_SRC)
+                  }
+                >
+                  Cửa hàng 1
+                </a>
+              </h5>
+              <a
+                href="https://goo.gl/maps/w1Gy44PXnDnjzscn9"
+                className="card-text"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {process.env.REACT_APP_HANOI_ADDRESS}
+              </a>
+              <p className="card-text">
+                Số điện thoại:{" "}
+                {formatPhoneNumber(process.env.REACT_APP_HANOI_ZALO_NUMBER)}
+              </p>
+            </div>
+          </div>
+
+          <div className="card mb-3">
+            <div className="card-body">
+              <h5 className="card-title">
+                <a
+                  href=""
+                  onClick={(e) =>
+                    changeMap(e, process.env.REACT_APP_HCM_MAP_SRC)
+                  }
+                >
+                  Cửa hàng 2
+                </a>
+              </h5>
+              <a
+                href="https://goo.gl/maps/sNuHUfur6QJpmcuN8"
+                className="card-text"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {process.env.REACT_APP_HCM_ADDRESS}
+              </a>
+              <p className="card-text">
+                Số điện thoại:{" "}
+                {formatPhoneNumber(process.env.REACT_APP_HCM_ZALO_NUMBER)}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-sm-12 col-md-6 col-xl-4 m-0 mb-3">
           <h4 className="mb-3">LIÊN HỆ VỚI CHÚNG TÔI</h4>
           <form className="needs-validation" onSubmit={handleSubmitForm}>
             <div className="row g-3">
@@ -59,13 +143,12 @@ export default function Contact() {
                 <div className="form-floating">
                   <input
                     type="text"
-                    className={`form-control ${true ? "is-valid" : ""}`}
-                    value={customer?.name}
+                    className="form-control"
+                    value={customer.fullName}
                     onChange={(e) => {
                       setCustomer({ ...customer, fullName: e.target.value });
                     }}
                   />
-                  <div className="valid-feedback">Looks good!</div>
                   <label>Họ và tên</label>
                 </div>
               </div>
@@ -74,13 +157,23 @@ export default function Contact() {
                 <div className="form-floating">
                   <input
                     type="email"
-                    className={`form-control ${true ? "is-valid" : ""}`}
+                    className={`form-control ${
+                      isEmailValid == 0
+                        ? ""
+                        : isEmailValid == 1
+                        ? "is-valid"
+                        : "is-invalid"
+                    }`}
                     value={customer?.email}
                     onChange={(e) => {
+                      if (REGEX_EMAIL.test(customer.email)) setIsEmailValid(0);
                       setCustomer({ ...customer, email: e.target.value });
                     }}
                   />
-                  <div className="valid-feedback">Looks good!</div>
+                  <div className="valid-feedback">
+                    Email này có thể sử dụng!
+                  </div>
+                  <div className="invalid-feedback">Email đã tồn tại!</div>
                   <label>Email</label>
                 </div>
               </div>
@@ -89,13 +182,25 @@ export default function Contact() {
                 <div className="form-floating">
                   <input
                     type="text"
-                    className={`form-control ${true ? "is-valid" : ""}`}
+                    className={`form-control ${
+                      isPhoneValid == 0
+                        ? ""
+                        : isPhoneValid == 1
+                        ? "is-valid"
+                        : "is-invalid"
+                    }`}
                     value={customer?.phone}
                     onChange={(e) => {
+                      if (e.target.value.length < 10) setIsPhoneValid(0);
                       handlePhoneNumberInputOnly(e, setCustomer);
                     }}
                   />
-                  <div className="valid-feedback">Looks good!</div>
+                  <div className="valid-feedback">
+                    Số điện thoại này có thể sử dụng!
+                  </div>
+                  <div className="invalid-feedback">
+                    Số điện thoại đã tồn tại!
+                  </div>
                   <label>Số điện thoại</label>
                 </div>
               </div>
@@ -104,33 +209,25 @@ export default function Contact() {
                 <div className="form-floating">
                   <input
                     type="text"
-                    className={`form-control ${true ? "is-valid" : ""}`}
+                    className="form-control"
                     value={customer?.address}
                     onChange={(e) => {
                       setCustomer({ ...customer, address: e.target.value });
                     }}
                   />
-                  <div className="valid-feedback">Looks good!</div>
                   <label>Địa chỉ</label>
                 </div>
               </div>
 
-              {/* <div className="col-12">
-                <div className="form-floating">
-                  <textarea
-                    className="form-control"
-                    placeholder="Leave a comment here"
-                    id="floatingTextarea"
-                    style={{ height: "120px" }}
-                    onChange={(e) => {
-                      e.target.style.height = "";
-                      e.target.style.height =
-                        Math.max(e.target.scrollHeight, 120) + "px";
-                    }}
-                  ></textarea>
-                  <label>Lời nhắn</label>
-                </div>
-              </div> */}
+              {sendContactSuccessful ? (
+                <>
+                  <div className="col-12 text-center">
+                    <div className="alert alert-success mb-0" role="alert">
+                      Gửi liên hệ thành công!
+                    </div>
+                  </div>
+                </>
+              ) : null}
 
               <div className="col-12 text-center">
                 <button className="w-100 btn btn-secondary" type="submit">
@@ -141,12 +238,17 @@ export default function Contact() {
           </form>
         </div>
 
-        <div className="col-md-8 m-0">
-          <img
-            className="w-100 h-100 rounded"
-            style={{ objectFit: "cover" }}
-            src="https://findycigars.com/cdn/shop/articles/mohd-jon-ramlan-ItGeEBMBurE-unsplash_1_1_1445x.jpg?v=1660258387"
-          />
+        <div className="col-sm-12 col-md-6 col-xl-5 m-0 mb-3">
+          <iframe
+            src={process.env.REACT_APP_HANOI_MAP_SRC}
+            id="embed-gmap"
+            width="100%"
+            height="500"
+            className="rounded"
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </div>
     </>

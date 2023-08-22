@@ -57,14 +57,16 @@ export const FilterCard = (props) => {
               type="text"
               className="form-control"
               onChange={(e) => {
-                searchParams.delete("page");
-                if (e.target.value.length == 0) {
-                  searchParams.delete(`${props.filterKey}`);
-                  setSearchParams(searchParams);
-                } else {
-                  searchParams.set(`${props.filterKey}`, `${e.target.value}`);
-                  setSearchParams(searchParams);
-                }
+                setTimeout(function () {
+                  searchParams.delete("page");
+                  if (e.target.value.length == 0) {
+                    searchParams.delete(`${props.filterKey}`);
+                    setSearchParams(searchParams);
+                  } else {
+                    searchParams.set(`${props.filterKey}`, `${e.target.value}`);
+                    setSearchParams(searchParams);
+                  }
+                }, 500);
               }}
             />
           </div>
