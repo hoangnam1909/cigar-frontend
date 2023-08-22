@@ -72,7 +72,6 @@ export default function ListViewBrand() {
                     <th className="text-center">STT</th>
                     <th>Tên thương hiệu</th>
                     <th>Quốc gia</th>
-                    <th className="text-center">Số lượng sản phẩm</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -81,9 +80,6 @@ export default function ListViewBrand() {
                       <td className="text-center align-middle">{index + 1}</td>
                       <td className="align-middle">{brand.name}</td>
                       <td className="align-middle">{brand.country}</td>
-                      <td className="text-center align-middle">
-                        {brand.productsCount}
-                      </td>
                       <td>
                         <div className="d-flex flex-row justify-content-center">
                           <Link

@@ -5,10 +5,25 @@ import {
   faJoint,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
+import API, { endpoints } from "~/api/API";
 import { numberWithSpaces, toVND } from "~/utils/currency";
 
 export default function AdminDashboard() {
+  const [countProduct, setCountProduct] = useState(0);
+
+  useEffect(() => {
+    const getProductsOnSale = async () => {
+      const res = await API().get(`${endpoints.countProductsOnSale}`);
+      if (res.status == 200) {
+        setCountProduct(res.data.result);
+      }
+    };
+
+    getProductsOnSale();
+  }, []);
+
   return (
     <>
       <div className="d-flex flex-column overflow-x-hidden mt-3">
@@ -24,7 +39,7 @@ export default function AdminDashboard() {
                       Sản phẩm đang bán
                     </div>
                     <div className="h5 mb-0 font-weight-bold text-gray-800">
-                      {numberWithSpaces(53453)}
+                      {numberWithSpaces(countProduct)}
                     </div>
                   </div>
                   <div className="col-auto">

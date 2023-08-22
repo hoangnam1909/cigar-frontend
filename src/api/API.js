@@ -5,11 +5,13 @@ export let endpoints = {
   categories: "/categories",
   products: "/products",
   productsSuggest: "/products/suggests",
+  countProductsOnSale: "/products/count-product-on-sale",
   register: "/auth/register",
   login: "/auth/authenticate",
   verify: "/auth/verify",
   currentUser: "/auth/current-user",
   refreshToken: "/auth/refresh",
+  customer: "/customers",
 };
 
 const API = () =>

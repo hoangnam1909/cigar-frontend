@@ -72,7 +72,6 @@ export default function ListViewCategory() {
                   <tr>
                     <th className="text-center">STT</th>
                     <th>Tên danh mục</th>
-                    <th className="text-center">Số lượng sản phẩm</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -80,9 +79,6 @@ export default function ListViewCategory() {
                     <tr key={category.id}>
                       <td className="text-center align-middle">{index + 1}</td>
                       <td className="align-middle">{category.name}</td>
-                      <td className="text-center align-middle">
-                        {category.productsCount}
-                      </td>
                       <td>
                         <div className="d-flex flex-row justify-content-center">
                           <Link

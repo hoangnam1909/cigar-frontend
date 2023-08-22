@@ -202,9 +202,20 @@ export default function ProductDetail() {
       <div className="card my-3 p-4">
         <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
         <div className="d-flex flex-wrap justify-content-center">
-          {productsSuggest?.map((p) => {
-            return <ProductCardMini product={p} />;
-          })}
+          {productsSuggest ? (
+            <>
+              {productsSuggest?.map((p) => {
+                return <ProductCardMini product={p} />;
+              })}
+            </>
+          ) : (
+            <>
+              <ProductCardMiniSkeleton />
+              <ProductCardMiniSkeleton />
+              <ProductCardMiniSkeleton />
+              <ProductCardMiniSkeleton />
+            </>
+          )}
         </div>
       </div>
     </>

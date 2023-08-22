@@ -20,7 +20,7 @@ export default function JWT() {
 
   return (
     <>
-      <div class="mb-3">
+      <div className="mb-3">
         <label className="form-label">Email address</label>
         <input
           className="form-control"
