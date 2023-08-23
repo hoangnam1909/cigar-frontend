@@ -100,8 +100,8 @@ export default function Products() {
           </div>
         </aside>
 
-        <main className="col-md">
-          <header className="border-bottom mb-4">
+        <main className="col-md" id="product-grid-view">
+          <header className="border-bottom mb-2">
             <div className="d-flex justify-content-around align-items-center flex-wrap">
               {loading === false ? (
                 <>

@@ -7,7 +7,17 @@ const ScrollTop = () => {
   let location = useLocation();
 
   useLayoutEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    let productGridView = document.getElementById("product-grid-view");
+    if (productGridView) {
+      if (window.innerWidth) {
+      }
+      window.scrollTo({
+        top: productGridView.offsetTop - 56 - 16,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [pathname, searchParams]);
 
   useLayoutEffect(() => {

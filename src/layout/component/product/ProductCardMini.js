@@ -1,17 +1,15 @@
 import "./css/ProductCard.css";
 
-import { toVND } from "~/utils/currency";
 import { Link } from "react-router-dom";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 
 export default function ProductCardMini(props) {
   const product = props.product;
 
   return (
     <>
-      <div className="card shadow m-2" style={{ width: "232px" }}>
+      <div className="card shadow m-2">
         <Link
           to={`/products/${product.id}`}
           style={{ color: "unset", position: "relative" }}

@@ -28,6 +28,7 @@ import EditCategory from "./page/admin/category/EditCategory";
 import ListViewBrand from "./page/admin/brand/ListViewBrand";
 import AddBrand from "./page/admin/brand/AddBrand";
 import EditBrand from "./page/admin/brand/EditBrand";
+import Cart from "./page/client/cart/Cart";
 
 export default function BaseLayout() {
   const location = useLocation();
@@ -85,7 +86,6 @@ export default function BaseLayout() {
                   path={`${routes.adminEditBrand}/:brandId`}
                   element={<EditBrand />}
                 />
-
                 <Route path="/jwt" element={<JWT />} />
                 <Route path="/*" element={<NotFound404 />} />
               </Routes>
@@ -110,6 +110,7 @@ export default function BaseLayout() {
           <Route path="/products/:productId" element={<ProductDetail />} />
           {/* <Route path="/products/skeleton" element={<ProductCardSkeleton />} /> */}
           <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/*" element={<NotFound404 />} />
         </Routes>
       </Container>

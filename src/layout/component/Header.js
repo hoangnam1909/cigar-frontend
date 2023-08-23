@@ -43,6 +43,9 @@ export default function Header() {
               <Nav.Link as={Link} to="/contact">
                 Liên hệ
               </Nav.Link>
+              <Nav.Link as={Link} to="/cart">
+                Giỏ hàng
+              </Nav.Link>
             </Nav>
             <Form className="d-flex ms-3">
               <Form.Control

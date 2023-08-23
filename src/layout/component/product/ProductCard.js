@@ -2,14 +2,15 @@ import "./css/ProductCard.css";
 
 import { toVND } from "~/utils/currency";
 import { Link } from "react-router-dom";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
+import { addProductToCart } from "~/service/CartService";
 
 export default function ProductCard(props) {
   return (
     <>
-      <div className="card shadow m-2 product-card">
+      <div className="card shadow mx-auto my-2 product-card">
         <Link
           to={`/products/${props.product.id}`}
           style={{ color: "unset", position: "relative" }}
@@ -108,16 +109,15 @@ export default function ProductCard(props) {
               </>
             )}
 
-            <Link
-              className="text-center"
-              to={`/products/${props.product.id}`}
-              style={{ color: "unset" }}
+            <button
+              className="btn btn-outline-secondary w-100"
+              onClick={() => {
+                addProductToCart(props.product);
+              }}
             >
-              <button className="btn btn-outline-secondary w-100">
-                <FontAwesomeIcon icon={faEye} className="me-2" />
-                Xem chi tiết
-              </button>
-            </Link>
+              <FontAwesomeIcon icon={faCartShopping} className="me-2" />
+              Thêm vào giỏ hàng
+            </button>
           </div>
         </div>
       </div>

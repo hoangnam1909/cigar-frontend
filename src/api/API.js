@@ -12,6 +12,7 @@ export let endpoints = {
   currentUser: "/auth/current-user",
   refreshToken: "/auth/refresh",
   customer: "/customers",
+  order: "/orders",
 };
 
 const API = () =>

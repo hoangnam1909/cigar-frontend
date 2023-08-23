@@ -7,6 +7,7 @@ import specify from "~/data/specify.json";
 import ProductsView from "~/layout/component/product/ProductsView";
 import { Link } from "react-router-dom";
 import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
+import ProductCard from "~/layout/component/product/ProductCard";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ export default function Home() {
         .get(endpoints.products, {
           params: {
             page: "1",
-            size: "6",
+            size: "8",
           },
         })
         .then((res) => {
@@ -63,11 +64,20 @@ export default function Home() {
       <div className="mt-4 d-flex justify-content-center">
         {products.length > 0 ? (
           <>
-            <ProductsView products={products} />
+            <div className="row mx-auto">
+              {products?.map((p) => (
+                <div
+                  key={p.id}
+                  className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                >
+                  <ProductCard key={p.id} product={p} />
+                </div>
+              ))}
+            </div>
           </>
         ) : (
           <>
-            <ProductsSkeletonView count={6} />
+            <ProductsSkeletonView count={8} />
           </>
         )}
       </div>

@@ -5,6 +5,7 @@ import { REGEX_EMAIL, REGEX_VIETNAMESE_PHONE_NUMBER } from "~/utils/regexUtils";
 
 export default function Contact() {
   document.title = "Cigar For Boss - Liên hệ";
+
   const [isEmailValid, setIsEmailValid] = useState(0);
   const [isPhoneValid, setIsPhoneValid] = useState(0);
   const [customer, setCustomer] = useState({
@@ -39,6 +40,11 @@ export default function Contact() {
 
   useEffect(() => {
     if (customer.phone.length >= 10) {
+      if (REGEX_VIETNAMESE_PHONE_NUMBER.test(customer.phone) == false) {
+        setIsPhoneValid(-1);
+        return;
+      }
+
       const checkPhone = async () => {
         const res = await API().get(
           `${endpoints.customer}/validate/${customer.phone}`
@@ -148,6 +154,7 @@ export default function Contact() {
                     onChange={(e) => {
                       setCustomer({ ...customer, fullName: e.target.value });
                     }}
+                    required
                   />
                   <label>Họ và tên</label>
                 </div>
@@ -169,6 +176,7 @@ export default function Contact() {
                       if (REGEX_EMAIL.test(customer.email)) setIsEmailValid(0);
                       setCustomer({ ...customer, email: e.target.value });
                     }}
+                    required
                   />
                   <div className="valid-feedback">
                     Email này có thể sử dụng!
@@ -194,12 +202,13 @@ export default function Contact() {
                       if (e.target.value.length < 10) setIsPhoneValid(0);
                       handlePhoneNumberInputOnly(e, setCustomer);
                     }}
+                    required
                   />
                   <div className="valid-feedback">
                     Số điện thoại này có thể sử dụng!
                   </div>
                   <div className="invalid-feedback">
-                    Số điện thoại đã tồn tại!
+                    Số điện thoại không hợp lệ hoặc đã được đăng ký trước đó!
                   </div>
                   <label>Số điện thoại</label>
                 </div>
@@ -214,6 +223,7 @@ export default function Contact() {
                     onChange={(e) => {
                       setCustomer({ ...customer, address: e.target.value });
                     }}
+                    required
                   />
                   <label>Địa chỉ</label>
                 </div>

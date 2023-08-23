@@ -1,0 +1,427 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./css/Cart.css";
+
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import API, { endpoints } from "~/api/API";
+import {
+  deleteByProductId,
+  getCart,
+  getOrderItems,
+  updateQuantity,
+} from "~/service/CartService";
+import { faCircleCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { nameNormalization } from "~/utils/input";
+import moment from "moment";
+import "moment/locale/vi";
+
+export default function Cart() {
+  document.title = "Cigar For Boss - Giỏ hàng";
+
+  const [orderSuccessful, setOrderSuccessful] = useState(0);
+  const [order, setOrder] = useState();
+
+  const [provinces, setProvinces] = useState();
+  const [districts, setDistricts] = useState();
+  const [wards, setWards] = useState();
+
+  const [province, setProvince] = useState();
+  const [district, setDistrict] = useState();
+  const [ward, setWard] = useState();
+
+  const [cart, setCart] = useState();
+
+  const [orderRequest, setOrderRequest] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
+    note: "",
+  });
+
+  useEffect(() => {
+    async function getProvinces() {
+      const res = await API().get("https://provinces.open-api.vn/api/p/");
+      if (res.status === 200) setProvinces(res.data);
+    }
+
+    getProvinces();
+    setCart(getCart());
+  }, []);
+
+  useEffect(() => {
+    if (province) {
+      async function getDistricts() {
+        const res = await API().get(
+          `https://provinces.open-api.vn/api/p/${province.code}?depth=2`
+        );
+        if (res.status === 200) setDistricts(res.data.districts);
+      }
+
+      getDistricts();
+    }
+
+    setDistricts();
+    setWards();
+  }, [province]);
+
+  useEffect(() => {
+    if (district) {
+      async function getWards() {
+        const res = await API().get(
+          `https://provinces.open-api.vn/api/d/${district.code}?depth=2`
+        );
+        if (res.status === 200) setWards(res.data.wards);
+      }
+
+      getWards();
+    }
+
+    setWards();
+  }, [district]);
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+
+    let requestBody = { ...orderRequest };
+    let address = "";
+    if (requestBody.address.trim().length > 0) address += requestBody.address;
+    if (ward) address += `, ${ward.name}`;
+    if (district) address += `, ${district.name}`;
+    if (province) address += `, ${province.name}`;
+
+    requestBody = {
+      ...requestBody,
+      fullName: nameNormalization(requestBody.fullName),
+      email: requestBody.email.trim(),
+      address: address,
+      orderItems: getOrderItems(),
+    };
+
+    async function addOrder() {
+      const res = await API().post(endpoints.order, requestBody);
+      console.log(res);
+      if (res.status === 200) {
+        localStorage.removeItem("cart");
+        setOrderSuccessful(1);
+        setOrder(res.data.result);
+      } else {
+        setOrderSuccessful(-1);
+      }
+    }
+
+    console.log(requestBody);
+    addOrder();
+  };
+
+  if (orderSuccessful == 1) {
+    return (
+      <div className="card px-4 py-4 mt-3 mx-auto d-flex align-items-center">
+        <div className="d-flex flex-column my-3 border-bottom w-100">
+          <FontAwesomeIcon
+            icon={faCircleCheck}
+            style={{ color: "#58a624", height: "80px" }}
+            className="mb-4"
+          />
+
+          <h5 className="" style={{ color: "#58a624", textAlign: "center" }}>
+            Mua hàng thành công
+          </h5>
+          <p className="text-center mb-0">
+            Mã đơn hàng: <b>#{order.id}</b>
+          </p>
+          <p className="text-center">
+            Ngày tạo đơn:{" "}
+            <b>
+              {moment(order.createdAt).format("LTS")}
+              {" - "}
+              {moment(order.createdAt).format("LL")}
+            </b>
+          </p>
+        </div>
+
+        <div className="text-center w-75">
+          <h6>Cảm ơn bạn đã mua sắm tại website CigarForBoss.com</h6>
+          <p>
+            Bạn đã đặt hàng thành công. Để kiểm tra tất cả chi tiết về đơn hàng,
+            vui lòng liên hệ với nhân viên cửa hàng hoặc kiểm tra email xác nhận
+            đơn hàng.
+          </p>
+        </div>
+
+        <Link to="/products" class="btn btn-outline-success w-75 mt-2 mb-3">
+          TIẾP TỤC MUA HÀNG
+        </Link>
+      </div>
+    );
+  }
+
+  if (cart?.length == 0 || cart == null) {
+    return (
+      <>
+        <div className="card px-4 py-5 mt-3 mx-auto d-flex align-items-center">
+          <h5 className="mb-4" style={{ textAlign: "center" }}>
+            Giỏ hàng của bạn đang trống
+          </h5>
+          <Link to="/products" class="btn btn-outline-primary w-75">
+            TIẾP TỤC MUA HÀNG
+          </Link>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="row mt-3">
+        <div className="card col-sm-12 col-lg-7 px-4 py-3 me-3">
+          <h5 className="mb-3">THÔNG TIN NGƯỜI MUA HÀNG</h5>
+          <form onSubmit={handleSubmitForm}>
+            <div className="row g-2">
+              <div className="col-md">
+                <div className="form-floating me-1 mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={orderRequest.fullName}
+                    onChange={(e) => {
+                      setOrderRequest({
+                        ...orderRequest,
+                        fullName: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                  <label>Họ và tên (*)</label>
+                </div>
+              </div>
+
+              <div className="col-md">
+                <div className="form-floating mb-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={orderRequest.phone}
+                    onChange={(e) => {
+                      setOrderRequest({
+                        ...orderRequest,
+                        phone: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                  <label>Số điện thoại (*)</label>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-floating mb-3">
+              <input
+                type="email"
+                className="form-control"
+                value={orderRequest.email}
+                onChange={(e) => {
+                  setOrderRequest({ ...orderRequest, email: e.target.value });
+                }}
+              />
+              <label>Email</label>
+            </div>
+
+            <div className="row g-2 mb-3">
+              <div className="col-md">
+                <select
+                  className="form-select"
+                  defaultValue={"0"}
+                  onChange={(e) => {
+                    let value = e.target.value;
+                    setProvince({
+                      code: value.split("|")[0],
+                      name: value.split("|")[1],
+                    });
+                  }}
+                >
+                  <option value="0">Chọn Tỉnh Thành</option>
+                  {provinces?.map((province, index) => {
+                    return (
+                      <option
+                        key={index}
+                        value={`${province.code}|${province.name}`}
+                      >
+                        {province.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className="col-md">
+                <select
+                  className="form-select"
+                  defaultValue={"0"}
+                  onChange={(e) => {
+                    let value = e.target.value;
+                    setDistrict({
+                      code: value.split("|")[0],
+                      name: value.split("|")[1],
+                    });
+                  }}
+                >
+                  <option value="0">Chọn Quận Huyện</option>
+                  {districts?.map((district, index) => {
+                    return (
+                      <option
+                        key={index}
+                        value={`${district.code}|${district.name}`}
+                      >
+                        {district.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className="col-md">
+                <select
+                  className="form-select"
+                  defaultValue={"0"}
+                  onChange={(e) => {
+                    let value = e.target.value;
+                    setWard({
+                      code: value.split("|")[0],
+                      name: value.split("|")[1],
+                    });
+                  }}
+                >
+                  <option value="0">Chọn Phường Xã</option>
+                  {wards?.map((ward, index) => {
+                    return (
+                      <option key={index} value={`${ward.code}|${ward.name}`}>
+                        {ward.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control"
+                value={orderRequest.address}
+                onChange={(e) => {
+                  setOrderRequest({
+                    ...orderRequest,
+                    address: e.target.value,
+                  });
+                }}
+              />
+              <label>Địa chỉ (Nhập chính xác số nhà, ngõ,...)</label>
+            </div>
+
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control"
+                value={orderRequest.note}
+                onChange={(e) => {
+                  setOrderRequest({ ...orderRequest, note: e.target.value });
+                }}
+              />
+              <label>Ghi chú cho đơn hàng</label>
+            </div>
+
+            {orderSuccessful == -1 ? (
+              <div className="text-center">
+                <div className="alert alert-danger w-75 mx-auto" role="alert">
+                  A simple danger alert—check it out!
+                </div>
+              </div>
+            ) : null}
+
+            <div className="text-center mb-1">
+              <input
+                type="submit"
+                className="btn btn-dark w-50"
+                value="Đặt hàng ngay"
+              />
+            </div>
+          </form>
+        </div>
+
+        <div className="card cart-card col-sm-12 col-lg px-4 py-3 me-3">
+          <h5 className="mb-3">Giỏ hàng</h5>
+          {cart?.map((product, index) => {
+            return (
+              <div
+                key={index}
+                className="row mb-3 pb-3 border-bottom border-secondary-subtle"
+              >
+                <div className="col-3">
+                  <Link to={`${endpoints.products}/${product.id}`}>
+                    <img
+                      width="80"
+                      height="80"
+                      src={product.image}
+                      className="rounded"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </Link>
+                </div>
+
+                <div className="col-7">
+                  <Link to={`${endpoints.products}/${product.id}`}>
+                    <h6>{product.name}</h6>
+                    <p className="form-text mb-2">{`Giá sản phẩm: ${
+                      product.salePrice === 0 ? "Liên hệ" : product.salePrice
+                    }`}</p>
+                  </Link>
+                  <a
+                    href=""
+                    onClick={(e) => {
+                      e.preventDefault();
+                      deleteByProductId(product.id);
+                      setCart(getCart());
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="me-1" /> Xoá
+                  </a>
+                </div>
+
+                <div className="col-2 align-self-center">
+                  <input
+                    type="text"
+                    className="form-control text-center"
+                    value={product.quantity}
+                    onChange={(e) => {
+                      updateQuantity(product.id, e.target.value);
+                      setCart(getCart());
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+
+          <div className="row">
+            <div className="col-4">
+              <h6>Tổng cộng: </h6>
+            </div>
+            <div className="col-8">
+              <p className="text-end">Chúng tôi sẽ liên hệ lại với bạn sau.</p>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-4">
+              <h6>Phí vận chuyển: </h6>
+            </div>
+            <div className="col-8">
+              <p className="text-end">Chúng tôi sẽ liên hệ lại với bạn sau.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

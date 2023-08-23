@@ -118,7 +118,6 @@ export default function ProductDetail() {
                     </div>
                   ) : null}
                   <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
-                    {/* <p>{product.description}</p> */}
                     {product.description ? (
                       <div
                         dangerouslySetInnerHTML={{
@@ -213,19 +212,31 @@ export default function ProductDetail() {
 
       <div className="card my-3 p-4">
         <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
-        <div className="d-flex flex-wrap justify-content-center">
+        <div className="row">
           {productsSuggest ? (
             <>
               {productsSuggest?.map((p) => {
-                return <ProductCardMini product={p} />;
+                return (
+                  <div key={p.id} className="mb-3 col-sm-12 col-md-6 col-lg-3">
+                    <ProductCardMini product={p} />
+                  </div>
+                );
               })}
             </>
           ) : (
             <>
-              <ProductCardMiniSkeleton />
-              <ProductCardMiniSkeleton />
-              <ProductCardMiniSkeleton />
-              <ProductCardMiniSkeleton />
+              <div className="col-sm-12 col-md-6">
+                <ProductCardMiniSkeleton />
+              </div>
+              <div className="col-sm-12 col-md-6">
+                <ProductCardMiniSkeleton />
+              </div>
+              <div className="col-sm-12 col-md-6">
+                <ProductCardMiniSkeleton />
+              </div>
+              <div className="col-sm-12 col-md-6">
+                <ProductCardMiniSkeleton />
+              </div>
             </>
           )}
         </div>

@@ -1,0 +1,17 @@
+@media only screen and (max-width: 576px) {
+  .cart-card {
+    margin-top: 1rem;
+  }
+}
+
+@media only screen and (min-width: 576px) {
+  .cart-card {
+    margin-top: 1rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .cart-card {
+    margin-top: 0;
+  }
+}
