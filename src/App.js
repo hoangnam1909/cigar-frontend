@@ -29,6 +29,8 @@ import AddBrand from "./page/admin/brand/AddBrand";
 import EditBrand from "./page/admin/brand/EditBrand";
 import Cart from "./page/client/cart/Cart";
 import Home from "./page/client/home/Home";
+import ListViewOrder from "./page/admin/order/ListViewOrder";
+import AdminOrderDetail from "./page/admin/order/AdminOrderDetail";
 
 export default function BaseLayout() {
   const location = useLocation();
@@ -57,6 +59,8 @@ export default function BaseLayout() {
             <div className="content d-flex flex-column px-3">
               <Routes>
                 <Route path="/admin" element={<AdminDashboard />} />
+
+                {/* Product routes */}
                 <Route
                   path={routes.adminProducts}
                   element={<ListViewProduct />}
@@ -67,6 +71,7 @@ export default function BaseLayout() {
                   element={<EditProduct />}
                 />
 
+                {/* Category routes */}
                 <Route
                   path={routes.adminCategories}
                   element={<ListViewCategory />}
@@ -80,12 +85,21 @@ export default function BaseLayout() {
                   element={<EditCategory />}
                 />
 
+                {/* Brand routes */}
                 <Route path={routes.adminBrands} element={<ListViewBrand />} />
                 <Route path={routes.adminAddBrand} element={<AddBrand />} />
                 <Route
                   path={`${routes.adminEditBrand}/:brandId`}
                   element={<EditBrand />}
                 />
+
+                {/* Product routes */}
+                <Route path={routes.adminOrders} element={<ListViewOrder />} />
+                <Route
+                  path={`${routes.adminOrders}/:orderId`}
+                  element={<AdminOrderDetail />}
+                />
+
                 <Route path="/jwt" element={<JWT />} />
                 <Route path="/*" element={<NotFound404 />} />
               </Routes>

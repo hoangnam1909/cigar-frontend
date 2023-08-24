@@ -44,7 +44,7 @@ export default function ListViewBrand() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mb-2 text-gray-800">Danh sách các thương hiệu</h1>
+        <h1 className="h3 mb-4 text-gray-800">Danh sách các thương hiệu</h1>
         {deleteSuccess ? (
           <>
             <div className="alert alert-success" role="alert">

@@ -217,7 +217,7 @@ export default function ProductDetail() {
             <>
               {productsSuggest?.map((p) => {
                 return (
-                  <div key={p.id} className="mb-3 col-sm-12 col-md-6 col-lg-3">
+                  <div key={p.id} className="col-sm-12 col-md-6 col-lg-3">
                     <ProductCardMini product={p} />
                   </div>
                 );

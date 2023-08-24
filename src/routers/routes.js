@@ -11,4 +11,6 @@ export const routes = {
   adminProducts: "/admin/products",
   adminAddProduct: "/admin/products/add",
   adminEditProduct: "/admin/products/edit",
+
+  adminOrders: "/admin/orders",
 };

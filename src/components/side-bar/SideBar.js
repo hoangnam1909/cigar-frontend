@@ -136,6 +136,29 @@ export default function SideBar() {
           </div>
         </li>
 
+        <li className="mb-1">
+          <button
+            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#products-collapse"
+            aria-expanded="true"
+          >
+            Đơn hàng
+          </button>
+          <div className="collapse show" id="products-collapse">
+            <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <Link
+                  to={routes.adminOrders}
+                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                >
+                  Xem danh sách
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </li>
+
         <li className="border-top my-3"></li>
 
         <li className="mb-1">
