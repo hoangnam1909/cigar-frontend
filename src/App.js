@@ -8,7 +8,6 @@ import { Container } from "react-bootstrap";
 import Footer from "./layout/component/Footer";
 import ScrollTop from "./utils/ScrollTop";
 import ProductDetail from "./page/client/product/ProductDetail";
-import Home from "./page/home/Home";
 import Products from "./page/client/product/Products";
 import Contact from "./page/client/Contact";
 import NotFound404 from "./page/error/NotFound404";
@@ -29,6 +28,7 @@ import ListViewBrand from "./page/admin/brand/ListViewBrand";
 import AddBrand from "./page/admin/brand/AddBrand";
 import EditBrand from "./page/admin/brand/EditBrand";
 import Cart from "./page/client/cart/Cart";
+import Home from "./page/client/home/Home";
 
 export default function BaseLayout() {
   const location = useLocation();

@@ -77,7 +77,9 @@ export default function Home() {
           </>
         ) : (
           <>
-            <ProductsSkeletonView count={8} />
+            <div className="row mx-auto">
+              <ProductsSkeletonView count={8} />
+            </div>
           </>
         )}
       </div>

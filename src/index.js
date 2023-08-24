@@ -5,13 +5,15 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import moment from "moment";
+import Maintenance from "./page/maintenance/Maintenance";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Maintenance />
+      {/* <App /> */}
     </BrowserRouter>
   </React.StrictMode>
 );

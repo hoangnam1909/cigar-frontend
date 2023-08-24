@@ -3,24 +3,23 @@ import "../css/ProductCardSkeleton.scss";
 export default function ProductCardSkeleton() {
   return (
     <>
-      <div className="card shadow m-2 product-card loading-skeleton">
-        <div>
+      <div className="card shadow mx-auto my-2 product-card loading-skeleton">
+        <a href="/products/54" style={{ color: "unset", position: "relative" }}>
           <img
-            style={{ objectFit: "cover" }}
-            src="//placebear.com/300/200"
-            alt="image"
-            width={304}
-            height={320}
+            src="https://cigarhalong.com/wp-content/uploads/2023/05/z4312509119798_d498b614fa096e178f5c78b932c32aaa.jpg"
+            alt="Xì gà Romeo Y Julieta qqqqq image"
             className="card-img-top"
+            style={{ height: "320px", objectFit: "cover" }}
           />
-        </div>
+        </a>
         <div className="d-flex flex-column h-100">
           <div className="card-body">
-            <h5 className="card-title cut-title" style={{ height: "3rem" }}>
-              Xì Gà Hoàng Nam
-            </h5>
+            <a href="/products/54">
+              <h5 className="card-title cut-title" style={{ height: "3rem" }}>
+                Xì gà Romeo Y Julieta qqqqq
+              </h5>
+            </a>
           </div>
-
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
             <h5 className="card-title mb-3">Liên hệ qua Zalo</h5>
             <h5 className="card-title text-end text-danger text-center mb-2">
@@ -57,36 +56,10 @@ export default function ProductCardSkeleton() {
                 </ul>
               </div>
             </h5>
-            <a className="text-center">
-              <button className="btn btn-outline-secondary w-100">
-                Xem chi tiết
-              </button>
-            </a>
-          </div>
-
-          {/* <div className="card-body">
-            <h5
-              className="card-text rounded-3 cut-description"
-              style={{ height: "3rem" }}
-            >
-              product name
-            </h5>
-            <h5
-              className="card-text rounded-3 cut-description pt-1"
-              style={{ height: "1.5rem" }}
-            >
-              Liên hệ zalo
-            </h5>
-            <h5
-              className="card-title rounded-3 mb-2"
-              style={{ height: "3rem" }}
-            >
-              Zalo
-            </h5>
             <button className="btn btn-outline-secondary w-100">
-              Xem chi tiết
+              Thêm vào giỏ hàng
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

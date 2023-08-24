@@ -1,0 +1,62 @@
+.article-maintenance {
+  text-align: center;
+  padding: 100px 5vw;
+  font: 20px Helvetica, sans-serif;
+  color: #333;
+  background: #eeeeee;
+  text-align: left;
+  max-width: 740px;
+  margin: 0 auto;
+  display: block;
+}
+
+.svg-icon {
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.svg-icon-large {
+  width: 6em;
+  height: 6em;
+  animation-duration: 6000ms;
+  animation-name: spinLeft;
+}
+
+.svg-icon-small {
+  width: 4em;
+  height: 4em;
+  position: absolute;
+  margin-left: -15px;
+  margin-top: -25px;
+  animation-duration: 4000ms;
+  animation-name: spinRight;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #727c8b;
+}
+
+.svg-icon-small path {
+  stroke: #727c8b;
+  stroke-width: 0.3;
+}
+
+@keyframes spinLeft {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinRight {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
