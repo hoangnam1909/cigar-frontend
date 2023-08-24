@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { routes } from "~/routers/routes";
 import { useEffect, useState } from "react";
 import API, { endpoints } from "~/api/API";
+import { removeAuthInfo } from "~/service/AuthService";
 
 export default function SideBar() {
   const [user, setUser] = useState({});
@@ -34,14 +35,6 @@ export default function SideBar() {
         </Link>
       </div>
       <ul className="list-unstyled ps-0">
-        {/* <li className="mb-1">
-          <a
-            className={`${styles.btn} d-inline-flex align-items-center rounded border-0`}
-            href="/"
-          >
-            Home
-          </a>
-        </li> */}
         <li className="mb-1">
           <button
             className="btn btn-toggle d-inline-flex align-items-center rounded border-0"
@@ -184,8 +177,7 @@ export default function SideBar() {
                   href=""
                   onClick={(e) => {
                     e.preventDefault();
-                    Cookies.remove("accessToken");
-                    Cookies.remove("rememberMe");
+                    removeAuthInfo();
                     navigate("/auth");
                   }}
                   className="link-body-emphasis d-inline-flex text-decoration-none rounded"

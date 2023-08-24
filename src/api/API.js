@@ -14,6 +14,7 @@ export let endpoints = {
   customer: "/customers",
   order: "/orders",
   trackingOrder: "/orders/tracking",
+  orderStatus: "/order-statuses",
 };
 
 const API = () =>

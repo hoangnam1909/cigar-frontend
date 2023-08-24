@@ -6,7 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { endpoints } from "~/api/API";
+import API, { endpoints } from "~/api/API";
 import moment from "moment";
 import "moment/locale/vi";
 import { toVND } from "~/utils/currency";
@@ -15,15 +15,38 @@ import AuthAPI from "~/api/AuthAPI";
 export default function AdminOrderDetail() {
   const { orderId } = useParams();
   const [order, setOrder] = useState();
+  const [orderStatusId, setOrderStatusId] = useState();
+  const [orderStatuses, setOrderStatuses] = useState();
+  const [orderStatusSpinner, setOrderStatusSpinner] = useState(false);
+
+  const getOrder = async () => {
+    const res = await AuthAPI().get(`${endpoints.order}/${orderId}`);
+    if (res.status === 200) setOrder(res.data.result);
+  };
+
+  const getOrderStatuses = async () => {
+    const res = await API().get(endpoints.orderStatus);
+    if (res.data.result != null) {
+      setOrderStatuses(res.data.result);
+    }
+  };
 
   useEffect(() => {
-    const getOrder = async () => {
-      const res = await AuthAPI().get(`${endpoints.order}/${orderId}`);
-      if (res.status === 200) setOrder(res.data.result);
-    };
-
     getOrder();
+    getOrderStatuses();
   }, []);
+
+  const updateOrderStatus = async (e) => {
+    setOrderStatusSpinner(true);
+
+    const res = await AuthAPI().patch(`${endpoints.order}/${orderId}`, {
+      orderStatusId: e.target.value,
+    });
+    console.log(res);
+    if (res.status === 200) getOrder();
+
+    setOrderStatusSpinner(false);
+  };
 
   if (order) {
     return (
@@ -44,24 +67,33 @@ export default function AdminOrderDetail() {
                 <p>{`#ID ${order.id}`}</p>
               </div>
               <div className="col">
-                <div className="d-flex  justify-content-end">
-                  <select
-                    className="form-select me-2"
-                    style={{ width: "170px" }}
-                  >
-                    <option value="1">Đang xử lý</option>
-                    <option value="2">Đã đóng gói</option>
-                    <option value="3">Đã giao ĐVVC</option>
-                    <option value="4">Đã giao hàng</option>
-                  </select>
+                <div className="d-flex justify-content-end">
+                  {orderStatusSpinner ? (
+                    <div
+                      className="spinner-border me-3 align-self-center"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : null}
 
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    disabled={false}
+                  <select
+                    className="form-select"
+                    disabled={orderStatusSpinner}
+                    defaultValue={order?.orderStatus.id}
+                    style={{ width: "190px" }}
+                    onChange={(e) => {
+                      updateOrderStatus(e);
+                    }}
                   >
-                    Lưu các thay đổi
-                  </button>
+                    {orderStatuses?.map((orderStatus) => {
+                      return (
+                        <option value={orderStatus.id}>
+                          {orderStatus.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
             </div>
