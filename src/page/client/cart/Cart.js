@@ -35,7 +35,7 @@ export default function Cart() {
     fullName: "",
     email: "",
     phone: "",
-    address: "",
+    deliveryAddress: "",
     note: "",
   });
 
@@ -85,7 +85,8 @@ export default function Cart() {
 
     let requestBody = { ...orderRequest };
     let address = "";
-    if (requestBody.address.trim().length > 0) address += requestBody.address;
+    if (requestBody.deliveryAddress.trim().length > 0)
+      address += requestBody.deliveryAddress;
     if (ward) address += `, ${ward.name}`;
     if (district) address += `, ${district.name}`;
     if (province) address += `, ${province.name}`;
@@ -94,13 +95,12 @@ export default function Cart() {
       ...requestBody,
       fullName: nameNormalization(requestBody.fullName),
       email: requestBody.email.trim(),
-      address: address,
+      deliveryAddress: address,
       orderItems: getOrderItems(),
     };
 
     async function addOrder() {
       const res = await API().post(endpoints.order, requestBody);
-      console.log(res);
       if (res.status === 200) {
         localStorage.removeItem("cart");
         setOrderSuccessful(1);
@@ -110,7 +110,6 @@ export default function Cart() {
       }
     }
 
-    console.log(requestBody);
     addOrder();
   };
 
@@ -259,11 +258,11 @@ export default function Cart() {
               <input
                 type="text"
                 className="form-control"
-                value={orderRequest.address}
+                value={orderRequest.deliveryAddress}
                 onChange={(e) => {
                   setOrderRequest({
                     ...orderRequest,
-                    address: e.target.value,
+                    deliveryAddress: e.target.value,
                   });
                 }}
               />

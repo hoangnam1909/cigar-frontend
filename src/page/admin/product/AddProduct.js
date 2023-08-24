@@ -31,7 +31,7 @@ export default function AddProduct() {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    console.log(originalPrice === 0 || salePrice === 0);
+    // console.log(originalPrice === 0 || salePrice === 0);
   }, [salePrice, originalPrice]);
 
   const initialValue = () => {
@@ -48,17 +48,6 @@ export default function AddProduct() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    console.log({
-      name: name,
-      description: description,
-      originalPrice: parseInt(originalPrice),
-      salePrice: parseInt(salePrice),
-      categoryId: parseInt(categoryId),
-      brandId: parseInt(brandId),
-      unitsInStock: parseInt(unitsInStock),
-      productImagesLink: images,
-    });
-
     const res = await AuthAPI().post(endpoints.products, {
       name: name,
       description: description,
@@ -70,7 +59,6 @@ export default function AddProduct() {
       productImagesLink: images,
     });
     if (res.status == 200) {
-      console.log("success");
       navigate("/admin/products");
     }
   };

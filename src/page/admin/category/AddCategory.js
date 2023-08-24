@@ -17,7 +17,6 @@ export default function AddCategory() {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(category);
 
     const res = await AuthAPI().post(endpoints.categories, category);
     if (res.status === 200) {

@@ -14,7 +14,6 @@ export default function Pagination(props) {
             style={{ cursor: "pointer" }}
             onClick={(e) => {
               e.preventDefault();
-              console.log(searchParams);
               searchParams.set("page", `${i}`);
               setSearchParams(searchParams);
             }}

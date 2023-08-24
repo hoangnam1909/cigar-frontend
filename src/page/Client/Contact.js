@@ -74,7 +74,6 @@ export default function Contact() {
     e.preventDefault();
 
     const res = await API().post(endpoints.customer, [customer]);
-    console.log(res);
     if (res.status === 200) {
       setSendContactSuccessful(true);
       clearForm();

@@ -24,9 +24,7 @@ export default function EditBrand() {
   useEffect(() => {
     async function getBrand() {
       const res = await API().get(`${endpoints.brands}/${brandId}`);
-      console.log(res);
       if (res.status === 200) {
-        console.log("get brand success");
         setBrand((brand) => {
           return {
             ...brand,
@@ -39,8 +37,6 @@ export default function EditBrand() {
 
     getBrand();
   }, []);
-
-  console.log("brand", brand);
 
   return (
     <>

@@ -14,12 +14,9 @@ export default function ListViewCategory() {
   const PAGE_SIZE = 15;
 
   const handleDelete = async (id) => {
-    console.log("delete ne id =>", id);
-
     const confirmDelete = window.confirm("Bạn chắc chắn xoá danh mục này?");
     if (confirmDelete == true) {
       const res = await AuthAPI().delete(`${endpoints.categories}/${id}`);
-      console.log(res);
       if (res.status === 200) {
         setDeleteSuccess(true);
         setDataImpact((dataImpact) => {
@@ -41,7 +38,6 @@ export default function ListViewCategory() {
     getCategories();
   }, [dataImpact]);
 
-  console.log(categories);
   return (
     <>
       <div className="container-fluid mt-3">

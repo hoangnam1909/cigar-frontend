@@ -38,7 +38,6 @@ export default function EditProduct() {
     if (res.status === 200) {
       setIsSuccess(true);
     }
-    console.log("request body", product);
   };
 
   const handleQuillEdit = (value) => {
@@ -55,7 +54,6 @@ export default function EditProduct() {
       await API()
         .get(endpoints.products + `/${productId}`)
         .then((response) => {
-          console.log(response);
           if (response?.status === 200) {
             setImages(
               response?.data.result.productImages.map((img) => img.linkToImage)

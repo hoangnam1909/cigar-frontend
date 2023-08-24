@@ -14,7 +14,6 @@ export default function SideBar() {
       const response = await API().get(
         `${endpoints.currentUser}/${Cookies.get("accessToken")}`
       );
-      console.log(response);
       setUser(response.data.result);
     }
 

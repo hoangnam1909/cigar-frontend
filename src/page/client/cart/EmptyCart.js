@@ -7,7 +7,7 @@ export default function EmptyCart() {
         <h5 className="mb-4" style={{ textAlign: "center" }}>
           Giỏ hàng của bạn đang trống
         </h5>
-        <Link to="/products" class="btn btn-outline-primary w-75">
+        <Link to="/products" className="btn btn-outline-primary w-75">
           TIẾP TỤC MUA HÀNG
         </Link>
       </div>

@@ -42,7 +42,7 @@ export default function OrderSuccessful(props) {
           </p>
         </div>
 
-        <Link to="/products" class="btn btn-outline-success w-75 mt-2 mb-3">
+        <Link to="/products" className="btn btn-outline-success w-75 mt-2 mb-3">
           TIẾP TỤC MUA HÀNG
         </Link>
       </div>

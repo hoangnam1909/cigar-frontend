@@ -17,7 +17,6 @@ export default function AddBrand() {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(brand);
 
     const res = await AuthAPI().post(endpoints.brands, brand);
     if (res.status === 200) {

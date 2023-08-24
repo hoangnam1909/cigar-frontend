@@ -16,7 +16,6 @@ const AuthAPI = () =>
 AuthAPI().interceptors.request.use(
   async (request) => {
     if (isTokenExpired() && Cookies.get("rememberMe") === "true") {
-      console.log("refresh token");
       const res = await API().post(endpoints.refreshToken, {
         token: Cookies.get("accessToken"),
       });
@@ -27,7 +26,6 @@ AuthAPI().interceptors.request.use(
     return request;
   },
   (error) => {
-    console.log("loi cai cc");
     return Promise.reject(error);
   }
 );

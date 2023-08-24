@@ -26,9 +26,7 @@ export default function EditCategory() {
   useEffect(() => {
     async function getCategory() {
       const res = await API().get(`${endpoints.categories}/${categoryId}`);
-      console.log(res);
       if (res.status === 200) {
-        console.log("get category success");
         setCategory((category) => {
           return { ...category, name: res.data.result.name };
         });
@@ -37,8 +35,6 @@ export default function EditCategory() {
 
     getCategory();
   }, []);
-
-  console.log("Category", category);
 
   return (
     <>

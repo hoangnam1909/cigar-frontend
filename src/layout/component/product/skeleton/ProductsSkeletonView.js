@@ -5,7 +5,7 @@ export default function ProductsSkeletonView(props) {
 
   for (let i = 0; i < props.count; i++) {
     elements.push(
-      <div key={i} className="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+      <div key={i} className="col-sm-12 col-md-6 col-xl-4">
         <ProductCardSkeleton />
       </div>
     );

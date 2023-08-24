@@ -1,5 +1,4 @@
 import {
-  faCalendar,
   faLocationDot,
   faTruck,
   faUser,
@@ -7,10 +6,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import API, { endpoints } from "~/api/API";
+import { endpoints } from "~/api/API";
 import moment from "moment";
 import "moment/locale/vi";
 import { toVND } from "~/utils/currency";
+import AuthAPI from "~/api/AuthAPI";
 
 export default function AdminOrderDetail() {
   const { orderId } = useParams();
@@ -18,11 +18,8 @@ export default function AdminOrderDetail() {
 
   useEffect(() => {
     const getOrder = async () => {
-      const res = await API().get(`${endpoints.order}/${orderId}`);
-      console.log(res);
-      if (res.status === 200) {
-        setOrder(res.data.result);
-      }
+      const res = await AuthAPI().get(`${endpoints.order}/${orderId}`);
+      if (res.status === 200) setOrder(res.data.result);
     };
 
     getOrder();
@@ -123,36 +120,30 @@ export default function AdminOrderDetail() {
                   </div>
                 </div>
 
-                <div className="d-flex mb-3">
-                  <div className="customer-icon me-3">
-                    <FontAwesomeIcon
-                      className="mt-1"
-                      style={{ height: "30px" }}
-                      icon={faLocationDot}
-                    />
+                {order.deliveryAddress ? (
+                  <div className="d-flex mb-3">
+                    <div className="customer-icon me-3">
+                      <FontAwesomeIcon
+                        className="mt-1"
+                        style={{ height: "30px" }}
+                        icon={faLocationDot}
+                      />
+                    </div>
+
+                    <div className="customer-info">
+                      <h6>Địa chỉ giao hàng</h6>
+
+                      {order.deliveryAddress ? (
+                        <p className="mb-0">{order.deliveryAddress}</p>
+                      ) : null}
+                    </div>
                   </div>
-
-                  <div className="customer-info">
-                    <h6>Địa chỉ giao hàng</h6>
-
-                    {order.customer.fullName ? (
-                      <p className="mb-0">{order.customer.fullName}</p>
-                    ) : null}
-
-                    {order.customer.phone ? (
-                      <p className="mb-0">{order.customer.phone}</p>
-                    ) : null}
-
-                    {order.customer.email ? (
-                      <p className="mb-0">{order.customer.email}</p>
-                    ) : null}
-                  </div>
-                </div>
+                ) : null}
               </div>
             </div>
 
             <div className="d-flex justify-content-center">
-              <table class="table border">
+              <table className="table border">
                 <thead>
                   <tr>
                     <th>Sản phẩm</th>

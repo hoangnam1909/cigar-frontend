@@ -6,13 +6,14 @@ import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { addProductToCart } from "~/service/CartService";
+import { rewriteUrl } from "~/utils/input";
 
 export default function ProductCard(props) {
   return (
     <>
       <div className="card shadow mx-auto my-2 product-card">
         <Link
-          to={`/products/${props.product.id}`}
+          to={`/products/${rewriteUrl(props.product.name)}-${props.product.id}`}
           style={{ color: "unset", position: "relative" }}
         >
           <img
@@ -45,7 +46,9 @@ export default function ProductCard(props) {
         <div className="d-flex flex-column h-100">
           <div className="card-body">
             <Link
-              to={`/products/${props.product.id}`}
+              to={`/products/${rewriteUrl(props.product.name)}-${
+                props.product.id
+              }`}
               style={{ color: "unset" }}
             >
               <h5 className="card-title cut-title" style={{ height: "3rem" }}>

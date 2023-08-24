@@ -3,6 +3,7 @@ import "./css/ProductCard.css";
 import { Link } from "react-router-dom";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { rewriteUrl } from "~/utils/input";
 
 export default function ProductCardMini(props) {
   const product = props.product;
@@ -11,7 +12,7 @@ export default function ProductCardMini(props) {
     <>
       <div className="card shadow m-2">
         <Link
-          to={`/products/${product.id}`}
+          to={`/products/${rewriteUrl(product.name)}-${product.id}`}
           style={{ color: "unset", position: "relative" }}
         >
           <img
@@ -43,7 +44,10 @@ export default function ProductCardMini(props) {
 
         <div className="d-flex flex-column h-100">
           <div className="card-body">
-            <Link to={`/products/${product.id}`} style={{ color: "unset" }}>
+            <Link
+              to={`/products/${rewriteUrl(product.name)}-${product.id}`}
+              style={{ color: "unset" }}
+            >
               <h5 className="card-title cut-title" style={{ height: "3rem" }}>
                 {product.name}
               </h5>
@@ -53,7 +57,7 @@ export default function ProductCardMini(props) {
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
             <Link
               className="text-center"
-              to={`/products/${product.id}`}
+              to={`/products/${rewriteUrl(product.name)}-${product.id}`}
               style={{ color: "unset" }}
             >
               <button className="btn btn-outline-secondary w-100">

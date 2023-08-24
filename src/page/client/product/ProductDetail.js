@@ -9,9 +9,11 @@ import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
 import ProductCardMini from "~/layout/component/product/ProductCardMini";
 import { ZaloIcon } from "~/assets/img/ZaloIcon";
 import ProductCardMiniSkeleton from "~/layout/component/product/skeleton/ProductCardMiniSkeleton";
+import { getIdInRewriteUrl } from "~/utils/input";
 
 export default function ProductDetail() {
-  const { productId } = useParams();
+  const { productRewriteUrl } = useParams();
+  const productId = getIdInRewriteUrl(productRewriteUrl);
   const [product, setProduct] = useState();
   const [productsSuggest, setProductsSuggest] = useState();
   const [isSuccess, setIsSuccess] = useState(false);

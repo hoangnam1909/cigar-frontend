@@ -1,10 +1,7 @@
-import { useState } from "react";
-import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function Header() {
-  const [keyword, setKeyword] = useState("");
-
   return (
     <>
       <Navbar
@@ -46,29 +43,10 @@ export default function Header() {
               <Nav.Link as={Link} to="/cart">
                 Giỏ hàng
               </Nav.Link>
+              <Nav.Link as={Link} to="/track-order">
+                Kiểm tra đơn hàng
+              </Nav.Link>
             </Nav>
-            <Form className="d-flex ms-3">
-              <Form.Control
-                type="search"
-                placeholder="Từ khoá"
-                className="me-2"
-                style={{ width: "200px" }}
-                aria-label="Search"
-                value={keyword}
-                onChange={(e) => {
-                  setKeyword(e.target.value);
-                }}
-              />
-              <Button
-                variant="outline-secondary"
-                style={{ width: "130px" }}
-                as={Link}
-                to={`/products?name=${keyword}`}
-                onClick={() => setKeyword("")}
-              >
-                Tìm kiếm
-              </Button>
-            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>

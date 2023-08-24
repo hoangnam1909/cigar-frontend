@@ -25,10 +25,8 @@ export default function AuthPage() {
         Cookies.set("rememberMe", rememberMe);
 
         if (tokenUserRole() === "ADMIN") {
-          console.log("navigate to admin");
           navigate("/admin");
         } else {
-          console.log("navigate to home");
           navigate("/");
         }
       }
@@ -61,7 +59,7 @@ export default function AuthPage() {
               </>
             ) : null}
 
-            <div className="form-floating">
+            <div className="form-floating mb-2">
               <input
                 type="text"
                 className="form-control"

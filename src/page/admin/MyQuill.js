@@ -2,7 +2,7 @@ export default function MyQuill() {
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    console.log(value);
+    // console.log(value);
   }, [value]);
 
   return (

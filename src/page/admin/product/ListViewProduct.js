@@ -18,12 +18,9 @@ export default function ListViewProduct() {
   const PAGE_SIZE = 15;
 
   const handleDelete = async (id) => {
-    console.log("delete ne id =>", id);
-
     const confirmDelete = window.confirm("Bạn chắc chắn xoá sản phẩm này?");
     if (confirmDelete == true) {
       const res = await AuthAPI().delete(`${endpoints.products}/${id}`);
-      console.log(res);
       if (res.status === 200) {
         setDeleteSuccess(true);
         setDataImpact((dataImpact) => {

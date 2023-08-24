@@ -1,6 +1,4 @@
 export const addProductToCart = (product) => {
-  console.log("hi there");
-
   let cart = [];
   let existedIndex = -1;
 

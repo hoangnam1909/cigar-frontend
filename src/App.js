@@ -31,6 +31,7 @@ import Cart from "./page/client/cart/Cart";
 import Home from "./page/client/home/Home";
 import ListViewOrder from "./page/admin/order/ListViewOrder";
 import AdminOrderDetail from "./page/admin/order/AdminOrderDetail";
+import TrackingOrder from "./page/client/track-order/TrackingOrder";
 
 export default function BaseLayout() {
   const location = useLocation();
@@ -49,7 +50,6 @@ export default function BaseLayout() {
 
   if (location.pathname.startsWith("/admin")) {
     if (verifyToken() && tokenUserRole() === "ADMIN") {
-      console.log("admin route");
       return (
         <>
           <div className="d-flex">
@@ -121,10 +121,14 @@ export default function BaseLayout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route
+            path="/products/:productRewriteUrl"
+            element={<ProductDetail />}
+          />
           {/* <Route path="/products/skeleton" element={<ProductCardSkeleton />} /> */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/track-order" element={<TrackingOrder />} />
           <Route path="/*" element={<NotFound404 />} />
         </Routes>
       </Container>

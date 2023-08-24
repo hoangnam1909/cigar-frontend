@@ -13,12 +13,9 @@ export default function ListViewBrand() {
   const PAGE_SIZE = 15;
 
   const handleDelete = async (id) => {
-    console.log("delete ne id =>", id);
-
     const confirmDelete = window.confirm("Bạn chắc chắn xoá thương hiệu này?");
     if (confirmDelete == true) {
       const res = await AuthAPI().delete(`${endpoints.brands}/${id}`);
-      console.log(res);
       if (res.status === 200) {
         setDeleteSuccess(true);
         setDataImpact((dataImpact) => {
@@ -40,7 +37,6 @@ export default function ListViewBrand() {
     getBrands();
   }, [dataImpact]);
 
-  console.log(brands);
   return (
     <>
       <div className="container-fluid mt-3">

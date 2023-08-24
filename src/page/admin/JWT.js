@@ -7,14 +7,14 @@ export default function JWT() {
 
   useEffect(() => {
     let decodedToken = jwt_decode(token);
-    console.log("Decoded Token", decodedToken);
+    // console.log("Decoded Token", decodedToken);
     let currentDate = new Date();
 
     // JWT exp is in seconds
     if (decodedToken.exp * 1000 < currentDate.getTime()) {
-      console.log("Token expired.");
+      // console.log("Token expired.");
     } else {
-      console.log("Valid token");
+      // console.log("Valid token");
     }
   }, [token]);
 
