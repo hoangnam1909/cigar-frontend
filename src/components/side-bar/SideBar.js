@@ -132,12 +132,12 @@ export default function SideBar() {
           <button
             className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
             data-bs-toggle="collapse"
-            data-bs-target="#products-collapse"
+            data-bs-target="#orders-collapse"
             aria-expanded="true"
           >
             Đơn hàng
           </button>
-          <div className="collapse show" id="products-collapse">
+          <div className="collapse show" id="orders-collapse">
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
                 <Link

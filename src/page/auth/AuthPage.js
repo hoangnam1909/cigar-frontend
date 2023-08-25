@@ -22,6 +22,7 @@ export default function AuthPage() {
       const res = await API().post(endpoints.login, requestBody);
       if (res.status === 200) {
         Cookies.set("accessToken", res.data.token);
+        Cookies.set("refreshToken", res.data.refreshToken);
         Cookies.set("rememberMe", rememberMe);
 
         if (tokenUserRole() === "ADMIN") {

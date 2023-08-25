@@ -116,6 +116,7 @@ export default function ProductCard(props) {
               className="btn btn-outline-secondary w-100"
               onClick={() => {
                 addProductToCart(props.product);
+                alert("Thêm sản phẩm vào giỏ hàng thành công");
               }}
             >
               <FontAwesomeIcon icon={faCartShopping} className="me-2" />

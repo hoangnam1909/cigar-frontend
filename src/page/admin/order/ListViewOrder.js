@@ -1,33 +1,37 @@
-import { faEye, faGear, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import API, { endpoints } from "~/api/API";
 import Pagination from "~/components/paginate/Pagination";
 import { routes } from "~/routers/routes";
 import moment from "moment";
 import "moment/locale/vi";
+import queryString from "query-string";
 
 export default function ListViewOrder() {
   const [orders, setOrders] = useState();
-
-  const handleDelete = async (id) => {
-    // const confirmDelete = window.confirm("Bạn chắc chắn xoá sản phẩm này?");
-    // if (confirmDelete == true) {
-    //   const res = await AuthAPI().delete(`${endpoints.products}/${id}`);
-    //   console.log(res);
-    //   if (res.status === 200) {
-    //     setDeleteSuccess(true);
-    //     setDataImpact((dataImpact) => {
-    //       return dataImpact + 1;
-    //     });
-    //   }
-    // }
-  };
+  const navigate = useNavigate();
+  let location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
+    const params = queryString.parse(location.search);
+
     const getOrders = async () => {
-      const res = await API().get(endpoints.order);
+      const res = await API().get(endpoints.order, {
+        params: {
+          ...params,
+          page: searchParams.get("page")
+            ? parseInt(searchParams.get("page"))
+            : 1,
+          size: PAGE_SIZE,
+        },
+      });
       if (res.status === 200) {
         setOrders(res.data.result);
       }
@@ -50,7 +54,7 @@ export default function ListViewOrder() {
           <div className="card-body">
             <div className="table-responsive">
               <table
-                className="table table-bordered"
+                className="table table-bordered table-hover"
                 id="dataTable"
                 width="100%"
                 cellSpacing="0"
@@ -65,7 +69,13 @@ export default function ListViewOrder() {
                 </thead>
                 <tbody>
                   {orders?.content.map((order) => (
-                    <tr key={order.id}>
+                    <tr
+                      key={order.id}
+                      onClick={() => {
+                        navigate(`${routes.adminOrders}/${order.id}`);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
                       <td className="text-center fw-bolder">
                         <Link to={`${routes.adminOrders}/${order.id}`}>
                           #{order.id}
@@ -77,17 +87,7 @@ export default function ListViewOrder() {
                         {" - "}
                         {moment(order.createdAt).format("LL")}
                       </td>
-                      <td>Chờ duyệt</td>
-                      <td>
-                        <div className="d-flex flex-row justify-content-center">
-                          <Link
-                            className="btn btn-secondary mx-1"
-                            to={`${routes.adminOrders}/${order.id}`}
-                          >
-                            <FontAwesomeIcon icon={faEye} />
-                          </Link>
-                        </div>
-                      </td>
+                      <td>{order.orderStatus.name}</td>
                     </tr>
                   ))}
                 </tbody>

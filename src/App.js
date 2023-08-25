@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 import "./App.css";
 
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Header from "./layout/component/Header";
 import { Container } from "react-bootstrap";
 import Footer from "./layout/component/Footer";
@@ -35,18 +35,7 @@ import TrackingOrder from "./page/client/track-order/TrackingOrder";
 
 export default function BaseLayout() {
   const location = useLocation();
-
-  if (location.pathname === "/auth") {
-    if (!verifyToken()) {
-      return (
-        <>
-          <Routes>
-            <Route path="/auth" element={<AuthPage />} />
-          </Routes>
-        </>
-      );
-    }
-  }
+  const navigate = useNavigate();
 
   if (location.pathname.startsWith("/admin")) {
     if (verifyToken() && tokenUserRole() === "ADMIN") {
@@ -108,7 +97,13 @@ export default function BaseLayout() {
         </>
       );
     } else {
-      window.location = "/auth";
+      return <AuthPage />;
+    }
+  }
+
+  if (location.pathname === "/auth") {
+    if (!verifyToken()) {
+      return <AuthPage />;
     }
   }
 
