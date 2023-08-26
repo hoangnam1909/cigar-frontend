@@ -1,19 +1,15 @@
 import ProductCardSkeleton from "./ProductCardSkeleton";
 
-export default function ProductsSkeletonView(props) {
+export default function ProductsSkeletonView({ count, className }) {
   let elements = [];
 
-  for (let i = 0; i < props.count; i++) {
+  for (let i = 0; i < count; i++) {
     elements.push(
-      <div key={i} className="col-sm-12 col-md-6 col-xl-4">
+      <div key={i} className={className}>
         <ProductCardSkeleton />
       </div>
     );
   }
 
-  return (
-    <>
-      <div className="row mx-auto">{elements}</div>
-    </>
-  );
+  return <div className="row mx-auto">{elements}</div>;
 }

@@ -137,11 +137,14 @@ export default function Products() {
           </header>
 
           <div className="row">
-            {loading === false ? (
+            {productsRes?.content.size != 0 ? (
               <>
-                <ProductsView products={productsRes?.content} />
+                <ProductsView
+                  products={productsRes?.content}
+                  childClassName={"col-sm-12 col-md-6 col-xl-4"}
+                />
 
-                <nav className="mt-4" aria-label="Page navigation sample">
+                <nav className="mt-4">
                   <Pagination
                     currentPage={productsRes?.number + 1}
                     totalPages={productsRes?.totalPages}
@@ -149,7 +152,10 @@ export default function Products() {
                 </nav>
               </>
             ) : (
-              <ProductsSkeletonView count={PAGE_SIZE} />
+              <ProductsSkeletonView
+                count={PAGE_SIZE}
+                className={"col-sm-12 col-md-6 col-xl-4"}
+              />
             )}
           </div>
         </main>

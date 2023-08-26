@@ -1,12 +1,11 @@
 import ProductCard from "./ProductCard";
 
-export default function ProductsView(props) {
+export default function ProductsView({ products, childClassName }) {
   return (
     <>
-      {/* <div className="d-flex flex-wrap justify-content-center"> */}
       <div className="row mx-auto">
-        {props.products?.map((p) => (
-          <div key={p.id} className="col-sm-12 col-md-6 col-xl-4">
+        {products?.map((p) => (
+          <div key={p.id} className={childClassName}>
             <ProductCard key={p.id} product={p} />
           </div>
         ))}

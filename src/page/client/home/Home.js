@@ -63,24 +63,15 @@ export default function Home() {
 
       <div className="mt-4 d-flex justify-content-center">
         {products.length > 0 ? (
-          <>
-            <div className="row mx-auto">
-              {products?.map((p) => (
-                <div
-                  key={p.id}
-                  className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
-                >
-                  <ProductCard key={p.id} product={p} />
-                </div>
-              ))}
-            </div>
-          </>
+          <ProductsView
+            products={products}
+            childClassName={"col-sm-12 col-md-6 col-lg-4 col-xl-3"}
+          />
         ) : (
-          <>
-            <div className="row mx-auto">
-              <ProductsSkeletonView count={8} />
-            </div>
-          </>
+          <ProductsSkeletonView
+            count={8}
+            className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+          />
         )}
       </div>
     </>
