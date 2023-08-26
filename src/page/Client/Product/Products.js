@@ -15,10 +15,9 @@ import Pagination from "~/components/paginate/Pagination";
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   let location = useLocation();
-  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [productsRes, setProductsRes] = useState();
+  const [productsRes, setProductsRes] = useState(null);
   const PAGE_SIZE = 6;
 
   document.title = "Cigar For Boss - Sản phẩm";
@@ -47,25 +46,27 @@ export default function Products() {
     const params = queryString.parse(location.search);
 
     async function getProducts() {
-      setLoading(true);
-      await API()
-        .get(endpoints.products, {
-          params: {
-            ...params,
-            page: searchParams.get("page")
-              ? parseInt(searchParams.get("page"))
-              : 1,
-            size: PAGE_SIZE,
-          },
-        })
-        .then((res) => {
-          setProductsRes(res.data.result);
-          setLoading(false);
-        });
+      const res = await API().get(endpoints.products, {
+        params: {
+          ...params,
+          page: searchParams.get("page")
+            ? parseInt(searchParams.get("page"))
+            : 1,
+          size: PAGE_SIZE,
+        },
+      });
+      console.log(res);
+      if (res.status === 200) setProductsRes(res.data.result);
     }
 
     getProducts();
   }, [searchParams]);
+
+  console.log("productsRes", productsRes != null);
+  console.log(
+    "productsRes?.numberOfElements",
+    productsRes?.numberOfElements !== 0
+  );
 
   return (
     <>
@@ -102,8 +103,8 @@ export default function Products() {
 
         <main className="col-md" id="product-grid-view">
           <header className="border-bottom mb-2">
-            <div className="d-flex justify-content-around align-items-center flex-wrap">
-              {loading === false ? (
+            <div className="px-2 d-flex justify-content-between align-items-center flex-wrap">
+              {productsRes != null && productsRes?.numberOfElements != 0 ? (
                 <>
                   <h5 className="mr-md-auto mb-3">
                     Có {productsRes?.totalElements} sản phẩm được tìm thấy
@@ -119,25 +120,26 @@ export default function Products() {
                     />
                   </div>
                 </>
-              ) : (
+              ) : productsRes?.numberOfElements == 0 ? (
                 <>
                   <h5 className="mr-md-auto mb-3">
-                    Có ... sản phẩm được tìm thấy
+                    Không có sản phẩm nào được tìm thấy
                   </h5>
-                  <div className="d-flex mb-3">
-                    <FilterDropdown
-                      filterObj={sortData}
-                      className="me-5 w-100"
-                    />
-                    <ArrowPagination currentPage={0} totalPages={0} />
-                  </div>
+                </>
+              ) : (
+                <>
+                  <h5 className="mr-md-auto mb-3">Đang tải...</h5>
+                  <div
+                    className="spinner-border text-secondary ms-auto mb-3"
+                    aria-hidden="true"
+                  ></div>
                 </>
               )}
             </div>
           </header>
 
           <div className="row">
-            {productsRes?.content.size != 0 ? (
+            {productsRes != null && productsRes?.numberOfElements != 0 ? (
               <>
                 <ProductsView
                   products={productsRes?.content}
@@ -151,11 +153,13 @@ export default function Products() {
                   />
                 </nav>
               </>
-            ) : (
-              <ProductsSkeletonView
-                count={PAGE_SIZE}
-                className={"col-sm-12 col-md-6 col-xl-4"}
-              />
+            ) : productsRes?.numberOfElements == 0 ? null : (
+              <>
+                <ProductsSkeletonView
+                  count={PAGE_SIZE}
+                  className={"col-sm-12 col-md-6 col-xl-4"}
+                />
+              </>
             )}
           </div>
         </main>
