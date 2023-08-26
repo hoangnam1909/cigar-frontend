@@ -7,8 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ZaloIcon } from "../../../assets/img/ZaloIcon";
 import { addProductToCart } from "~/service/CartService";
 import { rewriteUrl } from "~/utils/input";
+import Modal from "~/components/modal/Modal";
+import { useState } from "react";
 
 export default function ProductCard(props) {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <div className="card shadow mx-auto my-2 product-card">
@@ -116,7 +120,7 @@ export default function ProductCard(props) {
               className="btn btn-outline-secondary w-100"
               onClick={() => {
                 addProductToCart(props.product);
-                alert("Thêm sản phẩm vào giỏ hàng thành công");
+                setShowModal(true);
               }}
             >
               <FontAwesomeIcon icon={faCartShopping} className="me-2" />
@@ -125,6 +129,15 @@ export default function ProductCard(props) {
           </div>
         </div>
       </div>
+
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        id={props?.product?.id}
+        type={"product"}
+        title={"Thêm sản phẩm vào giỏ hàng thành công"}
+        content={props?.product}
+      />
     </>
   );
 }

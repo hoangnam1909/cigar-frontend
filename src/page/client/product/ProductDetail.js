@@ -10,6 +10,10 @@ import ProductCardMini from "~/layout/component/product/ProductCardMini";
 import { ZaloIcon } from "~/assets/img/ZaloIcon";
 import ProductCardMiniSkeleton from "~/layout/component/product/skeleton/ProductCardMiniSkeleton";
 import { getIdInRewriteUrl } from "~/utils/input";
+import { addProductToCart } from "~/service/CartService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Modal from "~/components/modal/Modal";
 
 export default function ProductDetail() {
   const { productRewriteUrl } = useParams();
@@ -17,6 +21,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState();
   const [productsSuggest, setProductsSuggest] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function getProduct() {
@@ -53,7 +58,7 @@ export default function ProductDetail() {
           <div className="card my-3">
             <div className="row g-0">
               <div className="col-md-7 border-end">
-                <div className="d-flex flex-column justify-content-center">
+                <div className="d-flex flex-column justify-content-between h-100">
                   <div className="main_image p-4 pb-1">
                     <img
                       src={product.productImages[0]?.linkToImage}
@@ -90,7 +95,7 @@ export default function ProductDetail() {
               </div>
 
               <div className="col-md-5 d-flex flex-column justify-content-between">
-                <div className="p-4 right-side">
+                <div className="p-3 right-side">
                   <div className="d-flex justify-content-between align-items-center">
                     <h3>{product.name}</h3>
                   </div>
@@ -200,6 +205,18 @@ export default function ProductDetail() {
                         </li>
                       </ul>
                     </div>
+
+                    <button
+                      className="btn btn-outline-secondary w-100"
+                      onClick={() => {
+                        addProductToCart(product);
+                        // alert("Thêm sản phẩm vào giỏ hàng thành công");
+                        setShowModal(true);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} className="me-2" />
+                      Thêm vào giỏ hàng
+                    </button>
                   </div>
                 </div>
               </div>
@@ -243,6 +260,15 @@ export default function ProductDetail() {
           )}
         </div>
       </div>
+
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        id={product?.id}
+        type={"product"}
+        title={"Thêm sản phẩm vào giỏ hàng thành công"}
+        content={product}
+      />
     </>
   );
 }

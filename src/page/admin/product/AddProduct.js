@@ -256,7 +256,7 @@ export default function AddProduct() {
                 </div>
               </div>
               <div className="d-flex flex-column justify-content-between">
-                <div className="p-4 right-side">
+                <div className="p-3 right-side">
                   <div className="d-flex justify-content-between align-items-center">
                     <h3>{name ? name : "Tên sản phẩm"}</h3>
                   </div>

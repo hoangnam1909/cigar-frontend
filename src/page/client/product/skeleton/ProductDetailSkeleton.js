@@ -44,7 +44,7 @@ export default function ProductDetailSkeleton() {
             </div>
           </div>
           <div className="col-md d-flex flex-column justify-content-between">
-            <div className="p-4 right-side">
+            <div className="p-3 right-side">
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="w-100">name</h3>
               </div>
