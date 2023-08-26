@@ -37,9 +37,7 @@ export default function TrackingOrder() {
     getOrder();
   };
 
-  // if (order != null) {
-  //   return <TrackingOrderDetail order={order} />;
-  // }
+  if (order != null) return <TrackingOrderDetail order={order} />;
 
   return (
     <>
