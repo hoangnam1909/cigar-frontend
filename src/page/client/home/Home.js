@@ -12,7 +12,7 @@ import ProductCard from "~/layout/component/product/ProductCard";
 export default function Home() {
   const [products, setProducts] = useState([]);
 
-  document.title = "Cigar For Boss - Trang chủ";
+  document.title = "Trang chủ";
 
   useEffect(() => {
     async function fetchProducts() {

@@ -16,7 +16,7 @@ import EmptyCart from "./EmptyCart";
 import OrderSuccessful from "./OrderSuccessful";
 
 export default function Cart() {
-  document.title = "Cigar For Boss - Giỏ hàng";
+  document.title = "Giỏ hàng";
 
   const [orderSuccessful, setOrderSuccessful] = useState(0);
   const [order, setOrder] = useState();
@@ -165,7 +165,7 @@ export default function Cart() {
               </div>
             </div>
 
-            <div className="form-floating mb-3">
+            <div className="form-floating mb-3 mt-3 mt-md-0">
               <input
                 type="email"
                 className="form-control"
@@ -178,7 +178,7 @@ export default function Cart() {
             </div>
 
             <div className="row g-2 mb-3">
-              <div className="col-md">
+              <div className="col-md mt-md-2">
                 <select
                   className="form-select"
                   defaultValue={"0"}
@@ -204,7 +204,7 @@ export default function Cart() {
                 </select>
               </div>
 
-              <div className="col-md">
+              <div className="col-md mt-3 mt-md-2">
                 <select
                   className="form-select"
                   defaultValue={"0"}
@@ -230,7 +230,7 @@ export default function Cart() {
                 </select>
               </div>
 
-              <div className="col-md">
+              <div className="col-md mt-3 mt-md-2">
                 <select
                   className="form-select"
                   defaultValue={"0"}
@@ -307,7 +307,7 @@ export default function Cart() {
                 key={index}
                 className="row mb-3 pb-3 border-bottom border-secondary-subtle"
               >
-                <div className="col-3">
+                <div className="col-4 col-sm-3 col-md-2 col-lg-3 col-xl-3 align-self-center">
                   <Link to={`${endpoints.products}/${product.id}`}>
                     <img
                       width="80"
@@ -319,7 +319,7 @@ export default function Cart() {
                   </Link>
                 </div>
 
-                <div className="col-7">
+                <div className="col-8 col-sm-7 col-md-8 col-lg-6 col-xl-6">
                   <Link to={`${endpoints.products}/${product.id}`}>
                     <h6>{product.name}</h6>
                     <p className="form-text mb-2">{`Giá sản phẩm: ${
@@ -338,7 +338,7 @@ export default function Cart() {
                   </a>
                 </div>
 
-                <div className="col-2 align-self-center">
+                <div className="col-12 mt-2 mt-sm-0 col-sm-2 col-md-2 col-lg-3 col-xl-3 align-self-center">
                   <input
                     type="text"
                     className="form-control text-center"

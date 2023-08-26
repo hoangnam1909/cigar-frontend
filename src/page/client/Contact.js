@@ -4,7 +4,7 @@ import { formatPhoneNumber } from "~/utils/phoneNumber";
 import { REGEX_EMAIL, REGEX_VIETNAMESE_PHONE_NUMBER } from "~/utils/regexUtils";
 
 export default function Contact() {
-  document.title = "Cigar For Boss - Liên hệ";
+  document.title = "Liên hệ";
 
   const [isEmailValid, setIsEmailValid] = useState(0);
   const [isPhoneValid, setIsPhoneValid] = useState(0);

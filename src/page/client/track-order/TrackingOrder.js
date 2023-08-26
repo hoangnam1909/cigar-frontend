@@ -5,6 +5,8 @@ import TrackingOrderDetail from "./TrackingOrderDetail";
 import ReCAPTCHA from "react-google-recaptcha";
 
 export default function TrackingOrder() {
+  document.title = "Kiểm tra đơn hàng";
+
   const [orderId, setOrderId] = useState("");
   const [phone, setPhone] = useState("");
   const [order, setOrder] = useState();

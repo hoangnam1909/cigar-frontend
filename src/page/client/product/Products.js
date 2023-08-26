@@ -13,14 +13,14 @@ import ArrowPagination from "~/components/paginate/ArrowPagination";
 import Pagination from "~/components/paginate/Pagination";
 
 export default function Products() {
+  document.title = "Sản phẩm";
+
   const [searchParams, setSearchParams] = useSearchParams();
   let location = useLocation();
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [productsRes, setProductsRes] = useState(null);
   const PAGE_SIZE = 6;
-
-  document.title = "Cigar For Boss - Sản phẩm";
 
   useEffect(() => {
     async function getCategories() {

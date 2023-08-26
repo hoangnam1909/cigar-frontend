@@ -4,8 +4,8 @@ import moment from "moment";
 import "moment/locale/vi";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
 
-export default function TrackingOrderDetail(props) {
-  const order = props.order;
+export default function TrackingOrderDetail({ order }) {
+  document.title = `Tình trạng đơn hàng #${order.id}`;
 
   return (
     <>
@@ -32,12 +32,16 @@ export default function TrackingOrderDetail(props) {
 
         <div className="mb-3 border-bottom w-100">
           <div className="row mb-1">
-            <div className="col-5">Mã đơn hàng #</div>
+            <div className="col-5">
+              <strong> Mã đơn hàng #</strong>
+            </div>
             <div className="col-7">{order.id}</div>
           </div>
 
           <div className="row mb-1">
-            <div className="col-5">Ngày đặt hàng</div>
+            <div className="col-5">
+              <strong> Ngày đặt hàng</strong>
+            </div>
             <div className="col-7">
               {moment(order.createdAt).format("LTS")}
               {" - "}
@@ -46,19 +50,25 @@ export default function TrackingOrderDetail(props) {
           </div>
 
           <div className="row mb-1">
-            <div className="col-5">Số điện thoại đặt hàng</div>
+            <div className="col-5">
+              <strong>Số điện thoại đặt hàng</strong>
+            </div>
             <div className="col-7">
               {formatPhoneNumber(order.customer.phone)}
             </div>
           </div>
 
           <div className="row mb-1">
-            <div className="col-5">Địa chỉ giao hàng</div>
+            <div className="col-5">
+              <strong>Địa chỉ giao hàng</strong>
+            </div>
             <div className="col-7">{order.deliveryAddress}</div>
           </div>
 
           <div className="row">
-            <div className="col-5">Ghi chú</div>
+            <div className="col-5">
+              <strong>Ghi chú</strong>
+            </div>
             <div className="col-7">{order.note}</div>
           </div>
 
