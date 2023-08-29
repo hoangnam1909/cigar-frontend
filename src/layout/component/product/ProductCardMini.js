@@ -45,7 +45,7 @@ export default function ProductCardMini(props) {
         <div className="d-flex flex-column h-100">
           <div className="card-body">
             <Link to={`/products/${rewriteUrl(product.name)}-${product.id}`}>
-              <h6 className="card-title cut-title" style={{ height: "2.6rem" }}>
+              <h6 className="card-title cut-title" style={{ height: "2.5rem" }}>
                 {product.name}
               </h6>
             </Link>

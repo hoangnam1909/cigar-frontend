@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
             >
               <h6
                 className="mb-0 card-title cut-title"
-                style={{ height: "2.6rem" }}
+                style={{ height: "2.5rem" }}
               >
                 {product.name}
               </h6>
