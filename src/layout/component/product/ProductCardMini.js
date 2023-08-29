@@ -13,7 +13,7 @@ export default function ProductCardMini(props) {
       <div className="card shadow m-2">
         <Link
           to={`/products/${rewriteUrl(product.name)}-${product.id}`}
-          style={{ color: "unset", position: "relative" }}
+          style={{ position: "relative" }}
         >
           <img
             style={{ height: "200px", objectFit: "cover" }}
@@ -44,13 +44,13 @@ export default function ProductCardMini(props) {
 
         <div className="d-flex flex-column h-100">
           <div className="card-body">
-            <Link
-              to={`/products/${rewriteUrl(product.name)}-${product.id}`}
-              style={{ color: "unset" }}
-            >
-              <h5 className="card-title cut-title" style={{ height: "3rem" }}>
+            <Link to={`/products/${rewriteUrl(product.name)}-${product.id}`}>
+              <h6
+                className="card-title cut-title"
+                style={{ height: "2.65rem" }}
+              >
                 {product.name}
-              </h5>
+              </h6>
             </Link>
           </div>
 
@@ -58,7 +58,6 @@ export default function ProductCardMini(props) {
             <Link
               className="text-center"
               to={`/products/${rewriteUrl(product.name)}-${product.id}`}
-              style={{ color: "unset" }}
             >
               <button className="btn btn-outline-secondary w-100">
                 <FontAwesomeIcon icon={faEye} className="me-2" />

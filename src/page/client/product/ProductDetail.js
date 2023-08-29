@@ -14,6 +14,7 @@ import { addProductToCart } from "~/service/CartService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Modal from "~/components/modal/Modal";
+import ProductCard from "~/layout/component/product/ProductCard";
 
 export default function ProductDetail() {
   const { productRewriteUrl } = useParams();
@@ -33,7 +34,11 @@ export default function ProductDetail() {
     }
 
     async function getSuggestProducts() {
-      const res = await API().get(`${endpoints.productsSuggest}/${productId}`);
+      const res = await API().get(`${endpoints.productsSuggest}/${productId}`, {
+        params: {
+          count: 6,
+        },
+      });
       if (res.status === 200) {
         setProductsSuggest(res.data.result);
       }
@@ -157,7 +162,8 @@ export default function ProductDetail() {
 
                   <div className="buttons d-flex flex-column gap-3">
                     <h4 className="card-title text-start text-primary lh-base">
-                      Gọi điện trực tiếp:{" "}
+                      Gọi điện trực tiếp:
+                      <br />
                       <a
                         href={`tel:${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}
                       >
@@ -165,7 +171,6 @@ export default function ProductDetail() {
                           process.env.REACT_APP_HANOI_ZALO_NUMBER
                         )}
                       </a>{" "}
-                      <br />
                       hoặc{" "}
                       <a href={`tel:${process.env.REACT_APP_HCM_ZALO_NUMBER}`}>
                         {formatPhoneNumber(
@@ -232,15 +237,15 @@ export default function ProductDetail() {
         </>
       )}
 
-      <div className="card my-3 p-4">
+      <div className="card my-3 px-3 py-4">
         <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
-        <div className="row">
+        <div className="row mx-auto w-100">
           {productsSuggest ? (
             <>
               {productsSuggest?.map((p) => {
                 return (
-                  <div key={p.id} className="col-sm-12 col-md-6 col-lg-3">
-                    <ProductCardMini product={p} />
+                  <div key={p.id} className="col-sm-6 col-md-4 col-lg-2 px-1">
+                    <ProductCard product={p} />
                   </div>
                 );
               })}
