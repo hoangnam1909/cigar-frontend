@@ -58,7 +58,7 @@ export default function ProductDetail() {
           <div className="card my-3">
             <div className="row g-0">
               <div className="col-md-7 border-end">
-                <div className="d-flex flex-column justify-content-between h-100">
+                <div className="d-flex flex-column h-100">
                   <div className="main_image p-4 pb-1">
                     <img
                       src={product.productImages[0]?.linkToImage}

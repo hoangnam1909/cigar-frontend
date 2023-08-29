@@ -101,7 +101,7 @@ export default function Products() {
               {productsRes != null && productsRes?.numberOfElements != 0 ? (
                 <>
                   <h5 className="mr-md-auto mb-3">
-                    Có {productsRes?.totalElements} sản phẩm được tìm thấy cc
+                    Có {productsRes?.totalElements} sản phẩm được tìm thấy
                   </h5>
                   <div className="d-flex mb-3">
                     <FilterDropdown
