@@ -69,7 +69,7 @@ export default function Home() {
         })}
       </div>
 
-      <h2 className="text-center mt-5">SẢN PHẨM NỔI BẬT</h2>
+      <h2 className="text-center mt-4">SẢN PHẨM NỔI BẬT</h2>
 
       <div className="mt-4 d-flex justify-content-center">
         {products.length > 0 ? (

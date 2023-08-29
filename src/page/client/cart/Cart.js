@@ -157,7 +157,7 @@ export default function Cart() {
                   <input
                     type="text"
                     className="form-control"
-                    minlength="10"
+                    minLength="10"
                     value={orderRequest.phone}
                     onChange={(e) => {
                       setOrderRequest({
@@ -305,13 +305,13 @@ export default function Cart() {
               /> */}
 
               <button
-                class="btn btn-secondary w-50"
+                className="btn btn-secondary w-50"
                 type="submit"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <span
-                    class="spinner-border spinner-border-sm me-2"
+                    className="spinner-border spinner-border-sm me-2"
                     aria-hidden="true"
                   ></span>
                 ) : null}

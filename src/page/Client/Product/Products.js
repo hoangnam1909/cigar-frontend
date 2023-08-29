@@ -64,7 +64,7 @@ export default function Products() {
   return (
     <>
       <div className="row mt-4">
-        <aside className="col-md-3">
+        <aside className="col-12 col-md-4 col-lg-3">
           <FilterCard type="text" filterName="Tên sản phẩm" filterKey="name" />
 
           <FilterCard
@@ -94,8 +94,8 @@ export default function Products() {
           </div>
         </aside>
 
-        <main className="col-md" id="product-grid-view">
-          <header className="border-bottom mb-2">
+        <main className="col-12 col-md-8 col-lg-9" id="product-grid-view">
+          {/* <header className="border-bottom mb-2">
             <div className="px-2 d-flex justify-content-between align-items-center flex-wrap">
               {productsRes != null && productsRes?.numberOfElements != 0 ? (
                 <>
@@ -105,7 +105,45 @@ export default function Products() {
                   <div className="d-flex mb-3">
                     <FilterDropdown
                       filterObj={sortData}
-                      className="me-5 w-100"
+                      className="me-4 w-100"
+                    />
+                    <ArrowPagination
+                      currentPage={productsRes?.number + 1}
+                      totalPages={productsRes?.totalPages}
+                    />
+                  </div>
+                </>
+              ) : productsRes?.numberOfElements == 0 ? (
+                <>
+                  <h5 className="mr-md-auto mb-3">
+                    Không có sản phẩm nào được tìm thấy
+                  </h5>
+                </>
+              ) : (
+                <>
+                  <h5 className="mr-md-auto mb-3">Đang tải...</h5>
+                  <div
+                    className="spinner-border text-secondary ms-auto mb-3"
+                    aria-hidden="true"
+                  ></div>
+                </>
+              )}
+            </div>
+          </header> */}
+
+          <header className="border-bottom mb-2">
+            <div className="px-2 row">
+              {productsRes != null && productsRes?.numberOfElements != 0 ? (
+                <>
+                  <div className="count-product col-lg-7">
+                    <h5 className="mr-md-auto mb-3">
+                      Có {productsRes?.totalElements} sản phẩm được tìm thấy
+                    </h5>
+                  </div>
+                  <div className="d-flex mb-3 col-lg-5">
+                    <FilterDropdown
+                      filterObj={sortData}
+                      className="me-4 w-100"
                     />
                     <ArrowPagination
                       currentPage={productsRes?.number + 1}
