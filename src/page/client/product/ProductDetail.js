@@ -60,7 +60,7 @@ export default function ProductDetail() {
     <>
       {product ? (
         <>
-          <div className="card my-3">
+          <div className="card shadow my-3">
             <div className="row g-0">
               <div className="col-md-7 border-end">
                 <div className="d-flex flex-column h-100">
@@ -148,20 +148,20 @@ export default function ProductDetail() {
                   {product.originalPrice != 0 || product.salePrice != 0 ? (
                     <>
                       <div className="prices">
-                        <h4 className="text-decoration-line-through">
+                        <h5 className="text-decoration-line-through">
                           {isSuccess
                             ? toVND(product.originalPrice)
                             : "Original price"}
-                        </h4>
-                        <h4>
+                        </h5>
+                        <h5>
                           {isSuccess ? toVND(product.salePrice) : "Sale price"}
-                        </h4>
+                        </h5>
                       </div>
                     </>
                   ) : null}
 
                   <div className="buttons d-flex flex-column gap-3">
-                    <h4 className="card-title text-start text-primary lh-base">
+                    <h5 className="card-title text-start text-primary lh-base">
                       Gọi điện trực tiếp:
                       <br />
                       <a
@@ -177,7 +177,7 @@ export default function ProductDetail() {
                           process.env.REACT_APP_HCM_ZALO_NUMBER
                         )}
                       </a>
-                    </h4>
+                    </h5>
                     <div className="btn-group group w-100" role="group">
                       <button
                         type="button"
@@ -237,7 +237,7 @@ export default function ProductDetail() {
         </>
       )}
 
-      <div className="card my-3 px-3 py-4">
+      <div className="card shadow my-3 px-3 py-4">
         <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
         <div className="row mx-auto w-100">
           {productsSuggest ? (
@@ -245,7 +245,7 @@ export default function ProductDetail() {
               {productsSuggest?.map((p) => {
                 return (
                   <div key={p.id} className="col-sm-6 col-md-4 col-lg-2 px-1">
-                    <ProductCard product={p} />
+                    <ProductCard product={p} className={"border"} />
                   </div>
                 );
               })}

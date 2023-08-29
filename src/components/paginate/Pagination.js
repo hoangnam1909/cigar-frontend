@@ -1,12 +1,12 @@
 import "./css/Pagination.css";
 import { useSearchParams } from "react-router-dom";
 
-export default function Pagination(props) {
+export default function Pagination({ currentPage, totalPages }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const paginate = [];
 
-  for (let i = 1; i <= props.totalPages; i++) {
-    if ([props.currentPage] == i) {
+  for (let i = 1; i <= totalPages; i++) {
+    if ([currentPage] == i) {
       paginate.push(
         <li key={i} className="page-item active">
           <a
@@ -24,7 +24,7 @@ export default function Pagination(props) {
       );
     } else {
       paginate.push(
-        <li key={i} className="page-item">
+        <li key={i} className={`page-item ${i == currentPage ? "active" : ""}`}>
           <a
             className="page-link"
             style={{ cursor: "pointer" }}

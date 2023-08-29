@@ -3,6 +3,7 @@ import API, { endpoints } from "~/api/API";
 import DangerAlert from "~/components/alert/DangerAlert";
 import TrackingOrderDetail from "./TrackingOrderDetail";
 import ReCAPTCHA from "react-google-recaptcha";
+import ScrollTop from "~/utils/ScrollTop";
 
 export default function TrackingOrder() {
   document.title = "Kiểm tra đơn hàng";
@@ -38,8 +39,13 @@ export default function TrackingOrder() {
 
     getOrder();
   };
-
-  if (order != null) return <TrackingOrderDetail order={order} />;
+  if (order != null)
+    return (
+      <>
+        <ScrollTop />;
+        <TrackingOrderDetail order={order} />
+      </>
+    );
 
   return (
     <>

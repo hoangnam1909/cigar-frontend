@@ -10,10 +10,11 @@ import {
   getOrderItems,
   updateQuantity,
 } from "~/service/CartService";
-import { faCircleCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { nameNormalization } from "~/utils/input";
 import EmptyCart from "./EmptyCart";
 import OrderSuccessful from "./OrderSuccessful";
+import ScrollTop from "~/utils/ScrollTop";
 
 export default function Cart() {
   document.title = "Giỏ hàng";
@@ -120,12 +121,11 @@ export default function Cart() {
   };
 
   if (orderSuccessful == 1) {
+    <ScrollTop />;
     return <OrderSuccessful order={order} />;
   }
 
-  if (cart?.length == 0 || cart == null) {
-    return <EmptyCart />;
-  }
+  if (cart?.length == 0 || cart == null) return <EmptyCart />;
 
   return (
     <>

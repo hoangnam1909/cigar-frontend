@@ -5,16 +5,25 @@ import { Link } from "react-router-dom";
 import { rewriteUrl } from "~/utils/input";
 import { useState } from "react";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, className }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <div className="card shadow mx-auto my-1 product-card">
-        <Link
-          to={`/products/${rewriteUrl(product.name)}-${product.id}`}
-          style={{ color: "unset", position: "relative" }}
-        >
+      <div
+        className={`card mx-auto my-1 product-card ${
+          className ? className : ""
+        }`}
+        onClick={() => {
+          return (
+            <Link
+              to={`/products/${rewriteUrl(product.name)}-${product.id}`}
+              replace
+            />
+          );
+        }}
+      >
+        <Link to={`/products/${rewriteUrl(product.name)}-${product.id}`}>
           <img
             style={{ height: "150px", objectFit: "cover" }}
             src={

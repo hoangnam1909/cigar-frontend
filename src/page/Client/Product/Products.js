@@ -55,7 +55,6 @@ export default function Products() {
           size: PAGE_SIZE,
         },
       });
-      console.log(res);
       if (res.status === 200) setProductsRes(res.data.result);
     }
 

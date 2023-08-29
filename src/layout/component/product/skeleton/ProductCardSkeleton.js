@@ -1,9 +1,11 @@
 import "../css/ProductCardSkeleton.scss";
 
-export default function ProductCardSkeleton() {
+export default function ProductCardSkeleton({ className }) {
   return (
     <>
-      <div className="card shadow mx-auto my-1 product-card loading-skeleton">
+      <div
+        className={`card mx-auto my-1 product-card loading-skeleton ${className}`}
+      >
         <a
           href="/products/xi-ga-romeo-y-julieta-qqqqq-54"
           style={{ color: "unset", position: "relative" }}
