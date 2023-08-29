@@ -7,12 +7,13 @@ import specify from "~/data/specify.json";
 import ProductsView from "~/layout/component/product/ProductsView";
 import { Link } from "react-router-dom";
 import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const PAGE_SIZE = 12;
 
-  document.title = "Trang chủ";
+  // document.title = "Trang chủ";
 
   useEffect(() => {
     async function getProducts() {
@@ -31,9 +32,31 @@ export default function Home() {
     getProducts();
   }, []);
 
+  const helmetContext = {};
+
   return (
     <>
       <div className="p-5 my-4 bg-light rounded-3 back-img-parent">
+        <HelmetProvider context={helmetContext}>
+          <title>
+            Cigar For Boss - Cửa hàng chuyên kinh doanh mặt hàng Cigar Habanos
+            Cuba, được nhập khẩu từ Châu Âu với chất lượng đảm bảo nhất! Tới với
+            Cigar For Boss, quý khách sẽ được trải nghiệm xì gà hoàn hảo.
+          </title>
+          <meta
+            name="description"
+            content="Cigar For Boss là cửa hàng chuyên kinh doanh mặt hàng Cigar Habanos Cuba, được nhập khẩu từ Châu Âu với chất lượng đảm bảo nhất! Tới với Cigar For Boss, quý khách sẽ được trải nghiệm xì gà hoàn hảo."
+          />
+          <meta
+            name="thumbnailUrl"
+            content="https://res.cloudinary.com/nhn1909/image/upload/v1690006952/oih1exr1ypsvzpnbrvnf.jpg"
+          />
+          <meta
+            name="headline"
+            content="Cigar For Boss - Cigar cho chủ tịch SVM"
+          />
+        </HelmetProvider>
+
         <div className="rounded-3 back-img"></div>
         <div className="rounded-3 back-dark"></div>
         <div className="container-fluid py-5 jumbotron-content">
@@ -57,8 +80,8 @@ export default function Home() {
         <div className="row mx-auto">
           {specify?.map((spec, index) => {
             return (
-              <div className="col-sm-12 col-md-4 col-lg-4">
-                <SpecifyCard key={index} spec={spec} />
+              <div key={index} className="col-sm-12 col-md-4 col-lg-4">
+                <SpecifyCard spec={spec} />
               </div>
             );
           })}
