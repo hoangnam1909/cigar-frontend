@@ -111,8 +111,8 @@ export default function BaseLayout() {
     <>
       <Header />
       <div style={{ height: "56px" }}></div>
-      <Container className="px-3">
-        <ScrollTop />
+      <ScrollTop />
+      <Container className="px-0">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

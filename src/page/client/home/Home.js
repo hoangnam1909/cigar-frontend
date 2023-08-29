@@ -36,27 +36,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="p-5 my-4 bg-light rounded-3 back-img-parent">
-        {/* <HelmetProvider context={helmetContext}>
-          <title>
-            Cigar For Boss - Cửa hàng chuyên kinh doanh mặt hàng Cigar Habanos
-            Cuba, được nhập khẩu từ Châu Âu với chất lượng đảm bảo nhất! Tới với
-            Cigar For Boss, quý khách sẽ được trải nghiệm xì gà hoàn hảo.
-          </title>
-          <meta
-            name="description"
-            content="Cigar For Boss là cửa hàng chuyên kinh doanh mặt hàng Cigar Habanos Cuba, được nhập khẩu từ Châu Âu với chất lượng đảm bảo nhất! Tới với Cigar For Boss, quý khách sẽ được trải nghiệm xì gà hoàn hảo."
-          />
-          <meta
-            name="thumbnailUrl"
-            content="https://res.cloudinary.com/nhn1909/image/upload/v1690006952/oih1exr1ypsvzpnbrvnf.jpg"
-          />
-          <meta
-            name="headline"
-            content="Cigar For Boss - Cigar cho chủ tịch SVM"
-          />
-        </HelmetProvider> */}
-
+      <div className="p-5 mt-4 mb-3 bg-light rounded-3 back-img-parent">
         <div className="rounded-3 back-img"></div>
         <div className="rounded-3 back-dark"></div>
         <div className="container-fluid py-5 jumbotron-content">
@@ -76,19 +56,17 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-3 d-flex justify-content-center">
-        <div className="row mx-auto">
-          {specify?.map((spec, index) => {
-            return (
-              <div
-                key={index}
-                className="mt-3 col-sm-12 col-md-4 mt-md-0 col-lg-4"
-              >
-                <SpecifyCard spec={spec} />
-              </div>
-            );
-          })}
-        </div>
+      <div className="row mx-auto">
+        {specify?.map((spec, index) => {
+          return (
+            <div
+              key={index}
+              className="mb-3 col-sm-12 col-md-4 mb-md-0 col-lg-4"
+            >
+              <SpecifyCard spec={spec} />
+            </div>
+          );
+        })}
       </div>
 
       <h2 className="text-center mt-5">SẢN PHẨM NỔI BẬT</h2>

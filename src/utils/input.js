@@ -32,6 +32,8 @@ export const removeVietnameseAccent = (vietnameseString) => {
 
 export const rewriteUrl = (str) => {
   let url = removeVietnameseAccent(str);
+  url = url.replaceAll("-", " ");
+  url = url.replaceAll(/\s+/g, " ");
   url = url.toLowerCase().replaceAll(" ", "-");
   return url;
 };
