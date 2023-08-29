@@ -9,10 +9,8 @@ const ScrollTop = () => {
   useLayoutEffect(() => {
     let productGridView = document.getElementById("product-grid-view");
     if (productGridView) {
-      if (window.innerWidth) {
-      }
       window.scrollTo({
-        top: productGridView.offsetTop - 56 - 16,
+        top: productGridView.offsetTop - (56 + 12),
         behavior: "smooth",
       });
     } else {
