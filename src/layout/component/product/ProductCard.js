@@ -2,12 +2,7 @@ import "./css/ProductCard.css";
 
 import { toVND } from "~/utils/currency";
 import { Link } from "react-router-dom";
-import { faCartShopping, faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ZaloIcon } from "../../../assets/img/ZaloIcon";
-import { addProductToCart } from "~/service/CartService";
 import { rewriteUrl } from "~/utils/input";
-import Modal from "~/components/modal/Modal";
 import { useState } from "react";
 
 export default function ProductCard(props) {
@@ -15,13 +10,13 @@ export default function ProductCard(props) {
 
   return (
     <>
-      <div className="card shadow mx-auto my-2 product-card">
+      <div className="card shadow mx-auto my-1 product-card">
         <Link
           to={`/products/${rewriteUrl(props.product.name)}-${props.product.id}`}
           style={{ color: "unset", position: "relative" }}
         >
           <img
-            style={{ height: "320px", objectFit: "cover" }}
+            style={{ height: "150px", objectFit: "cover" }}
             src={
               props.product.productImages[0]?.linkToImage.startsWith("http")
                 ? props.product.productImages[0]?.linkToImage
@@ -55,89 +50,36 @@ export default function ProductCard(props) {
               }`}
               style={{ color: "unset" }}
             >
-              <h5 className="card-title cut-title" style={{ height: "3rem" }}>
+              <h6
+                className="mb-0 card-title cut-title"
+                style={{ height: "2.8rem" }}
+              >
                 {props.product.name}
-              </h5>
+              </h6>
             </Link>
           </div>
 
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
-            {props.product.salePrice == 0 || props.product.unitsInStock == 0 ? (
-              <>
-                <h5 className="card-title text-end text-primary text-center mb-3">
-                  Liên hệ qua Zalo
-                </h5>
-                <h5 className="card-title text-end text-danger text-center mb-2">
-                  <div className="w-100">
-                    <button
-                      type="button"
-                      className="btn btn-primary w-100"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <ZaloIcon className="me-2" size="35px" />
-                      Zalo
-                    </button>
-                    <ul className="dropdown-menu w-100">
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://zalo.me/${process.env.REACT_APP_HANOI_ZALO_NUMBER}`}
-                        >
-                          <ZaloIcon className="me-2" size="35px" />
-                          Hà Nội
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://zalo.me/${process.env.REACT_APP_HCM_ZALO_NUMBER}`}
-                        >
-                          <ZaloIcon className="me-2" size="35px" />
-                          Thành phố Hồ Chí Minh
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </h5>
-              </>
-            ) : (
-              <>
-                <h5 className="card-title text-end text-decoration-line-through">
-                  {toVND(props.product.originalPrice)}
-                </h5>
-                <h5 className="card-title text-end text-danger">
-                  {toVND(props.product.salePrice)}
-                </h5>
-              </>
-            )}
-
-            <button
-              className="btn btn-outline-secondary w-100"
-              onClick={() => {
-                addProductToCart(props.product);
-                setShowModal(true);
-              }}
-            >
-              <FontAwesomeIcon icon={faCartShopping} className="me-2" />
-              Thêm vào giỏ hàng
-            </button>
+            <h6 className="mb-0 card-title">
+              <span className="card-title text-secondary text-decoration-line-through me-2">
+                {toVND(props.product.originalPrice)}
+              </span>{" "}
+              <span className="text-danger">
+                {toVND(props.product.salePrice)}
+              </span>
+            </h6>
           </div>
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         showModal={showModal}
         setShowModal={setShowModal}
         id={props?.product?.id}
         type={"product"}
         title={"Thêm sản phẩm vào giỏ hàng thành công"}
         content={props?.product}
-      />
+      /> */}
     </>
   );
 }

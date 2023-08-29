@@ -20,7 +20,7 @@ export default function Products() {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [productsRes, setProductsRes] = useState(null);
-  const PAGE_SIZE = 6;
+  const PAGE_SIZE = 12;
 
   useEffect(() => {
     async function getCategories() {
@@ -62,12 +62,6 @@ export default function Products() {
     getProducts();
   }, [searchParams]);
 
-  console.log("productsRes", productsRes != null);
-  console.log(
-    "productsRes?.numberOfElements",
-    productsRes?.numberOfElements !== 0
-  );
-
   return (
     <>
       <div className="row mt-4">
@@ -107,7 +101,7 @@ export default function Products() {
               {productsRes != null && productsRes?.numberOfElements != 0 ? (
                 <>
                   <h5 className="mr-md-auto mb-3">
-                    Có {productsRes?.totalElements} sản phẩm được tìm thấy
+                    Có {productsRes?.totalElements} sản phẩm được tìm thấy cc
                   </h5>
                   <div className="d-flex mb-3">
                     <FilterDropdown
@@ -143,7 +137,7 @@ export default function Products() {
               <>
                 <ProductsView
                   products={productsRes?.content}
-                  childClassName={"col-sm-12 col-md-6 col-xl-4"}
+                  childClassName={"col-6 col-md-4 col-lg-3 px-1"}
                 />
 
                 <nav className="mt-4">
@@ -157,7 +151,7 @@ export default function Products() {
               <>
                 <ProductsSkeletonView
                   count={PAGE_SIZE}
-                  className={"col-sm-12 col-md-6 col-xl-4"}
+                  className={"col-6 col-md-4 col-lg-3 px-1"}
                 />
               </>
             )}

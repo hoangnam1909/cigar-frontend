@@ -7,20 +7,20 @@ import specify from "~/data/specify.json";
 import ProductsView from "~/layout/component/product/ProductsView";
 import { Link } from "react-router-dom";
 import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
-import ProductCard from "~/layout/component/product/ProductCard";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const PAGE_SIZE = 12;
 
   document.title = "Trang chủ";
 
   useEffect(() => {
-    async function fetchProducts() {
+    async function getProducts() {
       await API()
         .get(endpoints.products, {
           params: {
             page: "1",
-            size: "8",
+            size: PAGE_SIZE,
           },
         })
         .then((res) => {
@@ -28,7 +28,7 @@ export default function Home() {
         });
     }
 
-    fetchProducts();
+    getProducts();
   }, []);
 
   return (
@@ -53,24 +53,30 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-3 d-flex flex-row flex-wrap justify-content-center">
-        {specify?.map((spec, index) => {
-          return <SpecifyCard key={index} spec={spec} />;
-        })}
+      <div className="mt-3 d-flex justify-content-center">
+        <div className="row mx-auto">
+          {specify?.map((spec, index) => {
+            return (
+              <div className="col-sm-12 col-md-4 col-lg-4">
+                <SpecifyCard key={index} spec={spec} />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      <h2 className="text-center mt-4">SẢN PHẨM NỔI BẬT</h2>
+      <h2 className="text-center mt-5">SẢN PHẨM NỔI BẬT</h2>
 
       <div className="mt-4 d-flex justify-content-center">
         {products.length > 0 ? (
           <ProductsView
             products={products}
-            childClassName={"col-sm-12 col-md-6 col-lg-4 col-xl-3"}
+            childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
           />
         ) : (
           <ProductsSkeletonView
-            count={8}
-            className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+            count={PAGE_SIZE}
+            className="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
           />
         )}
       </div>

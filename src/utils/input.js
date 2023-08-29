@@ -23,6 +23,7 @@ export const removeVietnameseAccent = (vietnameseString) => {
   str = str.replaceAll(/đ/g, "d");
   str = str.replaceAll(/é|è|ẽ|ẻ|ẹ|ê|ế|ề|ễ|ể|ệ/g, "e");
   str = str.replaceAll(/í|ì|ỉ|ĩ|ị/g, "i");
+  str = str.replaceAll(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/g, "u");
   str = str.replaceAll(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ỡ|ở|ợ/g, "o");
   str = str.replaceAll(/ý|ỳ|ỷ|ỹ|ỵ/g, "y");
 
