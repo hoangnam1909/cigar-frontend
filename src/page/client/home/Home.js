@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <>
       <div className="p-5 my-4 bg-light rounded-3 back-img-parent">
-        <HelmetProvider context={helmetContext}>
+        {/* <HelmetProvider context={helmetContext}>
           <title>
             Cigar For Boss - Cửa hàng chuyên kinh doanh mặt hàng Cigar Habanos
             Cuba, được nhập khẩu từ Châu Âu với chất lượng đảm bảo nhất! Tới với
@@ -55,7 +55,7 @@ export default function Home() {
             name="headline"
             content="Cigar For Boss - Cigar cho chủ tịch SVM"
           />
-        </HelmetProvider>
+        </HelmetProvider> */}
 
         <div className="rounded-3 back-img"></div>
         <div className="rounded-3 back-dark"></div>
