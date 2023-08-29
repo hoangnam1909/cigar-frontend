@@ -31,6 +31,8 @@ export default function Cart() {
 
   const [cart, setCart] = useState();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [orderRequest, setOrderRequest] = useState({
     fullName: "",
     email: "",
@@ -100,6 +102,8 @@ export default function Cart() {
     };
 
     async function addOrder() {
+      setIsSubmitting(true);
+
       const res = await API().post(endpoints.order, requestBody);
       if (res.status === 200) {
         localStorage.removeItem("cart");
@@ -108,6 +112,8 @@ export default function Cart() {
       } else {
         setOrderSuccessful(-1);
       }
+
+      setIsSubmitting(false);
     }
 
     addOrder();
@@ -151,6 +157,7 @@ export default function Cart() {
                   <input
                     type="text"
                     className="form-control"
+                    minlength="10"
                     value={orderRequest.phone}
                     onChange={(e) => {
                       setOrderRequest({
@@ -290,11 +297,26 @@ export default function Cart() {
             ) : null}
 
             <div className="text-center mb-1">
-              <input
+              {/* <input
                 type="submit"
-                className="btn btn-dark w-50"
+                className="btn btn-secondary w-50"
                 value="Đặt hàng ngay"
-              />
+                disabled={false}
+              /> */}
+
+              <button
+                class="btn btn-secondary w-50"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span
+                    class="spinner-border spinner-border-sm me-2"
+                    aria-hidden="true"
+                  ></span>
+                ) : null}
+                <span role="status">Đặt hàng ngay</span>
+              </button>
             </div>
           </form>
         </div>
