@@ -52,7 +52,7 @@ export default function ProductCard(props) {
             >
               <h6
                 className="mb-0 card-title cut-title"
-                style={{ height: "2.8rem" }}
+                style={{ height: "2.65rem" }}
               >
                 {props.product.name}
               </h6>
