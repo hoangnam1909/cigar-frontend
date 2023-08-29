@@ -80,7 +80,10 @@ export default function Home() {
         <div className="row mx-auto">
           {specify?.map((spec, index) => {
             return (
-              <div key={index} className="col-sm-12 col-md-4 col-lg-4">
+              <div
+                key={index}
+                className="mt-3 col-sm-12 col-md-4 mt-md-0 col-lg-4"
+              >
                 <SpecifyCard spec={spec} />
               </div>
             );
