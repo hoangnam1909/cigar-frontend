@@ -64,7 +64,10 @@ export default function ProductDetail() {
                       src={product.productImages[0]?.linkToImage}
                       id="main_product_image"
                       height="450"
-                      style={{ objectFit: "cover", borderRadius: "4px" }}
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "4px",
+                      }}
                       alt="main_product_image"
                     />
                   </div>

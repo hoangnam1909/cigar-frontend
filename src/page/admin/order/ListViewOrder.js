@@ -68,7 +68,7 @@ export default function ListViewOrder() {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders?.content.map((order) => (
+                  {orders?.content?.map((order) => (
                     <tr
                       key={order.id}
                       onClick={() => {
