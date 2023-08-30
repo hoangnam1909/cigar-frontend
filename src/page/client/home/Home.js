@@ -41,8 +41,6 @@ export default function Home() {
     getTop3Brands();
   }, []);
 
-  console.log(top3Brands);
-
   return (
     <>
       <div className="p-5 mt-4 mb-3 bg-light rounded-3 back-img-parent">

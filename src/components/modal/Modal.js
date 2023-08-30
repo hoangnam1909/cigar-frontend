@@ -12,7 +12,7 @@ export default function Modal({
   useEffect(() => {
     if (showModal == true) {
       document.getElementById(`modal-show-button-${id}`).click();
-      console.log("click", id);
+      // console.log("click", id);
     }
   }, [showModal]);
 

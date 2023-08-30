@@ -159,11 +159,15 @@ export default function Products() {
                 </>
               ) : (
                 <>
-                  <h5 className="mr-md-auto mb-3">Đang tải...</h5>
-                  <div
-                    className="spinner-border text-secondary ms-auto mb-3"
-                    aria-hidden="true"
-                  ></div>
+                  <div className="count-product col-lg-7">
+                    <h5 className="mr-md-auto mb-3">Đang tải...</h5>
+                  </div>
+                  <div className="d-flex col-lg-5">
+                    <div
+                      className="spinner-border text-secondary ms-auto mb-3"
+                      aria-hidden="true"
+                    ></div>
+                  </div>
                 </>
               )}
             </div>
