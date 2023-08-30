@@ -8,11 +8,13 @@ const ScrollTop = () => {
 
   useLayoutEffect(() => {
     let productGridView = document.getElementById("product-grid-view");
-    if (productGridView) {
+    if (productGridView && window.innerWidth < 768) {
+      console.log("start scroll");
       window.scrollTo({
         top: productGridView.offsetTop - (56 + 12),
         behavior: "smooth",
       });
+      console.log("end scroll");
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

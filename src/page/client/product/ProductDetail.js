@@ -237,7 +237,7 @@ export default function ProductDetail() {
         </>
       )}
 
-      <div className="card shadow my-3 px-3 py-4">
+      <div className="card shadow my-3 p-3">
         <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
         <div className="row mx-auto w-100">
           {productsSuggest ? (

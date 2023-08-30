@@ -11,28 +11,37 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [top3Brands, setTop3Brands] = useState([]);
   const PAGE_SIZE = 12;
 
-  // document.title = "Trang chủ";
+  document.title = "Trang chủ";
+
+  async function getProducts() {
+    await API()
+      .get(endpoints.products, {
+        params: {
+          page: "1",
+          size: PAGE_SIZE,
+        },
+      })
+      .then((res) => {
+        setProducts(res.data.result.content);
+      });
+  }
+
+  async function getTop3Brands() {
+    const res = await API().get(`${endpoints.brands}/top-3`);
+    if (res.status === 200) {
+      setTop3Brands(res.data.result);
+    }
+  }
 
   useEffect(() => {
-    async function getProducts() {
-      await API()
-        .get(endpoints.products, {
-          params: {
-            page: "1",
-            size: PAGE_SIZE,
-          },
-        })
-        .then((res) => {
-          setProducts(res.data.result.content);
-        });
-    }
-
     getProducts();
+    getTop3Brands();
   }, []);
 
-  const helmetContext = {};
+  console.log(top3Brands);
 
   return (
     <>
@@ -69,13 +78,13 @@ export default function Home() {
         })}
       </div>
 
-      <h2 className="text-center mt-4">SẢN PHẨM NỔI BẬT</h2>
-
+      <h2 className="text-center mt-4 mt-md-5">SẢN PHẨM NỔI BẬT</h2>
       <div className="mt-4 d-flex justify-content-center">
         {products.length > 0 ? (
           <ProductsView
             products={products}
             childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
+            className={"mx-auto"}
           />
         ) : (
           <ProductsSkeletonView
@@ -84,6 +93,39 @@ export default function Home() {
           />
         )}
       </div>
+
+      {top3Brands?.map((brand) => {
+        if (brand?.products?.length > 0) {
+          return (
+            <div
+              key={brand?.id}
+              className="card mt-4 p-3 d-flex justify-content-center"
+            >
+              <h4 className="p-1 mb-2 text-center">{brand?.name}</h4>
+              {products.length > 0 ? (
+                <ProductsView
+                  products={brand?.products}
+                  childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
+                  cardClassName={"border"}
+                />
+              ) : (
+                <ProductsSkeletonView
+                  count={PAGE_SIZE}
+                  className="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
+                />
+              )}
+              <Link
+                to={`/products?brandId=${brand?.id}`}
+                className="text-center"
+              >
+                <button type="button" className="btn btn-secondary mt-2">
+                  Xem tất cả
+                </button>
+              </Link>
+            </div>
+          );
+        }
+      })}
     </>
   );
 }
