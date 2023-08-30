@@ -115,7 +115,7 @@ export default function Home() {
               <div className="d-flex justify-content-center">
                 <Link
                   to={`/products?brandId=${brand?.id}`}
-                  className="btn btn-outline-secondary mt-2 text-center px-5"
+                  className="btn btn-outline-secondary text-center mt-3 px-5"
                 >
                   Xem tất cả
                 </Link>

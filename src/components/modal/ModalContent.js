@@ -6,8 +6,7 @@ export default function ModalContent({ type, content }) {
     return (
       <>
         <h5 className="text-center mb-3" style={{ color: "#46a74e" }}>
-          <FontAwesomeIcon icon={faCheck} /> Thêm sản phẩm vào giỏ hàng thành
-          công
+          <FontAwesomeIcon icon={faCheck} /> Sản phẩm đã được thêm vào giỏ hàng
         </h5>
         <div className="d-flex flex-wrap">
           <div className="modal-product-image me-3">
@@ -18,7 +17,7 @@ export default function ModalContent({ type, content }) {
               className="rounded object-fit-cover"
             />
           </div>
-          <div className="modal-product-info mt-xs-3">
+          <div className="modal-product-info mt-2 mt-sm-0">
             <h6>{content?.name}</h6>
             <h6>Số lượng: 1</h6>
           </div>

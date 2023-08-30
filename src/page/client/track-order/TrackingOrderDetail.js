@@ -33,7 +33,7 @@ export default function TrackingOrderDetail({ order }) {
         <div className="mb-3 border-bottom w-100">
           <div className="row mb-1">
             <div className="col-5">
-              <strong> Mã đơn hàng #</strong>
+              <strong>Mã đơn hàng #</strong>
             </div>
             <div className="col-7">{order.id}</div>
           </div>

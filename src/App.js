@@ -9,7 +9,7 @@ import Footer from "./layout/component/Footer";
 import ScrollTop from "./utils/ScrollTop";
 import ProductDetail from "./page/client/product/ProductDetail";
 import Products from "./page/client/product/Products";
-import Contact from "./page/client/Contact";
+import Contact from "./page/client/contact/Contact";
 import NotFound404 from "./page/error/NotFound404";
 import AuthPage from "./page/auth/AuthPage";
 import IconScrollTop from "./components/scroll-to-top/IconScrollTop";
@@ -110,7 +110,6 @@ export default function BaseLayout() {
   return (
     <>
       <Header />
-      {/* <div style={{ height: "56px" }}></div> */}
       <ScrollTop />
       <Container className="px-1" style={{ marginTop: "80px" }}>
         <Routes>
@@ -123,7 +122,7 @@ export default function BaseLayout() {
           {/* <Route path="/products/skeleton" element={<ProductCardSkeleton />} /> */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/track-order" element={<TrackingOrder />} />
+          <Route path="/tracking-order" element={<TrackingOrder />} />
           <Route path="/*" element={<NotFound404 />} />
         </Routes>
       </Container>

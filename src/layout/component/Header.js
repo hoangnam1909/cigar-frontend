@@ -1,7 +1,9 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Header() {
+  const location = useLocation();
+
   return (
     <>
       <Navbar
@@ -31,19 +33,49 @@ export default function Header() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
             <Nav>
-              <Nav.Link as={Link} to="/">
+              <Nav.Link
+                as={Link}
+                to="/"
+                className={`${location.pathname == "/" ? "active" : ""}`}
+              >
                 Trang chủ
               </Nav.Link>
-              <Nav.Link as={Link} to="/products">
+              <Nav.Link
+                as={Link}
+                to="/products"
+                className={`${
+                  location.pathname.startsWith("/products") ? "active" : ""
+                }`}
+              >
                 Sản phẩm
               </Nav.Link>
-              <Nav.Link as={Link} to="/contact">
+              <Nav.Link
+                as={Link}
+                to="/contact"
+                className={`${
+                  location.pathname.startsWith("/contact") ? "active" : ""
+                }`}
+              >
                 Liên hệ
               </Nav.Link>
-              <Nav.Link as={Link} to="/cart">
+              <Nav.Link
+                as={Link}
+                to="/cart"
+                className={`${
+                  location.pathname.startsWith("/cart") ? "active" : ""
+                }`}
+              >
                 Giỏ hàng
               </Nav.Link>
-              <Nav.Link as={Link} to="/track-order">
+              <Nav.Link
+                as={Link}
+                to="/tracking-order"
+                className={`${
+                  location.pathname.startsWith("/tracking-order")
+                    ? "active"
+                    : ""
+                }`}
+              >
                 Kiểm tra đơn hàng
               </Nav.Link>
             </Nav>

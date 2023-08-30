@@ -39,10 +39,11 @@ export default function TrackingOrder() {
 
     getOrder();
   };
+
   if (order != null)
     return (
       <>
-        <ScrollTop />;
+        <ScrollTop />
         <TrackingOrderDetail order={order} />
       </>
     );
