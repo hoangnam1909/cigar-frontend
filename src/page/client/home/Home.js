@@ -112,14 +112,14 @@ export default function Home() {
                   className="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
                 />
               )}
-              <Link
-                to={`/products?brandId=${brand?.id}`}
-                className="text-center"
-              >
-                <button type="button" className="btn btn-secondary mt-2">
+              <div className="d-flex justify-content-center">
+                <Link
+                  to={`/products?brandId=${brand?.id}`}
+                  className="btn btn-outline-secondary mt-2 text-center px-5"
+                >
                   Xem tất cả
-                </button>
-              </Link>
+                </Link>
+              </div>
             </div>
           );
         }

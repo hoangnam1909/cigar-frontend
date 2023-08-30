@@ -178,6 +178,7 @@ export default function Products() {
               <>
                 <ProductsView
                   products={productsRes?.content}
+                  className={"mx-auto"}
                   childClassName={"col-6 col-md-4 col-lg-3 px-1"}
                 />
 

@@ -10,6 +10,7 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isError, setIsError] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -19,11 +20,13 @@ export default function AuthPage() {
     };
 
     try {
+      setIsSubmitting(true);
       const res = await API().post(endpoints.login, requestBody);
       if (res.status === 200) {
         Cookies.set("accessToken", res.data.token);
         Cookies.set("refreshToken", res.data.refreshToken);
         Cookies.set("rememberMe", rememberMe);
+        setIsSubmitting(false);
 
         if (tokenUserRole() === "ADMIN") {
           navigate("/admin");
@@ -32,6 +35,7 @@ export default function AuthPage() {
         }
       }
     } catch (error) {
+      setIsSubmitting(false);
       setIsError(true);
       return;
     }
@@ -91,8 +95,19 @@ export default function AuthPage() {
               />
               <label className="form-check-label">Ghi nhớ đăng nhập</label>
             </div>
-            <button className="btn btn-primary w-100 py-2" type="submit">
-              Đăng nhập
+
+            <button
+              className="btn btn-primary w-100 py-2"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  aria-hidden="true"
+                ></span>
+              ) : null}
+              <span role="status">Đăng nhập</span>
             </button>
           </form>
         </div>
