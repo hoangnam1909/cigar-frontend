@@ -6,10 +6,10 @@ export default function ProductsSkeletonView({ count, className }) {
   for (let i = 0; i < count; i++) {
     elements.push(
       <div key={i} className={className}>
-        <ProductCardSkeleton className={"shadow"} />
+        <ProductCardSkeleton />
       </div>
     );
   }
 
-  return <div className="row mx-auto">{elements}</div>;
+  return <div className="row px-1 mx-auto">{elements}</div>;
 }

@@ -76,13 +76,13 @@ export default function Home() {
         })}
       </div>
 
-      <h2 className="text-center mt-4 mt-md-5">SẢN PHẨM NỔI BẬT</h2>
-      <div className="mt-4 d-flex justify-content-center">
+      <h2 className="text-center mt-4 mt-md-5 mb-4">SẢN PHẨM NỔI BẬT</h2>
+      <div className="row">
         {products.length > 0 ? (
           <ProductsView
             products={products}
             childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
-            className={"mx-auto"}
+            className={"mx-auto px-1"}
           />
         ) : (
           <ProductsSkeletonView
@@ -97,7 +97,7 @@ export default function Home() {
           return (
             <div
               key={brand?.id}
-              className="card mt-4 p-3 d-flex justify-content-center"
+              className="card px-1 py-3 mt-4 d-flex justify-content-center"
             >
               <h4 className="p-1 mb-2 text-center">{brand?.name}</h4>
               {products.length > 0 ? (
@@ -105,6 +105,7 @@ export default function Home() {
                   products={brand?.products}
                   childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
                   cardClassName={"border"}
+                  className={"mx-auto"}
                 />
               ) : (
                 <ProductsSkeletonView
@@ -115,7 +116,7 @@ export default function Home() {
               <div className="d-flex justify-content-center">
                 <Link
                   to={`/products?brandId=${brand?.id}`}
-                  className="btn btn-outline-secondary text-center mt-3 px-5"
+                  className="btn btn-outline-secondary text-center mt-3 mb-1 px-5"
                 >
                   Xem tất cả
                 </Link>

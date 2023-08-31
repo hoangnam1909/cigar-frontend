@@ -15,7 +15,7 @@ import { formatPhoneNumber } from "~/utils/phoneNumber";
 export default function Footer() {
   return (
     <footer className="text-center text-lg-start bg-light text-muted mt-4">
-      <Container className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+      <Container className="d-flex justify-content-center justify-content-lg-between px-1 py-4 border-bottom">
         <div className="me-5 d-none d-lg-block">
           <span>Giữ liên lạc với chúng tôi qua:</span>
         </div>
@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
       </Container>
       <section className="">
-        <div className="container text-center text-md-start mt-4 mb-3">
+        <div className="container text-center text-md-start mt-4 mb-2">
           <div className="row mt-3">
             <div className="col-md-4 col-lg-5 col-xl-5 mx-auto mb-4">
               <h6 className="text-uppercase fw-bold mb-4">

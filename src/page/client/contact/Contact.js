@@ -82,7 +82,7 @@ export default function Contact() {
 
   return (
     <>
-      <div className="row g-5 mt-4">
+      <div className="row g-5 mt-4 mx-auto">
         <div className="col-sm-12 col-md-12 col-xl-3 m-0 mb-3">
           <h4 className="mb-3">CÁC CỬA HÀNG</h4>
           <div className="card mb-3">

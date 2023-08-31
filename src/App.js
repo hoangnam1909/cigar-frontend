@@ -111,7 +111,7 @@ export default function BaseLayout() {
     <>
       <Header />
       <ScrollTop />
-      <Container className="px-1" style={{ marginTop: "80px" }}>
+      <Container className="px-auto" style={{ marginTop: "80px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

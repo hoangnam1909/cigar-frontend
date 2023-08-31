@@ -95,42 +95,6 @@ export default function Products() {
         </aside>
 
         <main className="col-12 col-md-8 col-lg-9" id="product-grid-view">
-          {/* <header className="border-bottom mb-2">
-            <div className="px-2 d-flex justify-content-between align-items-center flex-wrap">
-              {productsRes != null && productsRes?.numberOfElements != 0 ? (
-                <>
-                  <h5 className="mr-md-auto mb-3">
-                    Có {productsRes?.totalElements} sản phẩm được tìm thấy
-                  </h5>
-                  <div className="d-flex mb-3">
-                    <FilterDropdown
-                      filterObj={sortData}
-                      className="me-4 w-100"
-                    />
-                    <ArrowPagination
-                      currentPage={productsRes?.number + 1}
-                      totalPages={productsRes?.totalPages}
-                    />
-                  </div>
-                </>
-              ) : productsRes?.numberOfElements == 0 ? (
-                <>
-                  <h5 className="mr-md-auto mb-3">
-                    Không có sản phẩm nào được tìm thấy
-                  </h5>
-                </>
-              ) : (
-                <>
-                  <h5 className="mr-md-auto mb-3">Đang tải...</h5>
-                  <div
-                    className="spinner-border text-secondary ms-auto mb-3"
-                    aria-hidden="true"
-                  ></div>
-                </>
-              )}
-            </div>
-          </header> */}
-
           <header className="border-bottom mb-2">
             <div className="px-2 row">
               {productsRes != null && productsRes?.numberOfElements != 0 ? (
@@ -159,10 +123,11 @@ export default function Products() {
                 </>
               ) : (
                 <>
-                  <div className="count-product col-lg-7">
+                  <div className="count-product col-6 col-md-8">
                     <h5 className="mr-md-auto mb-3">Đang tải...</h5>
                   </div>
-                  <div className="d-flex col-lg-5">
+
+                  <div className="d-flex col-6 col-md-4">
                     <div
                       className="spinner-border text-secondary ms-auto mb-3"
                       aria-hidden="true"
@@ -178,8 +143,13 @@ export default function Products() {
               <>
                 <ProductsView
                   products={productsRes?.content}
-                  className={"mx-auto"}
+                  className={"px-1 mx-auto"}
                   childClassName={"col-6 col-md-4 col-lg-3 px-1"}
+                />
+
+                <ProductsSkeletonView
+                  count={PAGE_SIZE}
+                  className={"col-6 col-md-4 col-lg-3 px-1"}
                 />
 
                 <nav className="mt-4">
