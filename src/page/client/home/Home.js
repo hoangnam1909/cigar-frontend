@@ -40,7 +40,7 @@ export default function Home() {
     getProducts();
     getTop3Brands();
   }, []);
-
+  console.log(top3Brands);
   return (
     <>
       <div className="p-5 mt-4 mb-3 bg-light rounded-3 back-img-parent">
@@ -81,18 +81,64 @@ export default function Home() {
         {products.length > 0 ? (
           <ProductsView
             products={products}
-            childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
             className={"mx-auto px-1"}
+            columnClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
           />
         ) : (
           <ProductsSkeletonView
             count={PAGE_SIZE}
-            className="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
+            className={"mx-auto px-1"}
+            columnClassName="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
           />
         )}
       </div>
 
-      {top3Brands?.map((brand) => {
+      {top3Brands.length == 0 ? (
+        <div className="card px-1 py-3 mt-4 d-flex justify-content-center loading-skeleton">
+          <h4 className="p-1 mb-2 mx-2 text-center">...</h4>
+          <ProductsSkeletonView
+            count={6}
+            className={"mx-1"}
+            columnClassName="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
+            cardClassName={"border"}
+          />
+          <div className="d-flex justify-content-center">
+            <button className="btn btn-outline-secondary text-center mt-3 mb-1 px-5">
+              Xem tất cả
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          {top3Brands?.map((brand) => {
+            if (brand.products.length > 0)
+              return (
+                <div
+                  key={brand?.id}
+                  className="card px-1 py-3 mt-4 d-flex justify-content-center"
+                >
+                  <h4 className="p-1 mb-2 mx-2 text-center">{brand?.name}</h4>
+                  <ProductsView
+                    products={brand?.products}
+                    className={"mx-1"}
+                    columnClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
+                    cardClassName={"border"}
+                  />
+                  <div className="d-flex justify-content-center">
+                    <Link
+                      to={`/products?brandId=${brand?.id}`}
+                      className="btn btn-outline-secondary text-center mt-3 mb-1 px-5"
+                    >
+                      Xem tất cả
+                    </Link>
+                  </div>
+                </div>
+              );
+          })}
+        </>
+      )}
+
+      {/* {top3Brands?.map((brand) => {
         if (brand?.products?.length > 0) {
           return (
             <div
@@ -100,19 +146,12 @@ export default function Home() {
               className="card px-1 py-3 mt-4 d-flex justify-content-center"
             >
               <h4 className="p-1 mb-2 text-center">{brand?.name}</h4>
-              {products.length > 0 ? (
-                <ProductsView
-                  products={brand?.products}
-                  childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
-                  cardClassName={"border"}
-                  className={"mx-auto"}
-                />
-              ) : (
-                <ProductsSkeletonView
-                  count={PAGE_SIZE}
-                  className="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
-                />
-              )}
+              <ProductsView
+                products={brand?.products}
+                columnClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
+                cardClassName={"border"}
+                className={"mx-1"}
+              />
               <div className="d-flex justify-content-center">
                 <Link
                   to={`/products?brandId=${brand?.id}`}
@@ -124,7 +163,22 @@ export default function Home() {
             </div>
           );
         }
-      })}
+      })} */}
+
+      {/* <div className="card px-1 py-3 mt-4 d-flex justify-content-center loading-skeleton">
+        <h4 className="p-1 mb-2 text-center">...</h4>
+
+        <ProductsSkeletonView
+          count={6}
+          childClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
+          cardClassName={"border"}
+          className={"mx-1"}
+        />
+
+        <div className="d-flex justify-content-center">
+          <p>Xem tất cả</p>
+        </div>
+      </div> */}
     </>
   );
 }

@@ -144,12 +144,7 @@ export default function Products() {
                 <ProductsView
                   products={productsRes?.content}
                   className={"px-1 mx-auto"}
-                  childClassName={"col-6 col-md-4 col-lg-3 px-1"}
-                />
-
-                <ProductsSkeletonView
-                  count={PAGE_SIZE}
-                  className={"col-6 col-md-4 col-lg-3 px-1"}
+                  columnClassName={"col-6 col-md-4 col-lg-3 px-1"}
                 />
 
                 <nav className="mt-4">
@@ -163,7 +158,7 @@ export default function Products() {
               <>
                 <ProductsSkeletonView
                   count={PAGE_SIZE}
-                  className={"col-6 col-md-4 col-lg-3 px-1"}
+                  columnClassName={"col-6 col-md-4 col-lg-3 px-1"}
                 />
               </>
             )}

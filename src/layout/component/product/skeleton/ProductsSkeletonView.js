@@ -1,15 +1,20 @@
 import ProductCardSkeleton from "./ProductCardSkeleton";
 
-export default function ProductsSkeletonView({ count, className }) {
+export default function ProductsSkeletonView({
+  count,
+  className,
+  columnClassName,
+  cardClassName,
+}) {
   let elements = [];
 
   for (let i = 0; i < count; i++) {
     elements.push(
-      <div key={i} className={className}>
-        <ProductCardSkeleton />
+      <div key={i} className={columnClassName}>
+        <ProductCardSkeleton className={cardClassName} />
       </div>
     );
   }
 
-  return <div className="row px-1 mx-auto">{elements}</div>;
+  return <div className={`row ${className}`}>{elements}</div>;
 }
