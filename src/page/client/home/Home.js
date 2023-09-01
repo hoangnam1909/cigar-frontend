@@ -117,7 +117,9 @@ export default function Home() {
                   key={brand?.id}
                   className="card px-1 py-3 mt-4 d-flex justify-content-center"
                 >
-                  <h4 className="p-1 mb-2 mx-2 text-center">{brand?.name}</h4>
+                  <h4 className="p-1 mb-2 mx-2 text-md-center">
+                    {brand?.name}
+                  </h4>
                   <ProductsView
                     products={brand?.products}
                     className={"mx-1"}

@@ -239,7 +239,7 @@ export default function Contact() {
               ) : null}
 
               <div className="col-12 text-center">
-                <button className="w-100 btn btn-secondary" type="submit">
+                <button className="w-100 btn btn-secondary mb-3" type="submit">
                   Gửi liên hệ
                 </button>
               </div>
