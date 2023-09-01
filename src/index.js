@@ -12,8 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* <Maintenance /> */}
-      <App />
+      {process.env.REACT_APP_MAINTENANCE == 1 ? <Maintenance /> : <App />}
     </BrowserRouter>
   </React.StrictMode>
 );
