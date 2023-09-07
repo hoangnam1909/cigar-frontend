@@ -5,6 +5,8 @@ import { routes } from "~/routers/routes";
 import { useEffect, useState } from "react";
 import API, { endpoints } from "~/api/API";
 import { removeAuthInfo } from "~/service/AuthService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faList, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBar() {
   const [user, setUser] = useState({});
@@ -37,7 +39,7 @@ export default function SideBar() {
       <ul className="list-unstyled ps-0">
         <li className="mb-1">
           <button
-            className="btn btn-toggle d-inline-flex align-items-center rounded border-0"
+            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 w-100"
             data-bs-toggle="collapse"
             data-bs-target="#category-collapse"
             aria-expanded="true"
@@ -48,18 +50,18 @@ export default function SideBar() {
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
                 <Link
-                  to="/admin/categories"
-                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                >
-                  Xem danh sách
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/admin/categories/add"
                   className="link-body-emphasis d-inline-flex text-decoration-none rounded"
                 >
                   Thêm danh mục mới
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/admin/categories"
+                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                >
+                  Các danh mục
                 </Link>
               </li>
             </ul>
@@ -68,7 +70,7 @@ export default function SideBar() {
 
         <li className="mb-1">
           <button
-            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed w-100"
             data-bs-toggle="collapse"
             data-bs-target="#brands-collapse"
             aria-expanded="true"
@@ -79,18 +81,18 @@ export default function SideBar() {
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
                 <Link
-                  to={routes.adminBrands}
-                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                >
-                  Xem danh sách
-                </Link>
-              </li>
-              <li>
-                <Link
                   to={routes.adminAddBrand}
                   className="link-body-emphasis d-inline-flex text-decoration-none rounded"
                 >
                   Thêm thương hiệu mới
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={routes.adminBrands}
+                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                >
+                  Các thương hiệu
                 </Link>
               </li>
             </ul>
@@ -99,7 +101,7 @@ export default function SideBar() {
 
         <li className="mb-1">
           <button
-            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed w-100"
             data-bs-toggle="collapse"
             data-bs-target="#products-collapse"
             aria-expanded="true"
@@ -110,18 +112,18 @@ export default function SideBar() {
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
                 <Link
-                  to={routes.adminProducts}
-                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                >
-                  Xem danh sách
-                </Link>
-              </li>
-              <li>
-                <Link
                   to={routes.adminAddProduct}
                   className="link-body-emphasis d-inline-flex text-decoration-none rounded"
                 >
                   Thêm sản phẩm mới
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={routes.adminProducts}
+                  className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                >
+                  Các sản phẩm
                 </Link>
               </li>
             </ul>
@@ -130,7 +132,7 @@ export default function SideBar() {
 
         <li className="mb-1">
           <button
-            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed w-100"
             data-bs-toggle="collapse"
             data-bs-target="#orders-collapse"
             aria-expanded="true"
@@ -144,7 +146,7 @@ export default function SideBar() {
                   to={routes.adminOrders}
                   className="link-body-emphasis d-inline-flex text-decoration-none rounded"
                 >
-                  Xem danh sách
+                  Các đơn hàng
                 </Link>
               </li>
             </ul>
@@ -155,7 +157,7 @@ export default function SideBar() {
 
         <li className="mb-1">
           <button
-            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed w-100"
             data-bs-toggle="collapse"
             data-bs-target="#account-collapse"
             aria-expanded="true"

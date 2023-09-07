@@ -26,7 +26,7 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <div className="d-flex flex-column overflow-x-hidden mt-3">
+      <div className="container-fluid mt-3">
         <h1 className="h3 mb-4 text-gray-800">Dashboard</h1>
 
         <div className="row">

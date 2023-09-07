@@ -41,11 +41,15 @@ export default function BaseLayout() {
     if (verifyToken() && tokenUserRole() === "ADMIN") {
       return (
         <>
+          <ScrollTop />
           <div className="d-flex">
             <div className="side-bar p-3 bg-white" s>
               <SideBar />
             </div>
-            <div className="content d-flex flex-column px-3">
+            <div
+              className="content d-flex flex-column vh-100"
+              style={{ backgroundColor: "#f5f7fa" }}
+            >
               <Routes>
                 <Route path="/admin" element={<AdminDashboard />} />
 
@@ -85,7 +89,7 @@ export default function BaseLayout() {
                 {/* Product routes */}
                 <Route path={routes.adminOrders} element={<ListViewOrder />} />
                 <Route
-                  path={`${routes.adminOrders}/:orderId`}
+                  path={`${routes.adminEditOrder}/:orderId`}
                   element={<AdminOrderDetail />}
                 />
 

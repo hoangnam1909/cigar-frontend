@@ -4,11 +4,11 @@
   "filterList": [
     {
       "name": "Giá tăng dần",
-      "value": "price-asc"
+      "value": "pricAsc"
     },
     {
       "name": "Giá giảm dần",
-      "value": "price-desc"
+      "value": "priceDesc"
     }
   ]
 }

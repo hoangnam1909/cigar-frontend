@@ -114,150 +114,162 @@ export default function EditProduct() {
 
   return (
     <>
-      <h2 className="mt-3">Chỉnh sửa thông tin sản phẩm</h2>
+      <div className="container-fluid mt-3">
+        <h1 className="h3 mt-2 mb-4 text-gray-800">
+          Chỉnh sửa thông tin sản phẩm
+        </h1>
 
-      {isSuccess ? (
-        <div className="alert alert-success mb-0" role="alert">
-          Sửa thông tin danh mục thành công!
-        </div>
-      ) : null}
+        {isSuccess ? (
+          <div className="alert alert-success mb-0" role="alert">
+            Sửa thông tin danh mục thành công!
+          </div>
+        ) : null}
 
-      <Card className="my-3">
-        <Card.Body>
-          <Form onSubmit={handleSubmitForm}>
-            <FloatingLabel
-              className="mb-3"
-              controlId="floatingSelect"
-              label="Phân loại sản phẩm"
-              defaultValue={product?.category?.id}
-              onChange={(e) =>
-                setProduct({ ...product, categoryId: parseInt(e.target.value) })
-              }
-            >
-              <Form.Select>
-                {categories?.map((c) => {
-                  return (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </FloatingLabel>
-
-            <FloatingLabel
-              className="mb-3"
-              controlId="floatingSelect"
-              label="Thương hiệu"
-              defaultValue={product?.brand?.id}
-              onChange={(e) =>
-                setProduct({ ...product, brandId: parseInt(e.target.value) })
-              }
-            >
-              <Form.Select>
-                {brands?.map((b) => {
-                  return (
-                    <option key={b.id} value={b.id}>
-                      {b.name}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </FloatingLabel>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Tên sản phẩm</Form.Label>
-              <Form.Control
-                id="name-input"
-                type="text"
+        <Card className="my-3">
+          <Card.Body>
+            <Form onSubmit={handleSubmitForm}>
+              <FloatingLabel
+                className="mb-3"
+                controlId="floatingSelect"
+                label="Phân loại sản phẩm"
+                defaultValue={product?.category?.id}
                 onChange={(e) =>
-                  setProduct({ ...product, name: e.target.value })
+                  setProduct({
+                    ...product,
+                    categoryId: parseInt(e.target.value),
+                  })
                 }
-                value={product?.name}
-              />
-            </Form.Group>
+              >
+                <Form.Select>
+                  {categories?.map((c) => {
+                    return (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    );
+                  })}
+                </Form.Select>
+              </FloatingLabel>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Mô tả sản phẩm</Form.Label>
-              <RichTextEditor
-                data={product?.description}
-                onChange={handleQuillEdit}
-              />
-            </Form.Group>
+              <FloatingLabel
+                className="mb-3"
+                controlId="floatingSelect"
+                label="Thương hiệu"
+                defaultValue={product?.brand?.id}
+                onChange={(e) =>
+                  setProduct({ ...product, brandId: parseInt(e.target.value) })
+                }
+              >
+                <Form.Select>
+                  {brands?.map((b) => {
+                    return (
+                      <option key={b.id} value={b.id}>
+                        {b.name}
+                      </option>
+                    );
+                  })}
+                </Form.Select>
+              </FloatingLabel>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Giá gốc</Form.Label>
-              <InputGroup>
+              <Form.Group className="mb-3">
+                <Form.Label>Tên sản phẩm</Form.Label>
                 <Form.Control
-                  placeholder="Giá gốc"
-                  aria-label="Giá gốc"
-                  aria-describedby="basic-addon2"
-                  pattern="^[0-9]*$"
+                  id="name-input"
+                  type="text"
+                  onChange={(e) =>
+                    setProduct({ ...product, name: e.target.value })
+                  }
+                  value={product?.name}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Mô tả sản phẩm</Form.Label>
+                <RichTextEditor
+                  data={product?.description}
+                  onChange={handleQuillEdit}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Giá gốc</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    placeholder="Giá gốc"
+                    aria-label="Giá gốc"
+                    aria-describedby="basic-addon2"
+                    pattern="^[0-9]*$"
+                    value={parseInt(
+                      product?.originalPrice ? product?.originalPrice : 0
+                    )}
+                    onChange={(e) => {
+                      if (numberInputOnly(e.target.value)) {
+                        setProduct({
+                          ...product,
+                          originalPrice: parseInt(e.target.value),
+                        });
+                      }
+                    }}
+                  />
+                  <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Giá sau khuyến mại</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    placeholder="Giá sau khuyến mại"
+                    aria-label="Giá sau khuyến mại"
+                    aria-describedby="basic-addon2"
+                    value={parseInt(
+                      product?.salePrice ? product?.salePrice : 0
+                    )}
+                    onChange={(e) => {
+                      if (numberInputOnly(e.target.value)) {
+                        setProduct({
+                          ...product,
+                          salePrice: parseInt(e.target.value),
+                        });
+                      }
+                    }}
+                  />
+                  <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Số lượng</Form.Label>
+                <Form.Control
                   value={parseInt(
-                    product?.originalPrice ? product?.originalPrice : 0
+                    product?.unitsInStock ? product?.unitsInStock : 0
                   )}
                   onChange={(e) => {
                     if (numberInputOnly(e.target.value)) {
                       setProduct({
                         ...product,
-                        originalPrice: parseInt(e.target.value),
+                        unitsInStock: parseInt(e.target.value),
                       });
                     }
                   }}
                 />
-                <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
-              </InputGroup>
-            </Form.Group>
+              </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Giá sau khuyến mại</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  placeholder="Giá sau khuyến mại"
-                  aria-label="Giá sau khuyến mại"
-                  aria-describedby="basic-addon2"
-                  value={parseInt(product?.salePrice ? product?.salePrice : 0)}
-                  onChange={(e) => {
-                    if (numberInputOnly(e.target.value)) {
-                      setProduct({
-                        ...product,
-                        salePrice: parseInt(e.target.value),
-                      });
-                    }
-                  }}
-                />
-                <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
-              </InputGroup>
-            </Form.Group>
+              <Form.Group controlId="formFile" className="mb-3">
+                <ImagesUpload images={images} setImages={setImages} />
+                <ListImagePreview imageList={images} />
+              </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Số lượng</Form.Label>
-              <Form.Control
-                value={parseInt(
-                  product?.unitsInStock ? product?.unitsInStock : 0
-                )}
-                onChange={(e) => {
-                  if (numberInputOnly(e.target.value)) {
-                    setProduct({
-                      ...product,
-                      unitsInStock: parseInt(e.target.value),
-                    });
-                  }
-                }}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formFile" className="mb-3">
-              <ImagesUpload images={images} setImages={setImages} />
-              <ListImagePreview imageList={images} />
-            </Form.Group>
-
-            <Button variant="dark" className="w-100 my-2" type="submit">
-              Lưu các thay đổi
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+              <Button variant="dark" className="w-100 my-2" type="submit">
+                Lưu các thay đổi
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
     </>
   );
 }

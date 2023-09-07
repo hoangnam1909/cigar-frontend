@@ -13,4 +13,5 @@ export const routes = {
   adminEditProduct: "/admin/products/edit",
 
   adminOrders: "/admin/orders",
+  adminEditOrder: "/admin/orders/edit",
 };

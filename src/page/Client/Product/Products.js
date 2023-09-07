@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import API, { endpoints } from "~/api/API";
 import queryString from "query-string";
-import sortData from "~/data/sortBy.json";
+import sortData from "~/data/productSortValue.json";
 import { FilterCard } from "~/layout/component/product/FilterCard";
 import FilterDropdown from "~/layout/component/product/FilterDropdown";
 import ProductsView from "~/layout/component/product/ProductsView";

@@ -27,37 +27,39 @@ export default function AddBrand() {
 
   return (
     <>
-      <h2 className="my-3">Thêm thương hiệu mới</h2>
+      <div className="container-fluid mt-3">
+        <h1 className="h3 mt-2 mb-4 text-gray-800">Thêm thương hiệu</h1>
 
-      {isSuccess ? (
-        <div className="alert alert-success" role="alert">
-          Thêm thương hiệu thành công!
-        </div>
-      ) : null}
+        {isSuccess ? (
+          <div className="alert alert-success" role="alert">
+            Thêm thương hiệu thành công!
+          </div>
+        ) : null}
 
-      <Card>
-        <Card.Body>
-          <Form onSubmit={handleSubmitForm}>
-            <Form.Group className="mb-3">
-              <Form.Label>Tên thương hiệu</Form.Label>
-              <Form.Control
-                id="name-input"
-                type="text"
-                onChange={(e) =>
-                  setBrand((brand) => {
-                    return { ...brand, name: e.target.value };
-                  })
-                }
-                value={brand.name}
-              />
-            </Form.Group>
+        <Card>
+          <Card.Body>
+            <Form onSubmit={handleSubmitForm}>
+              <Form.Group className="mb-3">
+                <Form.Label>Tên thương hiệu</Form.Label>
+                <Form.Control
+                  id="name-input"
+                  type="text"
+                  onChange={(e) =>
+                    setBrand((brand) => {
+                      return { ...brand, name: e.target.value };
+                    })
+                  }
+                  value={brand.name}
+                />
+              </Form.Group>
 
-            <Button variant="dark" className="w-100 my-2" type="submit">
-              Xác nhận
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+              <Button variant="dark" className="w-100 my-2" type="submit">
+                Xác nhận
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
     </>
   );
 }

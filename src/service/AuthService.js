@@ -18,7 +18,6 @@ export const verifyToken = () => {
   };
 
   if (isTokenExpired() && Cookies.get("rememberMe") === "true") {
-    console.log("Refresh");
     refreshToken();
     return true;
   }

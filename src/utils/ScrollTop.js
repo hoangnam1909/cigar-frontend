@@ -21,9 +21,11 @@ const ScrollTop = () => {
   }, [pathname, searchParams]);
 
   useLayoutEffect(() => {
-    let toggler = document.querySelector("button.navbar-toggler.collapsed");
-    if (toggler == null) {
-      document.querySelector("button.navbar-toggler").click();
+    if (!pathname.startsWith("/admin")) {
+      let toggler = document.querySelector("button.navbar-toggler.collapsed");
+      if (toggler == null) {
+        document.querySelector("button.navbar-toggler").click();
+      }
     }
   }, [location]);
 
