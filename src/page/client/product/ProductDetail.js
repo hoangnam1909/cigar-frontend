@@ -6,15 +6,14 @@ import { toVND } from "~/utils/currency";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
 import { useEffect, useState } from "react";
 import ProductDetailSkeleton from "./skeleton/ProductDetailSkeleton";
-import ProductCardMini from "~/layout/component/product/ProductCardMini";
 import { ZaloIcon } from "~/assets/img/ZaloIcon";
-import ProductCardMiniSkeleton from "~/layout/component/product/skeleton/ProductCardMiniSkeleton";
 import { getIdInRewriteUrl } from "~/utils/input";
 import { addProductToCart } from "~/service/CartService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Modal from "~/components/modal/Modal";
-import ProductCard from "~/layout/component/product/ProductCard";
+import ProductsView from "~/layout/component/product/ProductsView";
+import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
 
 export default function ProductDetail() {
   const { productRewriteUrl } = useParams();
@@ -77,7 +76,7 @@ export default function ProductDetail() {
                     />
                   </div>
                   <div className="thumbnail_images">
-                    <ul id="thumbnail">
+                    <ul id="thumbnail" className="pt-3">
                       {product.productImages.map((image) => {
                         if (image.linkToImage.startsWith("http")) {
                           return (
@@ -89,9 +88,10 @@ export default function ProductDetail() {
                             >
                               <img
                                 src={image.linkToImage}
-                                height="100"
+                                width="110"
+                                height="110"
                                 alt="thumbnail_image"
-                                className="rounded"
+                                className="rounded object-fit-cover"
                               />
                             </li>
                           );
@@ -147,21 +147,23 @@ export default function ProductDetail() {
                 <div className="bottom-panel">
                   {product.originalPrice != 0 || product.salePrice != 0 ? (
                     <>
-                      <div className="prices">
-                        <h5 className="text-decoration-line-through">
-                          {isSuccess
-                            ? toVND(product.originalPrice)
-                            : "Original price"}
-                        </h5>
-                        <h5>
-                          {isSuccess ? toVND(product.salePrice) : "Sale price"}
-                        </h5>
-                      </div>
+                      <h3 className="">
+                        <span className="text-danger me-2">
+                          {toVND(product?.salePrice)}
+                        </span>
+                        <span className="h6 text-decoration-line-through me-2">
+                          {toVND(product?.originalPrice)}
+                        </span>
+                        <span className="h6 text-danger">
+                          Tiết kiệm{" "}
+                          {toVND(product?.originalPrice - product.salePrice)}
+                        </span>
+                      </h3>
                     </>
                   ) : null}
 
-                  <div className="buttons d-flex flex-column gap-3">
-                    <h5 className="card-title text-start text-primary lh-base">
+                  <div className="d-flex flex-column gap-3">
+                    <h5 className="card-title text-start text-primary lh-base mb-0">
                       Gọi điện trực tiếp:
                       <br />
                       <a
@@ -239,34 +241,21 @@ export default function ProductDetail() {
 
       <div className="card shadow my-3 p-3">
         <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
-        <div className="row mx-auto w-100">
-          {productsSuggest ? (
-            <>
-              {productsSuggest?.map((p) => {
-                return (
-                  <div key={p.id} className="col-sm-6 col-md-4 col-lg-2 px-1">
-                    <ProductCard product={p} className={"border"} />
-                  </div>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              <div className="col-sm-12 col-md-6">
-                <ProductCardMiniSkeleton />
-              </div>
-              <div className="col-sm-12 col-md-6">
-                <ProductCardMiniSkeleton />
-              </div>
-              <div className="col-sm-12 col-md-6">
-                <ProductCardMiniSkeleton />
-              </div>
-              <div className="col-sm-12 col-md-6">
-                <ProductCardMiniSkeleton />
-              </div>
-            </>
-          )}
-        </div>
+        {productsSuggest ? (
+          <ProductsView
+            products={productsSuggest}
+            className={"mx-auto w-100"}
+            columnClassName={"col-sm-6 col-md-4 col-lg-2 px-1"}
+            cardClassName={"border"}
+          />
+        ) : (
+          <ProductsSkeletonView
+            count={6}
+            className={"mx-auto w-100"}
+            columnClassName="col-sm-6 col-md-4 col-lg-2 px-1"
+            cardClassName={"border"}
+          />
+        )}
       </div>
 
       <Modal

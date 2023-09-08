@@ -27,7 +27,7 @@ export default function AdminDashboard() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mb-4 text-gray-800">Dashboard</h1>
+        <h3 className="mt-2 mb-4 text-gray-800">Dashboard</h3>
 
         <div className="row">
           <div className="col-xl-3 col-md-6 mb-4">

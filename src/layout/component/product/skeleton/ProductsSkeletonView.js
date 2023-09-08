@@ -10,11 +10,11 @@ export default function ProductsSkeletonView({
 
   for (let i = 0; i < count; i++) {
     elements.push(
-      <div key={i} className={columnClassName}>
-        <ProductCardSkeleton className={cardClassName} />
+      <div key={i} className={columnClassName ? columnClassName : ""}>
+        <ProductCardSkeleton className={cardClassName ? cardClassName : ""} />
       </div>
     );
   }
 
-  return <div className={`row ${className}`}>{elements}</div>;
+  return <div className={`row ${className ? className : ""}`}>{elements}</div>;
 }

@@ -5,18 +5,19 @@ export default function ButtonDropdownFilter({
   objectList,
   filterName,
   filterKey,
+  valueField,
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [displayValue, setDisplayValue] = useState(filterName);
 
   useEffect(() => {
     if (searchParams.get(filterKey) == null) setDisplayValue(filterName);
-  }, []);
+  }, [searchParams]);
 
   return (
     <div className="btn-group" role="group">
       <a
-        className="btn btn-light dropdown-toggle px-5"
+        className="btn btn-light dropdown-toggle px-4"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
@@ -26,15 +27,15 @@ export default function ButtonDropdownFilter({
         className="dropdown-menu overflow-y-auto"
         style={{ maxHeight: "300px" }}
       >
-        {objectList?.map((object) => {
+        {objectList?.map((object, index) => {
           return (
-            <li key={object.id}>
+            <li key={index}>
               <a
                 className="dropdown-item"
                 style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   e.preventDefault();
-                  searchParams.set(`${filterKey}`, `${object.id}`);
+                  searchParams.set(`${filterKey}`, `${object[valueField]}`);
                   setSearchParams(searchParams);
                   setDisplayValue(object.name);
                 }}

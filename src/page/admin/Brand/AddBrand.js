@@ -28,7 +28,7 @@ export default function AddBrand() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mt-2 mb-4 text-gray-800">Thêm thương hiệu</h1>
+        <h3 className="mt-2 mb-4 text-gray-800">Thêm thương hiệu</h3>
 
         {isSuccess ? (
           <div className="alert alert-success" role="alert">

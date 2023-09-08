@@ -8,10 +8,14 @@ export default function ProductsView({
 }) {
   return (
     <>
-      <div className={`row ${className}`}>
+      <div className={`row ${className ? className : ""}`}>
         {products?.map((p) => (
-          <div key={p.id} className={columnClassName}>
-            <ProductCard key={p.id} product={p} className={cardClassName} />
+          <div key={p.id} className={columnClassName ? columnClassName : ""}>
+            <ProductCard
+              key={p.id}
+              product={p}
+              className={cardClassName ? cardClassName : ""}
+            />
           </div>
         ))}
       </div>

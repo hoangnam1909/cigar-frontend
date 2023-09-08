@@ -20,7 +20,7 @@ export default function ProductCardSkeleton({ className }) {
           />
         </a>
         <div className="d-flex flex-column h-100">
-          <div className="card-body">
+          <div className="card-body pb-2">
             <a href="/products/xi-ga-romeo-y-julieta-qqqqq-54">
               <h6
                 className="mb-0 card-title cut-title"
@@ -31,7 +31,10 @@ export default function ProductCardSkeleton({ className }) {
             </a>
           </div>
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
-            <h6 className="mb-0 card-title">...</h6>
+            <h6 className="mb-0 card-title text-decoration-line-through text-end">
+              ...
+            </h6>
+            <h5 className="mb-0 card-title text-end">...</h5>
           </div>
         </div>
       </div>

@@ -41,7 +41,7 @@ export default function ListViewCategory() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mb-4 text-gray-800">Danh sách các danh mục</h1>
+        <h3 className="mt-2 mb-4 text-gray-800">Danh sách danh mục</h3>
         {deleteSuccess ? (
           <>
             <div className="alert alert-success" role="alert">

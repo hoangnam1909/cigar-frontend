@@ -158,6 +158,7 @@ export default function Products() {
               <>
                 <ProductsSkeletonView
                   count={PAGE_SIZE}
+                  className={"px-1 mx-auto"}
                   columnClassName={"col-6 col-md-4 col-lg-3 px-1"}
                 />
               </>

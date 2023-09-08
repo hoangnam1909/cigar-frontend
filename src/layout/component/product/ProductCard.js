@@ -52,7 +52,7 @@ export default function ProductCard({ product, className }) {
         </Link>
 
         <div className="d-flex flex-column h-100">
-          <div className="card-body">
+          <div className="card-body pb-2">
             <Link
               to={`/products/${rewriteUrl(product.name)}-${product.id}`}
               style={{ color: "unset" }}
@@ -68,14 +68,25 @@ export default function ProductCard({ product, className }) {
 
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
             {product.originalPrice == 0 || product.salePrice == 0 ? (
-              <h6 className="mb-0 card-title text-danger">Liên hệ</h6>
+              <>
+                <h6 className="mb-0 card-title text-secondary text-decoration-line-through opacity-0 text-end">
+                  abcd
+                </h6>
+
+                <h5 className="mb-0 card-title text-danger text-end">
+                  Liên hệ
+                </h5>
+              </>
             ) : (
-              <h6 className="mb-0 card-title">
-                <span className="card-title text-secondary text-decoration-line-through me-2">
+              <>
+                <h6 className="mb-0 card-title text-secondary text-decoration-line-through text-end">
                   {toVND(product.originalPrice)}
-                </span>{" "}
-                <span className="text-danger">{toVND(product.salePrice)}</span>
-              </h6>
+                </h6>
+
+                <h5 className="mb-0 card-title text-danger text-end">
+                  {toVND(product.salePrice)}
+                </h5>
+              </>
             )}
           </div>
         </div>

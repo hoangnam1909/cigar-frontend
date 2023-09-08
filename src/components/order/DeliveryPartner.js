@@ -6,10 +6,12 @@ export default function DeliveryPartner({ order, getOrder }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deliveryCompanies, setDeliveryCompanies] = useState();
   const [requestBody, setRequestBody] = useState({
-    trackingNumber: order.shipment.trackingNumber
+    trackingNumber: order?.shipment?.trackingNumber
       ? order.shipment.trackingNumber
       : "",
-    deliveryCompanyId: order.shipment?.deliveryCompany?.id.toString(),
+    deliveryCompanyId: order?.shipment?.deliveryCompany?.id
+      ? order.shipment.deliveryCompany.id.toString()
+      : "",
   });
 
   const getDeliveryCompanies = async () => {
@@ -75,7 +77,7 @@ export default function DeliveryPartner({ order, getOrder }) {
             return (
               <option
                 key={deliveryCompany.id}
-                value={deliveryCompany.id}
+                value={deliveryCompany.id.toString()}
                 selected={requestBody.deliveryCompanyId == deliveryCompany.id}
               >
                 {deliveryCompany.name}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import API, { endpoints } from "~/api/API";
+import API, { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 import { ImagesUpload } from "~/components/input/ImagesUpload";
 import RichTextEditor from "~/components/input/RichTextEditor";
@@ -32,12 +32,10 @@ export default function EditProduct() {
     setProduct({ ...product, productImages: images });
 
     const res = await AuthAPI().put(
-      `${endpoints.products}/${productId}`,
+      `${adminEndpoints.products}/${productId}`,
       product
     );
-    if (res.status === 200) {
-      setIsSuccess(true);
-    }
+    if (res.status === 200) setIsSuccess(true);
   };
 
   const handleQuillEdit = (value) => {
@@ -82,11 +80,12 @@ export default function EditProduct() {
               brandId: response?.data.result.brand.id
                 ? response?.data.result.brand.id
                 : 0,
-              productImages: response?.data.result.productImages ? images : [],
+              productImages: response?.data.result.productImages
+                ? response?.data.result.productImages.map(
+                    (img) => img.linkToImage
+                  )
+                : [],
             });
-            setImages(
-              response?.data.result.productImages.map((img) => img.linkToImage)
-            );
           }
         });
     }
@@ -115,9 +114,9 @@ export default function EditProduct() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mt-2 mb-4 text-gray-800">
+        <h3 className="mt-2 mb-4 text-gray-800">
           Chỉnh sửa thông tin sản phẩm
-        </h1>
+        </h3>
 
         {isSuccess ? (
           <div className="alert alert-success mb-0" role="alert">

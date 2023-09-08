@@ -1,9 +1,9 @@
 .scrollToTop {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   position: fixed;
-  bottom: 25px;
-  right: 25px;
+  bottom: 20px;
+  right: 20px;
   border: none;
-  background-color: #fff;
+  background-color: #c1cbd5;
 }

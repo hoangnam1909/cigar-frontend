@@ -57,14 +57,14 @@ export default function OrderStatusForm({ order, getOrder }) {
         className="form-select mb-3"
         disabled={isSubmitting}
         onChange={(e) => {
-          setOrderStatusId(e.target.value);
+          setOrderStatusId(e.target.value.toString());
         }}
       >
         {orderStatuses?.map((orderStatus) => {
           return (
             <option
               key={orderStatus.id}
-              value={orderStatus.id}
+              value={orderStatus.id.toString()}
               selected={order?.orderStatus?.id == orderStatus.id}
             >
               {orderStatus.name}

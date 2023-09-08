@@ -4,7 +4,7 @@
   "filterList": [
     {
       "name": "Giá tăng dần",
-      "value": "pricAsc"
+      "value": "priceAsc"
     },
     {
       "name": "Giá giảm dần",

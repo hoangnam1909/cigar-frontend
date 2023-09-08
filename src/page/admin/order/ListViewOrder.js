@@ -5,7 +5,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import API, { adminEndpoints, endpoints } from "~/api/API";
+import { adminEndpoints } from "~/api/API";
 import Pagination from "~/components/paginate/Pagination";
 import { routes } from "~/routers/routes";
 import moment from "moment";
@@ -14,6 +14,7 @@ import queryString from "query-string";
 import AuthAPI from "~/api/AuthAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCopy,
   faEllipsis,
   faFilterCircleXmark,
   faMagnifyingGlass,
@@ -21,10 +22,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ButtonDropdownFilter from "~/components/button/ButtonDropdownFilter";
 import { toVND } from "~/utils/currency";
+import orderSortData from "~/data/orderSortValue.json";
 
 export default function ListViewOrder() {
-  const [orders, setOrders] = useState();
+  const [ordersRes, setOrdersRes] = useState();
   const [orderStatuses, setOrderStatuses] = useState();
+  const [deliveryCompanies, setDeliveryCompanies] = useState();
   const navigate = useNavigate();
   let location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,6 +40,15 @@ export default function ListViewOrder() {
     };
 
     getOrderStatuses();
+  }, []);
+
+  useEffect(() => {
+    const getDeliveryCompanies = async () => {
+      const res = await AuthAPI().get(adminEndpoints.deliveryCompanies);
+      if (res.status === 200) setDeliveryCompanies(res.data.result);
+    };
+
+    getDeliveryCompanies();
   }, []);
 
   useEffect(() => {
@@ -53,20 +65,22 @@ export default function ListViewOrder() {
         },
       });
       if (res.status === 200) {
-        setOrders(res.data.result);
+        setOrdersRes(res.data.result);
       }
     };
 
     getOrders();
   }, [searchParams]);
 
+  console.log(orderSortData);
+
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mt-2 mb-4 text-gray-800">Danh sách đơn hàng</h1>
+        <h3 className="mt-2 mb-4 text-gray-800">Danh sách đơn hàng</h3>
 
         <div className="mb-4">
-          <div className="d-flex flex-wrap gap-3">
+          <div className="d-flex flex-wrap gap-2">
             <div
               className="search-box border rounded"
               style={{ width: "370px" }}
@@ -99,59 +113,73 @@ export default function ListViewOrder() {
             </div>
 
             <div className="filter-dropdown">
-              <div
-                className="btn-group"
-                role="group"
-                aria-label="Button group with nested dropdown"
-              >
-                <ButtonDropdownFilter
-                  objectList={orderStatuses}
-                  filterName={"Tình trạng"}
-                  filterKey={"orderStatusId"}
-                />
-
-                <a
-                  type="button"
-                  className="btn btn-light px-5"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSearchParams();
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faFilterCircleXmark}
-                    className="me-2"
-                  />
-                  Loại bỏ bộ lọc
-                </a>
-              </div>
+              <ButtonDropdownFilter
+                objectList={orderSortData}
+                filterName={"Sắp xếp"}
+                filterKey={"sort"}
+                valueField={"value"}
+              />
             </div>
 
-            {/* <div className="">
+            <div className="filter-dropdown">
+              <ButtonDropdownFilter
+                objectList={orderStatuses}
+                filterName={"Tình trạng"}
+                filterKey={"orderStatusId"}
+                valueField={"id"}
+              />
+            </div>
+
+            <div className="filter-dropdown">
+              <ButtonDropdownFilter
+                objectList={deliveryCompanies}
+                filterName={"Đơn vị vận chuyển"}
+                filterKey={"deliveryCompanyId"}
+                valueField={"id"}
+              />
+            </div>
+
+            <div className="filter-dropdown">
+              <a
+                type="button"
+                className="btn btn-light px-5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSearchParams();
+                }}
+              >
+                <FontAwesomeIcon icon={faFilterCircleXmark} className="me-2" />
+                Loại bỏ bộ lọc
+              </a>
+            </div>
+
+            <div className="">
               <div className="btn-group">
                 <div className="btn-group" role="group">
                   <Link
                     className="btn btn-primary"
                     style={{ width: "180px" }}
-                    to={routes.adminAddProduct}
+                    to={""}
                   >
                     <FontAwesomeIcon icon={faPlus} className="me-2" />
-                    Thêm sản phẩm
+                    Action...
                   </Link>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
         <div className="card shadow mb-4">
-          <div className="table-responsive rounded p-4 pb-0">
-            <table
-              className="table table-hover"
-              id="dataTable"
-              width="100%"
-              cellSpacing="0"
-            >
+          <div className="d-flex justify-content-end mt-3 mb-1 px-4">
+            <Pagination
+              currentPage={ordersRes?.number + 1}
+              totalPages={ordersRes?.totalPages}
+            />
+          </div>
+
+          <div className="px-4 py-0">
+            <table className="table table-hover" width="100%" cellSpacing="0">
               <thead>
                 <tr>
                   <th style={{ width: "5%" }} className="">
@@ -171,7 +199,7 @@ export default function ListViewOrder() {
                 </tr>
               </thead>
               <tbody>
-                {orders?.content?.map((order) => (
+                {ordersRes?.content?.map((order) => (
                   <tr
                     key={order.id}
                     onDoubleClick={() => {
@@ -194,16 +222,31 @@ export default function ListViewOrder() {
                       {order.customer.fullName}
                     </td>
                     <td className="align-middle">
-                      {moment(order.createdAt).format("LTS")}
+                      {moment(order.createdAt).format("LT")}
                       {" - "}
-                      {moment(order.createdAt).format("LL")}
+                      {moment(order.createdAt).format("ll")}
                     </td>
                     <td className="align-middle">{order.orderStatus.name}</td>
                     <td className="align-middle">
                       {order.shipment?.deliveryCompany?.name}
                     </td>
-                    <td className="align-middle">
-                      {order.shipment?.trackingNumber}
+                    <td
+                      className="align-middle"
+                      onClick={() => {
+                        if (order.shipment?.trackingNumber) {
+                          navigator.clipboard.writeText(
+                            order.shipment?.trackingNumber
+                          );
+                          alert("Đã sao chép mã vận đơn");
+                        }
+                      }}
+                    >
+                      {order.shipment?.trackingNumber ? (
+                        <>
+                          <FontAwesomeIcon icon={faCopy} className="me-2" />
+                          {order.shipment?.trackingNumber}
+                        </>
+                      ) : null}
                     </td>
                     <td className="align-middle">
                       <div className="d-flex flex-row justify-content-center">
@@ -233,14 +276,6 @@ export default function ListViewOrder() {
                 ))}
               </tbody>
             </table>
-          </div>
-          <div>
-            <nav className="mb-3" aria-label="Page navigation sample">
-              <Pagination
-                currentPage={orders?.number + 1}
-                totalPages={orders?.totalPages}
-              />
-            </nav>
           </div>
         </div>
       </div>

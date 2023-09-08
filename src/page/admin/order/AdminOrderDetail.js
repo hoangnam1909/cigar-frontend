@@ -1,5 +1,4 @@
 import {
-  faLocationDot,
   faMapLocationDot,
   faTruck,
   faUser,
@@ -7,13 +6,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import API, { adminEndpoints, endpoints } from "~/api/API";
+import { adminEndpoints } from "~/api/API";
 import moment from "moment";
 import "moment/locale/vi";
 import { toVND } from "~/utils/currency";
 import AuthAPI from "~/api/AuthAPI";
 import OrderStatusForm from "~/components/order/OrderStatusForm";
 import DeliveryPartner from "~/components/order/DeliveryPartner";
+import { formatPhoneNumber } from "~/utils/phoneNumber";
 
 export default function AdminOrderDetail() {
   const { orderId } = useParams();
@@ -32,7 +32,8 @@ export default function AdminOrderDetail() {
     return (
       <>
         <div className="container-fluid mt-3">
-          <h1 className="h3 mb-4 text-gray-800">Đơn hàng #{orderId}</h1>
+          <h3 className="mt-2 mb-4 text-gray-800">Đơn hàng #{orderId}</h3>
+
           <div className="row">
             <div className="col-8">
               <div className="card shadow p-4 mb-4">
@@ -44,7 +45,8 @@ export default function AdminOrderDetail() {
                   </h6>
                 </div>
 
-                <div className="row mb-4 border-bottom">
+                {/* <div className="row mb-3 border-bottom"> */}
+                <div className="row">
                   <div className="d-flex justify-content-between flex-wrap">
                     <div className="d-flex mb-3">
                       <div className="customer-icon me-3">
@@ -63,7 +65,9 @@ export default function AdminOrderDetail() {
                         ) : null}
 
                         {order.customer.phone ? (
-                          <p className="mb-0">{order.customer.phone}</p>
+                          <p className="mb-0">
+                            {formatPhoneNumber(order.customer.phone)}
+                          </p>
                         ) : null}
 
                         {order.customer.email ? (
@@ -103,7 +107,6 @@ export default function AdminOrderDetail() {
 
                       <div className="customer-info">
                         <h6>Địa chỉ giao hàng</h6>
-
                         <p className="mb-0">{order.shipment?.address}</p>
                       </div>
                     </div>
@@ -113,11 +116,11 @@ export default function AdminOrderDetail() {
                 <div className="table-responsive">
                   <table className="table table-border">
                     <thead>
-                      <tr>
-                        <th>Sản phẩm</th>
-                        <th className="text-center">Số lượng</th>
-                        <th className="text-end">Đơn giá</th>
-                        <th className="text-end">Thành tiền</th>
+                      <tr className="border-top">
+                        <td className="fw-semibold">Sản phẩm</td>
+                        <td className="fw-semibold text-center">Số lượng</td>
+                        <td className="fw-semibold text-end">Đơn giá</td>
+                        <td className="fw-semibold text-end">Thành tiền</td>
                       </tr>
                     </thead>
                     <tbody>
@@ -128,7 +131,7 @@ export default function AdminOrderDetail() {
                         .map((orderItem, index) => {
                           return (
                             <tr key={index}>
-                              <th>
+                              <td>
                                 <div className="d-flex flex-wrap">
                                   <div className="product-image me-3">
                                     <img
@@ -142,11 +145,14 @@ export default function AdminOrderDetail() {
                                       className="rounded"
                                     />
                                   </div>
+
                                   <div className="product-name">
-                                    {orderItem.product.name}
+                                    <p className="fw-medium">
+                                      {orderItem.product.name}
+                                    </p>
                                   </div>
                                 </div>
-                              </th>
+                              </td>
                               <td className="text-center align-middle">
                                 {orderItem.quantity}
                               </td>
@@ -163,6 +169,16 @@ export default function AdminOrderDetail() {
                           );
                         })}
                     </tbody>
+                    <tfoot>
+                      <tr className="border-top">
+                        <td className="fw-medium" colSpan={"3"}>
+                          Tổng tiền
+                        </td>
+                        <td className="fw-semibold text-end">
+                          {toVND(order.totalPrice)}
+                        </td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>

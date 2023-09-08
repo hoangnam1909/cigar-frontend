@@ -88,7 +88,7 @@ export default function ListViewProduct() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h1 className="h3 mt-2 mb-4 text-gray-800">Danh sách sản phẩm</h1>
+        <h3 className="mt-2 mb-4 text-gray-800">Danh sách sản phẩm</h3>
         {deleteSuccess ? (
           <>
             <div className="alert alert-success" role="alert">
@@ -98,7 +98,7 @@ export default function ListViewProduct() {
         ) : null}
 
         <div className="mb-4">
-          <div className="d-flex flex-wrap gap-3">
+          <div className="d-flex flex-wrap gap-2">
             <div
               className="search-box border rounded"
               style={{ width: "370px" }}
@@ -131,38 +131,35 @@ export default function ListViewProduct() {
             </div>
 
             <div className="filter-dropdown">
-              <div
-                className="btn-group"
-                role="group"
-                aria-label="Button group with nested dropdown"
+              <ButtonDropdownFilter
+                objectList={categories}
+                filterName={"Danh mục"}
+                filterKey={"categoryId"}
+                valueField={"id"}
+              />
+            </div>
+
+            <div className="filter-dropdown">
+              <ButtonDropdownFilter
+                objectList={brands}
+                filterName={"Thương hiệu"}
+                filterKey={"brandId"}
+                valueField={"id"}
+              />
+            </div>
+
+            <div className="filter-dropdown">
+              <a
+                type="button"
+                className="btn btn-light px-5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSearchParams();
+                }}
               >
-                <ButtonDropdownFilter
-                  objectList={categories}
-                  filterName={"Danh mục"}
-                  filterKey={"categoryId"}
-                />
-
-                <ButtonDropdownFilter
-                  objectList={brands}
-                  filterName={"Thương hiệu"}
-                  filterKey={"brandId"}
-                />
-
-                <a
-                  type="button"
-                  className="btn btn-light px-5"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSearchParams();
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faFilterCircleXmark}
-                    className="me-2"
-                  />
-                  Loại bỏ bộ lọc
-                </a>
-              </div>
+                <FontAwesomeIcon icon={faFilterCircleXmark} className="me-2" />
+                Loại bỏ bộ lọc
+              </a>
             </div>
 
             <div className="">
@@ -189,7 +186,7 @@ export default function ListViewProduct() {
               totalPages={productsRes?.totalPages}
             />
           </div>
-          <div className="table-responsive rounded p-4 pt-0 pb-0">
+          <div className="table-responsive rounded px-4 py-0">
             <table
               className="table table-hover"
               id="dataTable"
@@ -237,7 +234,7 @@ export default function ListViewProduct() {
                         />
                       </Link>
                     </td>
-                    <td className="align-middle">#{index + 1}</td>
+                    <td className="align-middle fw-bolder">#{p.id}</td>
                     <td className="align-middle">
                       <Link
                         to={`${routes.adminEditProduct}/${p.id}`}

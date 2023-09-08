@@ -198,12 +198,8 @@ body {
 }
 
 .bottom-panel {
-  padding: 16px;
+  padding: 0 16px 16px;
   display: flex;
   flex-direction: column;
   justify-content: left;
-}
-
-.prices {
-  margin-bottom: 10px;
 }
