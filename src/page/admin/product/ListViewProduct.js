@@ -151,7 +151,7 @@ export default function ListViewProduct() {
             <div className="filter-dropdown">
               <a
                 type="button"
-                className="btn btn-light px-5"
+                className="btn btn-danger px-5"
                 onClick={(e) => {
                   e.preventDefault();
                   setSearchParams();
@@ -212,7 +212,7 @@ export default function ListViewProduct() {
                   <th className="align-self-center" style={{ width: "15%" }}>
                     Thương hiệu
                   </th>
-                  <th className="align-self-center" style={{ width: "15%" }}>
+                  <th className="align-self-center" style={{ width: "13%" }}>
                     Ngày tạo
                   </th>
                   <th
