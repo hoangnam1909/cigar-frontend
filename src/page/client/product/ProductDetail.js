@@ -122,7 +122,7 @@ export default function ProductDetail() {
                     </>
                   )}
 
-                  {product.attributes.length > 0 ? (
+                  {/* {product.attributes.length > 0 ? (
                     <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
                       <p>
                         <strong>
@@ -131,7 +131,8 @@ export default function ProductDetail() {
                         : {product.attributes[0].value}
                       </p>
                     </div>
-                  ) : null}
+                  ) : null} */}
+
                   <div className="mt-2 pr-3" style={{ textAlign: "justify" }}>
                     {product.description ? (
                       <div
@@ -245,14 +246,14 @@ export default function ProductDetail() {
           <ProductsView
             products={productsSuggest}
             className={"mx-auto w-100"}
-            columnClassName={"col-sm-6 col-md-4 col-lg-2 px-1"}
+            columnClassName={"col-6 col-md-4 col-lg-3 col-xl-2 px-1"}
             cardClassName={"border"}
           />
         ) : (
           <ProductsSkeletonView
             count={6}
             className={"mx-auto w-100"}
-            columnClassName="col-sm-6 col-md-4 col-lg-2 px-1"
+            columnClassName="col-6 col-md-4 col-lg-3 col-xl-2 px-1"
             cardClassName={"border"}
           />
         )}

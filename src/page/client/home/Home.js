@@ -11,7 +11,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const [top3Brands, setTop3Brands] = useState([]);
+  const [topBrands, setTopBrands] = useState([]);
   const PAGE_SIZE = 12;
 
   document.title = "Trang chủ";
@@ -29,16 +29,16 @@ export default function Home() {
       });
   }
 
-  async function getTop3Brands() {
-    const res = await API().get(`${endpoints.brands}/top-3`);
+  async function getTopBrands() {
+    const res = await API().get(`${endpoints.brands}/top/3`);
     if (res.status === 200) {
-      setTop3Brands(res.data.result);
+      setTopBrands(res.data.result);
     }
   }
 
   useEffect(() => {
     getProducts();
-    getTop3Brands();
+    getTopBrands();
   }, []);
 
   return (
@@ -93,7 +93,7 @@ export default function Home() {
         )}
       </div>
 
-      {top3Brands.length == 0 ? (
+      {topBrands.length == 0 ? (
         <div className="card px-1 py-3 mt-4 d-flex justify-content-center loading-skeleton">
           <h4 className="p-1 mb-2 mx-2 text-center">...</h4>
           <ProductsSkeletonView
@@ -110,7 +110,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          {top3Brands?.map((brand) => {
+          {topBrands?.map((brand) => {
             if (brand.products.length > 0)
               return (
                 <div
@@ -140,7 +140,7 @@ export default function Home() {
         </>
       )}
 
-      {/* {top3Brands?.map((brand) => {
+      {/* {topBrands?.map((brand) => {
         if (brand?.products?.length > 0) {
           return (
             <div
