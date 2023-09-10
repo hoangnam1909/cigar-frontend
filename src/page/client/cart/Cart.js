@@ -129,7 +129,7 @@ export default function Cart() {
 
   return (
     <>
-      <div className="row mt-3">
+      <div className="row mx-auto mt-3">
         <div className="card col-sm-12 col-lg-7 px-4 py-3 me-3">
           <h5 className="mb-3">THÔNG TIN NGƯỜI MUA HÀNG</h5>
           <form onSubmit={handleSubmitForm}>

@@ -63,8 +63,8 @@ export default function Products() {
 
   return (
     <>
-      <div className="row mt-4">
-        <aside className="col-12 col-md-4 col-lg-3">
+      <div className="row mx-auto mt-4">
+        <aside className="col-12 col-md-4 col-lg-3 px-1">
           <FilterCard type="text" filterName="Tên sản phẩm" filterKey="name" />
 
           <FilterCard
@@ -94,7 +94,7 @@ export default function Products() {
           </div>
         </aside>
 
-        <main className="col-12 col-md-8 col-lg-9" id="product-grid-view">
+        <main className="col-12 col-md-8 col-lg-9 px-2" id="product-grid-view">
           <header className="border-bottom mb-2">
             <div className="px-2 row">
               {productsRes != null && productsRes?.numberOfElements != 0 ? (

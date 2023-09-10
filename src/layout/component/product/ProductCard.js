@@ -52,38 +52,50 @@ export default function ProductCard({ product, className }) {
         </Link>
 
         <div className="d-flex flex-column h-100">
-          <div className="card-body pb-2">
+          <div className="card-body py-2" style={{ padding: "0 12px" }}>
             <Link
               to={`/products/${rewriteUrl(product.name)}-${product.id}`}
               style={{ color: "unset" }}
             >
-              <h6
+              <h3
                 className="mb-0 card-title cut-title"
-                style={{ height: "2.4rem" }}
+                style={{ height: "2.52rem", fontSize: "15px" }}
               >
                 {product.name}
-              </h6>
+              </h3>
             </Link>
           </div>
 
           <div className="card-body pt-0 d-flex flex-column justify-content-between">
             {product.originalPrice == 0 || product.salePrice == 0 ? (
               <>
-                <h6 className="mb-0 card-title text-secondary text-decoration-line-through opacity-0 text-end">
-                  abcd
+                <h6
+                  className="mb-0 card-title text-secondary text-decoration-line-through opacity-0 text-end"
+                  style={{ fontSize: "13px" }}
+                >
+                  .
                 </h6>
 
-                <h5 className="mb-0 card-title text-danger text-end">
+                <h5
+                  className="mb-0 card-title text-danger text-end"
+                  style={{ fontSize: "16px" }}
+                >
                   Liên hệ
                 </h5>
               </>
             ) : (
               <>
-                <h6 className="mb-0 card-title text-secondary text-decoration-line-through text-end">
+                <h6
+                  className="mb-0 card-title text-secondary text-decoration-line-through text-end"
+                  style={{ fontSize: "13px" }}
+                >
                   {toVND(product.originalPrice)}
                 </h6>
 
-                <h5 className="mb-0 card-title text-danger text-end">
+                <h5
+                  className="mb-0 card-title text-danger text-end"
+                  style={{ fontSize: "16px" }}
+                >
                   {toVND(product.salePrice)}
                 </h5>
               </>

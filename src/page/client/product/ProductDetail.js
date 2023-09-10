@@ -240,8 +240,10 @@ export default function ProductDetail() {
         </>
       )}
 
-      <div className="card shadow my-3 p-3">
-        <h4 className="ps-2 mb-3">Sản Phẩm Tương Tự</h4>
+      <div className="my-3 py-3">
+        <h4 className="ps-1 mb-3 text-center text-lg-start">
+          Sản Phẩm Tương Tự
+        </h4>
         {productsSuggest ? (
           <ProductsView
             products={productsSuggest}

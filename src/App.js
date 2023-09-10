@@ -115,7 +115,7 @@ export default function BaseLayout() {
     <>
       <Header />
       <ScrollTop />
-      <Container className="px-auto" style={{ marginTop: "80px" }}>
+      <Container className="px-0" style={{ marginTop: "80px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
@@ -123,7 +123,6 @@ export default function BaseLayout() {
             path="/products/:productRewriteUrl"
             element={<ProductDetail />}
           />
-          {/* <Route path="/products/skeleton" element={<ProductCardSkeleton />} /> */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/tracking-order" element={<TrackingOrder />} />

@@ -22,12 +22,12 @@ export default function ProductCardSkeleton({ className }) {
         <div className="d-flex flex-column h-100">
           <div className="card-body pb-2">
             <a href="/products/xi-ga-romeo-y-julieta-qqqqq-54">
-              <h6
+              <h3
                 className="mb-0 card-title cut-title"
-                style={{ height: "2.4rem" }}
+                style={{ height: "2.52rem", fontSize: "14px" }}
               >
                 product.name
-              </h6>
+              </h3>
             </a>
           </div>
           <div className="card-body pt-0 d-flex flex-column justify-content-between">

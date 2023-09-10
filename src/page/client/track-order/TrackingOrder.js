@@ -50,60 +50,62 @@ export default function TrackingOrder() {
 
   return (
     <>
-      <div className="card py-3 px-4 mt-3">
-        <h4>Kiểm tra tình trạng đơn hàng</h4>
-        <form onSubmit={handleSubmitForm}>
-          <div className="my-3">
-            <label className="form-label">Mã đơn hàng</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="123456"
-              value={orderId}
-              onChange={(e) => {
-                setIsSuccess(0);
-                setOrderId(e.target.value);
-              }}
-              required
-            />
-          </div>
+      <div className="px-1">
+        <div className="card mx-auto px-4 py-3 mt-3">
+          <h4>Kiểm tra tình trạng đơn hàng</h4>
+          <form onSubmit={handleSubmitForm}>
+            <div className="my-3">
+              <label className="form-label">Mã đơn hàng</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="123456"
+                value={orderId}
+                onChange={(e) => {
+                  setIsSuccess(0);
+                  setOrderId(e.target.value);
+                }}
+                required
+              />
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label">Số điện thoại đặt hàng</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="0123456789"
-              value={phone}
-              onChange={(e) => {
-                setIsSuccess(0);
-                setPhone(e.target.value);
-              }}
-              required
-            />
-          </div>
+            <div className="mb-3">
+              <label className="form-label">Số điện thoại đặt hàng</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="0123456789"
+                value={phone}
+                onChange={(e) => {
+                  setIsSuccess(0);
+                  setPhone(e.target.value);
+                }}
+                required
+              />
+            </div>
 
-          {isSuccess == -1 ? (
-            <DangerAlert message="Thông tin đơn hàng không chính xác!" />
-          ) : null}
+            {isSuccess == -1 ? (
+              <DangerAlert message="Thông tin đơn hàng không chính xác!" />
+            ) : null}
 
-          {captchaVerified == -1 ? (
-            <DangerAlert message="Xác thực thất bại!" />
-          ) : null}
+            {captchaVerified == -1 ? (
+              <DangerAlert message="Xác thực thất bại!" />
+            ) : null}
 
-          <div className="mb-3">
-            <ReCAPTCHA
-              sitekey={process.env.REACT_APP_CAPTCHA_SITE_KEY}
-              onChange={() => {
-                setCaptchaVerified(1);
-              }}
-            />
-          </div>
+            <div className="mb-3">
+              <ReCAPTCHA
+                sitekey={process.env.REACT_APP_CAPTCHA_SITE_KEY}
+                onChange={() => {
+                  setCaptchaVerified(1);
+                }}
+              />
+            </div>
 
-          <button type="submit" className="btn btn-secondary">
-            Tra cứu đơn hàng
-          </button>
-        </form>
+            <button type="submit" className="btn btn-secondary">
+              Tra cứu đơn hàng
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );
