@@ -59,7 +59,7 @@ export default function ProductCard({ product, className }) {
             >
               <h3
                 className="mb-0 card-title cut-title"
-                style={{ height: "2.52rem", fontSize: "15px" }}
+                style={{ height: "2.37rem", fontSize: "15px" }}
               >
                 {product.name}
               </h3>

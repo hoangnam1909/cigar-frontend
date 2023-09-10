@@ -24,7 +24,7 @@ export default function ProductCardSkeleton({ className }) {
             <a href="/products/xi-ga-romeo-y-julieta-qqqqq-54">
               <h3
                 className="mb-0 card-title cut-title"
-                style={{ height: "2.52rem", fontSize: "14px" }}
+                style={{ height: "2.37rem", fontSize: "14px" }}
               >
                 product.name
               </h3>

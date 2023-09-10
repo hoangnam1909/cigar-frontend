@@ -61,13 +61,14 @@ export default function ProductDetail() {
         <>
           <div className="card shadow my-3">
             <div className="row g-0">
-              <div className="col-md-7 border-end">
+              <div className="col-md border-end">
                 <div className="d-flex flex-column h-100">
-                  <div className="main_image p-4 pb-1">
+                  <div className="main_image p-3 pb-1">
                     <img
                       src={product.productImages[0]?.linkToImage}
                       id="main_product_image"
-                      height="450"
+                      width={"100%"}
+                      height="420"
                       style={{
                         objectFit: "cover",
                         borderRadius: "4px",
@@ -75,12 +76,14 @@ export default function ProductDetail() {
                       alt="main_product_image"
                     />
                   </div>
-                  <div className="thumbnail_images">
-                    <ul id="thumbnail" className="pt-3">
+
+                  <div className="w-100 px-3 pt-2 pb-3">
+                    <div className="d-flex flex-row flex-wrap justify-content-center align-items-center">
                       {product.productImages.map((image) => {
                         if (image.linkToImage.startsWith("http")) {
                           return (
-                            <li
+                            <div
+                              className="m-1"
                               key={image.id}
                               onClick={() =>
                                 changeProductImage(image.linkToImage)
@@ -88,8 +91,33 @@ export default function ProductDetail() {
                             >
                               <img
                                 src={image.linkToImage}
-                                width="110"
-                                height="110"
+                                width="80"
+                                height="80"
+                                alt="thumbnail_image"
+                                className="thumbnail-image rounded object-fit-cover"
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                  {/* <div className="thumbnail_images">
+                    <ul id="thumbnail" className="pt-3 px-1">
+                      {product.productImages.map((image) => {
+                        if (image.linkToImage.startsWith("http")) {
+                          return (
+                            <li
+                              key={image.id}
+                              className="m-1"
+                              onClick={() =>
+                                changeProductImage(image.linkToImage)
+                              }
+                            >
+                              <img
+                                src={image.linkToImage}
+                                width="75"
+                                height="75"
                                 alt="thumbnail_image"
                                 className="rounded object-fit-cover"
                               />
@@ -98,11 +126,11 @@ export default function ProductDetail() {
                         }
                       })}
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
-              <div className="col-md-5 d-flex flex-column justify-content-between">
+              <div className="col-md-6 d-flex flex-column justify-content-between">
                 <div className="p-3 right-side">
                   <div className="d-flex justify-content-between align-items-center">
                     <h3>{product.name}</h3>
@@ -145,7 +173,7 @@ export default function ProductDetail() {
                     )}
                   </div>
                 </div>
-                <div className="bottom-panel">
+                <div className="bottom-panel px-3 pb-4">
                   {product.originalPrice != 0 || product.salePrice != 0 ? (
                     <>
                       <h3 className="">
@@ -221,7 +249,6 @@ export default function ProductDetail() {
                       className="btn btn-outline-secondary w-100"
                       onClick={() => {
                         addProductToCart(product);
-                        // alert("Thêm sản phẩm vào giỏ hàng thành công");
                         setShowModal(true);
                       }}
                     >
