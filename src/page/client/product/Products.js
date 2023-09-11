@@ -94,7 +94,10 @@ export default function Products() {
           </div>
         </aside>
 
-        <main className="col-12 col-md-8 col-lg-9 px-2" id="product-grid-view">
+        <main
+          className="col-12 col-md-8 col-lg-9 px-2"
+          id={`${productsRes ? "product-grid-view" : ""}`}
+        >
           <header className="border-bottom mb-2">
             <div className="px-2 row">
               {productsRes != null && productsRes?.numberOfElements != 0 ? (

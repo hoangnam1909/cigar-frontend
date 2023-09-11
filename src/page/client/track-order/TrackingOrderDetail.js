@@ -2,6 +2,7 @@ import { faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import "moment/locale/vi";
+import { toVND } from "~/utils/currency";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
 
 export default function TrackingOrderDetail({ order }) {
@@ -22,13 +23,17 @@ export default function TrackingOrderDetail({ order }) {
             />
 
             <h5
-              className="mb-1"
+              className="mb-2"
               style={{ color: "#f0907f", textAlign: "center" }}
             >
               Cảm ơn bạn đã mua hàng
             </h5>
 
-            <div className="mb-4"></div>
+            <h5 className="text-center mb-0">
+              <span class="badge bg-secondary">{order.orderStatus?.name}</span>
+            </h5>
+
+            <div className="mb-3"></div>
           </div>
 
           <div className="mb-3 border-bottom w-100">
@@ -46,19 +51,53 @@ export default function TrackingOrderDetail({ order }) {
               <div className="col-7">
                 {moment(order.createdAt).format("LTS")}
                 {" - "}
-                {moment(order.createdAt).format("LL")}
+                {moment(order.createdAt).format("ll")}
               </div>
             </div>
 
             <div className="row mb-1">
               <div className="col-5">
-                <strong>Số điện thoại đặt hàng</strong>
+                <strong>Tên khách hàng</strong>
+              </div>
+              <div className="col-7">{order.customer?.fullName}</div>
+            </div>
+
+            <div className="row mb-1">
+              <div className="col-5">
+                <strong>Số điện thoại</strong>
               </div>
               <div className="col-7">
                 {formatPhoneNumber(order.customer.phone)
                   ? formatPhoneNumber(order.customer.phone)
                   : order.customer.phone}
               </div>
+            </div>
+
+            <div className="row mb-1">
+              <div className="col-5">
+                <strong>Email</strong>
+              </div>
+              <div className="col-7">{order.customer?.email}</div>
+            </div>
+
+            <div className="mb-4"></div>
+          </div>
+
+          <div className="mb-3 border-bottom w-100">
+            <div className="row mb-1">
+              <div className="col-5">
+                <strong>Đơn vị vận chuyển</strong>
+              </div>
+              <div className="col-7">
+                {order.shipment?.deliveryCompany?.name}
+              </div>
+            </div>
+
+            <div className="row mb-1">
+              <div className="col-5">
+                <strong>Mã vận đơn</strong>
+              </div>
+              <div className="col-7">{order.shipment?.trackingNumber}</div>
             </div>
 
             <div className="row mb-1">
@@ -82,6 +121,36 @@ export default function TrackingOrderDetail({ order }) {
             <h5 className="mb-3">Các sản phẩm đã đặt</h5>
             {order.orderItems?.map((orderItem) => {
               return (
+                <div
+                  key={orderItem.id}
+                  className="d-flex flex-wrap align-items-center mb-2"
+                >
+                  <div className="me-3">
+                    <img
+                      src={orderItem.product.productImages[0]?.linkToImage}
+                      width="80"
+                      height="80"
+                      className="object-fit-cover rounded"
+                    />
+                  </div>
+
+                  <div className="py-2">
+                    <h6>{orderItem.product.name}</h6>
+                    <p className="mb-0">Số lượng: {orderItem.quantity}</p>
+                    <p className="mb-0">
+                      Đơn giá: {toVND(orderItem.product.salePrice)}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+            <h6 className="text-end my-3">
+              Tổng thanh toán:{" "}
+              <span className="text-danger">{toVND(order.totalPrice)}</span>
+            </h6>
+
+            {/* {order.orderItems?.map((orderItem) => {
+              return (
                 <div key={orderItem.id} className="row align-items-center mb-2">
                   <div className="col-sm-12 col-md-2">
                     <img
@@ -101,7 +170,7 @@ export default function TrackingOrderDetail({ order }) {
                   </div>
                 </div>
               );
-            })}
+            })} */}
             <div className="mb-4"></div>
           </div>
 

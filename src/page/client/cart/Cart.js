@@ -158,6 +158,7 @@ export default function Cart() {
                     type="text"
                     className="form-control"
                     minLength="10"
+                    maxLength="10"
                     value={orderRequest.phone}
                     onChange={(e) => {
                       setOrderRequest({

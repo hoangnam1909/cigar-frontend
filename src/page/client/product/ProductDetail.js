@@ -14,6 +14,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Modal from "~/components/modal/Modal";
 import ProductsView from "~/layout/component/product/ProductsView";
 import ProductsSkeletonView from "~/layout/component/product/skeleton/ProductsSkeletonView";
+import $ from "jquery";
 
 export default function ProductDetail() {
   const { productRewriteUrl } = useParams();
@@ -49,7 +50,7 @@ export default function ProductDetail() {
 
   const changeProductImage = (link) => {
     if (isSuccess) {
-      document.getElementById("main_product_image").src = link;
+      document.getElementById("main-product-image").src = link;
     }
   };
 
@@ -66,14 +67,14 @@ export default function ProductDetail() {
                   <div className="main_image p-3 pb-1">
                     <img
                       src={product.productImages[0]?.linkToImage}
-                      id="main_product_image"
+                      id="main-product-image"
                       width={"100%"}
-                      height="420"
+                      height="500"
                       style={{
-                        objectFit: "cover",
+                        objectFit: "contain",
                         borderRadius: "4px",
                       }}
-                      alt="main_product_image"
+                      alt="main-product-image"
                     />
                   </div>
 
@@ -93,8 +94,9 @@ export default function ProductDetail() {
                                 src={image.linkToImage}
                                 width="80"
                                 height="80"
-                                alt="thumbnail_image"
+                                alt={`thumbnail-image${image.id}`}
                                 className="thumbnail-image rounded object-fit-cover"
+                                style={{ cursor: "pointer" }}
                               />
                             </div>
                           );
@@ -176,7 +178,7 @@ export default function ProductDetail() {
                 <div className="bottom-panel px-3 pb-4">
                   {product.originalPrice != 0 || product.salePrice != 0 ? (
                     <>
-                      <h3 className="">
+                      <h3 className="d-flex flex-row flex-wrap align-items-baseline">
                         <span className="text-danger me-2">
                           {toVND(product?.salePrice)}
                         </span>

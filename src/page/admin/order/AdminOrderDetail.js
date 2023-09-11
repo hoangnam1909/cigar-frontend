@@ -38,10 +38,16 @@ export default function AdminOrderDetail() {
             <div className="col-8">
               <div className="card shadow p-4 mb-4">
                 <div className="mb-4 d-flex justify-content-between border-bottom pb-3">
-                  <h6 className="mb-1">
+                  <h5 className="mb-1">
                     {moment(order.createdAt).format("LTS")}
                     {" - "}
                     {moment(order.createdAt).format("LL")}
+                  </h5>
+                  <h6 className="mb-1">
+                    Tình trạng:{" "}
+                    <span className="text-danger">
+                      {order.orderStatus?.name}
+                    </span>
                   </h6>
                 </div>
 

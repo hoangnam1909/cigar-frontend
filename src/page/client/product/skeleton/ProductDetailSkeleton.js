@@ -10,10 +10,10 @@ export default function ProductDetailSkeleton() {
               <div className="main_image p-3 pb-1">
                 <img
                   src="https://cigarhalong.com/wp-content/uploads/2023/05/z4312509119798_d498b614fa096e178f5c78b932c32aaa.jpg"
-                  id="main_product_image"
+                  id="main-product-image"
                   width="100%"
                   height="420"
-                  alt="main_product_image"
+                  alt="main-product-image"
                   style={{ objectFit: "cover", borderRadius: "4px" }}
                 />
               </div>
