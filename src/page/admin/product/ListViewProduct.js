@@ -27,6 +27,7 @@ export default function ListViewProduct() {
   const [brands, setBrands] = useState();
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   let location = useLocation();
+  const [keyword, setKeyword] = useState();
   const PAGE_SIZE = 15;
 
   const handleDelete = async (id) => {
@@ -115,13 +116,14 @@ export default function ListViewProduct() {
                   className="form-control border-0 outline-none"
                   placeholder="Tìm kiếm tên sản phẩm"
                   onChange={(e) => {
+                    setKeyword(e.target.value);
                     setTimeout(function () {
                       searchParams.delete("page");
                       if (e.target.value.length == 0) {
-                        searchParams.delete("name");
+                        searchParams.delete("kw");
                         setSearchParams(searchParams);
                       } else {
-                        searchParams.set("name", `${e.target.value}`);
+                        searchParams.set("kw", `${e.target.value}`);
                         setSearchParams(searchParams);
                       }
                     }, 500);
@@ -155,6 +157,7 @@ export default function ListViewProduct() {
                 onClick={(e) => {
                   e.preventDefault();
                   setSearchParams();
+                  setKeyword("");
                 }}
               >
                 <FontAwesomeIcon icon={faFilterCircleXmark} className="me-2" />
@@ -212,7 +215,7 @@ export default function ListViewProduct() {
                   <th className="align-self-center" style={{ width: "15%" }}>
                     Thương hiệu
                   </th>
-                  <th className="align-self-center" style={{ width: "13%" }}>
+                  <th className="align-self-center" style={{ width: "15%" }}>
                     Ngày tạo
                   </th>
                   <th

@@ -17,6 +17,8 @@ export let endpoints = {
 };
 
 export let adminEndpoints = {
+  brands: "/admin/brands",
+  categories: "/admin/categories",
   products: "/admin/products",
   orders: "/admin/orders",
   orderStatuses: "/admin/order-statuses",

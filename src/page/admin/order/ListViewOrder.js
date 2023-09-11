@@ -95,7 +95,7 @@ export default function ListViewOrder() {
                 <input
                   type="text"
                   className="form-control border-0 outline-none"
-                  placeholder="Tìm kiếm tên sản phẩm"
+                  placeholder="Tìm kiếm sản phẩm"
                   onChange={(e) => {
                     setTimeout(function () {
                       searchParams.delete("page");
