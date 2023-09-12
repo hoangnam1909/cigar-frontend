@@ -12,7 +12,7 @@ import API, { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 import { routes } from "~/routers/routes";
 
-export default function ListViewBrand() {
+export default function BrandListView() {
   const [dataImpact, setDataImpact] = useState(0);
   const [brands, setBrands] = useState();
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -118,10 +118,10 @@ export default function ListViewBrand() {
                   <Link
                     className="btn btn-primary"
                     style={{ width: "180px" }}
-                    to={routes.adminAddCategory}
+                    to={routes.adminAddBrand}
                   >
                     <FontAwesomeIcon icon={faPlus} className="me-2" />
-                    Thêm danh mục
+                    Thêm thương hiệu
                   </Link>
                 </div>
               </div>

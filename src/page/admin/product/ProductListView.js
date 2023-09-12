@@ -18,7 +18,7 @@ import { routes } from "~/routers/routes";
 import moment from "moment";
 import "moment/locale/vi";
 
-export default function ListViewProduct() {
+export default function ProductListView() {
   const [dataImpact, setDataImpact] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);

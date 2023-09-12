@@ -8,14 +8,12 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import API, { endpoints } from "~/api/API";
-import { toVND } from "~/utils/currency";
 import RichTextEditor from "~/components/input/RichTextEditor";
-import { ZaloIcon } from "~/assets/img/ZaloIcon";
 import { ImagesUpload } from "~/components/input/ImagesUpload";
 import AuthAPI from "~/api/AuthAPI";
 import { useNavigate } from "react-router-dom";
 
-export default function AddProduct() {
+export default function ProductAdd() {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");

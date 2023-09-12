@@ -8,7 +8,7 @@ import RichTextEditor from "~/components/input/RichTextEditor";
 import ListImagePreview from "~/layout/component/img/ListImagePreview";
 import { numberInputOnly } from "~/utils/input";
 
-export default function EditProduct() {
+export default function ProductEdit() {
   const { productId } = useParams();
   const [product, setProduct] = useState({
     name: "",

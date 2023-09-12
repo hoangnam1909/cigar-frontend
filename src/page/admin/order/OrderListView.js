@@ -24,7 +24,7 @@ import ButtonDropdownFilter from "~/components/button/ButtonDropdownFilter";
 import { toVND } from "~/utils/currency";
 import orderSortData from "~/data/orderSortValue.json";
 
-export default function ListViewOrder() {
+export default function OrderListView() {
   const [ordersRes, setOrdersRes] = useState();
   const [orderStatuses, setOrderStatuses] = useState();
   const [deliveryCompanies, setDeliveryCompanies] = useState();

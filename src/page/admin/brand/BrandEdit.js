@@ -1,38 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { endpoints } from "~/api/API";
+import { useParams } from "react-router-dom";
+import API, { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
-export default function AddBrand() {
+export default function BrandEdit() {
+  const { brandId } = useParams();
   const [isSuccess, setIsSuccess] = useState(false);
   const [brand, setBrand] = useState({
     name: "",
+    country: "",
   });
-
-  const initialValue = () => {
-    setBrand({
-      name: "",
-    });
-  };
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    const res = await AuthAPI().post(endpoints.brands, brand);
+    const res = await AuthAPI().put(`${endpoints.brands}/${brandId}`, brand);
     if (res.status === 200) {
       setIsSuccess(true);
-      initialValue();
     }
   };
+
+  useEffect(() => {
+    async function getBrand() {
+      const res = await API().get(`${endpoints.brands}/${brandId}`);
+      if (res.status === 200) {
+        setBrand((brand) => {
+          return {
+            ...brand,
+            name: res.data.result.name,
+            country: res.data.result.country,
+          };
+        });
+      }
+    }
+
+    getBrand();
+  }, []);
 
   return (
     <>
       <div className="container-fluid mt-3">
-        <h3 className="mt-2 mb-4 text-gray-800">Thêm thương hiệu</h3>
+        <h3 className="mt-2 mb-4 text-gray-800">Sửa thông tin thương hiệu</h3>
 
         {isSuccess ? (
           <div className="alert alert-success" role="alert">
-            Thêm thương hiệu thành công!
+            Sửa thông tin thương hiệu thành công!
           </div>
         ) : null}
 
@@ -50,6 +63,20 @@ export default function AddBrand() {
                     })
                   }
                   value={brand.name}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Quốc gia</Form.Label>
+                <Form.Control
+                  id="name-input"
+                  type="text"
+                  onChange={(e) =>
+                    setBrand((brand) => {
+                      return { ...brand, country: e.target.value };
+                    })
+                  }
+                  value={brand.country}
                 />
               </Form.Group>
 

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
-export default function EditCategory() {
+export default function CategoryEdit() {
   const { categoryId } = useParams();
   const [isSuccess, setIsSuccess] = useState(false);
   const [category, setCategory] = useState({

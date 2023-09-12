@@ -17,21 +17,21 @@ import SideBar from "./components/side-bar/SideBar";
 import AdminDashboard from "./page/admin/AdminDashboard";
 import JWT from "./page/admin/JWT";
 import { tokenUserRole, verifyToken } from "./service/AuthService";
-import ListViewProduct from "./page/admin/product/ListViewProduct";
-import AddProduct from "./page/admin/product/AddProduct";
-import EditProduct from "./page/admin/product/EditProduct";
+import ProductListView from "./page/admin/product/ProductListView";
+import ProductAdd from "./page/admin/product/ProductAdd";
+import ProductEdit from "./page/admin/product/ProductEdit";
 import { routes } from "./routers/routes";
-import ListViewCategory from "./page/admin/category/ListViewCategory";
-import AddCategory from "./page/admin/category/AddCategory";
-import EditCategory from "./page/admin/category/EditCategory";
-import ListViewBrand from "./page/admin/brand/ListViewBrand";
-import AddBrand from "./page/admin/brand/AddBrand";
-import EditBrand from "./page/admin/brand/EditBrand";
+import CategoryListView from "./page/admin/category/CategoryListView";
+import CategoryAdd from "./page/admin/category/CategoryAdd";
+import CategoryEdit from "./page/admin/category/CategoryEdit";
+import BrandListView from "./page/admin/brand/BrandListView";
+import BrandAdd from "./page/admin/brand/BrandAdd";
+import BrandEdit from "./page/admin/brand/BrandEdit";
 import Cart from "./page/client/cart/Cart";
 import Home from "./page/client/home/Home";
-import ListViewOrder from "./page/admin/order/ListViewOrder";
-import AdminOrderDetail from "./page/admin/order/AdminOrderDetail";
+import OrderDetailInfo from "./page/admin/order/OrderDetailInfo";
 import TrackingOrder from "./page/client/track-order/TrackingOrder";
+import OrderListView from "./page/admin/order/OrderListView";
 
 export default function BaseLayout() {
   const location = useLocation();
@@ -56,41 +56,41 @@ export default function BaseLayout() {
                 {/* Product routes */}
                 <Route
                   path={routes.adminProducts}
-                  element={<ListViewProduct />}
+                  element={<ProductListView />}
                 />
-                <Route path={routes.adminAddProduct} element={<AddProduct />} />
+                <Route path={routes.adminAddProduct} element={<ProductAdd />} />
                 <Route
                   path={`${routes.adminEditProduct}/:productId`}
-                  element={<EditProduct />}
+                  element={<ProductEdit />}
                 />
 
                 {/* Category routes */}
                 <Route
                   path={routes.adminCategories}
-                  element={<ListViewCategory />}
+                  element={<CategoryListView />}
                 />
                 <Route
                   path={routes.adminAddCategory}
-                  element={<AddCategory />}
+                  element={<CategoryAdd />}
                 />
                 <Route
                   path={`${routes.adminEditCategory}/:categoryId`}
-                  element={<EditCategory />}
+                  element={<CategoryEdit />}
                 />
 
                 {/* Brand routes */}
-                <Route path={routes.adminBrands} element={<ListViewBrand />} />
-                <Route path={routes.adminAddBrand} element={<AddBrand />} />
+                <Route path={routes.adminBrands} element={<BrandListView />} />
+                <Route path={routes.adminAddBrand} element={<BrandAdd />} />
                 <Route
                   path={`${routes.adminEditBrand}/:brandId`}
-                  element={<EditBrand />}
+                  element={<BrandEdit />}
                 />
 
                 {/* Product routes */}
-                <Route path={routes.adminOrders} element={<ListViewOrder />} />
+                <Route path={routes.adminOrders} element={<OrderListView />} />
                 <Route
                   path={`${routes.adminEditOrder}/:orderId`}
-                  element={<AdminOrderDetail />}
+                  element={<OrderDetailInfo />}
                 />
 
                 <Route path="/jwt" element={<JWT />} />

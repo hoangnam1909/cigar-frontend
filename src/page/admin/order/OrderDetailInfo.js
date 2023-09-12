@@ -15,7 +15,7 @@ import OrderStatusForm from "~/components/order/OrderStatusForm";
 import DeliveryPartner from "~/components/order/DeliveryPartner";
 import { formatPhoneNumber } from "~/utils/phoneNumber";
 
-export default function AdminOrderDetail() {
+export default function OrderDetailInfo() {
   const { orderId } = useParams();
   const [order, setOrder] = useState();
 

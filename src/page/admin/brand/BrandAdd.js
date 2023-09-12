@@ -3,14 +3,14 @@ import { Button, Card, Form } from "react-bootstrap";
 import { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
-export default function AddCategory() {
+export default function BrandAdd() {
   const [isSuccess, setIsSuccess] = useState(false);
-  const [category, setCategory] = useState({
+  const [brand, setBrand] = useState({
     name: "",
   });
 
   const initialValue = () => {
-    setCategory({
+    setBrand({
       name: "",
     });
   };
@@ -18,7 +18,7 @@ export default function AddCategory() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    const res = await AuthAPI().post(endpoints.categories, category);
+    const res = await AuthAPI().post(endpoints.brands, brand);
     if (res.status === 200) {
       setIsSuccess(true);
       initialValue();
@@ -28,11 +28,11 @@ export default function AddCategory() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h3 className="mt-2 mb-4 text-gray-800">Thêm danh mục</h3>
+        <h3 className="mt-2 mb-4 text-gray-800">Thêm thương hiệu</h3>
 
         {isSuccess ? (
           <div className="alert alert-success" role="alert">
-            Thêm danh mục thành công!
+            Thêm thương hiệu thành công!
           </div>
         ) : null}
 
@@ -40,16 +40,16 @@ export default function AddCategory() {
           <Card.Body>
             <Form onSubmit={handleSubmitForm}>
               <Form.Group className="mb-3">
-                <Form.Label>Tên danh mục</Form.Label>
+                <Form.Label>Tên thương hiệu</Form.Label>
                 <Form.Control
                   id="name-input"
                   type="text"
                   onChange={(e) =>
-                    setCategory((category) => {
-                      return { ...category, name: e.target.value };
+                    setBrand((brand) => {
+                      return { ...brand, name: e.target.value };
                     })
                   }
-                  value={category.name}
+                  value={brand.name}
                 />
               </Form.Group>
 

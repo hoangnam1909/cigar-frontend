@@ -1,49 +1,38 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import API, { endpoints } from "~/api/API";
+import { endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
-export default function EditCategory() {
-  const { categoryId } = useParams();
+export default function CategoryAdd() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [category, setCategory] = useState({
     name: "",
   });
 
+  const initialValue = () => {
+    setCategory({
+      name: "",
+    });
+  };
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    const res = await AuthAPI().put(
-      `${endpoints.categories}/${categoryId}`,
-      category
-    );
+    const res = await AuthAPI().post(endpoints.categories, category);
     if (res.status === 200) {
       setIsSuccess(true);
+      initialValue();
     }
   };
-
-  useEffect(() => {
-    async function getCategory() {
-      const res = await API().get(`${endpoints.categories}/${categoryId}`);
-      if (res.status === 200) {
-        setCategory((category) => {
-          return { ...category, name: res.data.result.name };
-        });
-      }
-    }
-
-    getCategory();
-  }, []);
 
   return (
     <>
       <div className="container-fluid mt-3">
-        <h3 className="mt-2 mb-4 text-gray-800">Sửa danh mục</h3>
+        <h3 className="mt-2 mb-4 text-gray-800">Thêm danh mục</h3>
 
         {isSuccess ? (
           <div className="alert alert-success" role="alert">
-            Sửa thông tin danh mục thành công!
+            Thêm danh mục thành công!
           </div>
         ) : null}
 

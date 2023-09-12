@@ -8,13 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import API, { adminEndpoints, endpoints } from "~/api/API";
+import { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
+import Pagination from "~/components/paginate/Pagination";
 import { routes } from "~/routers/routes";
 
-export default function ListViewBrand() {
+export default function CategoryListView() {
   const [dataImpact, setDataImpact] = useState(0);
-  const [brands, setBrands] = useState();
+  const [categories, setcategories] = useState();
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [keyword, setKeyword] = useState();
@@ -22,9 +23,9 @@ export default function ListViewBrand() {
   const PAGE_SIZE = 15;
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Bạn chắc chắn xoá thương hiệu này?");
+    const confirmDelete = window.confirm("Bạn chắc chắn xoá danh mục này?");
     if (confirmDelete == true) {
-      const res = await AuthAPI().delete(`${endpoints.brands}/${id}`);
+      const res = await AuthAPI().delete(`${endpoints.categories}/${id}`);
       if (res.status === 200) {
         setDeleteSuccess(true);
         setDataImpact((dataImpact) => {
@@ -37,27 +38,29 @@ export default function ListViewBrand() {
   useEffect(() => {
     const params = queryString.parse(location.search);
 
-    const getBrands = async () => {
-      const res = await AuthAPI().get(adminEndpoints.brands, {
-        params: {
-          ...params,
-        },
-      });
-
-      if (res.status === 200) setBrands(res.data.result);
+    const getCategories = async () => {
+      await AuthAPI()
+        .get(adminEndpoints.categories, {
+          params: {
+            ...params,
+          },
+        })
+        .then((res) => {
+          setcategories(res.data.result);
+        });
     };
 
-    getBrands();
+    getCategories();
   }, [dataImpact, searchParams]);
 
   return (
     <>
       <div className="container-fluid mt-3">
-        <h3 className="mt-2 mb-4 text-gray-800">Danh sách thương hiệu</h3>
+        <h3 className="mt-2 mb-4 text-gray-800">Danh sách danh mục</h3>
         {deleteSuccess ? (
           <>
             <div className="alert alert-success" role="alert">
-              Xoá thương hiệu thành công
+              Xoá danh mục thành công
             </div>
           </>
         ) : null}
@@ -78,7 +81,7 @@ export default function ListViewBrand() {
                 <input
                   type="text"
                   className="form-control border-0 outline-none"
-                  placeholder="Tìm kiếm thương hiệu"
+                  placeholder="Tìm kiếm danh mục"
                   value={keyword}
                   onChange={(e) => {
                     setKeyword(e.target.value);
@@ -140,17 +143,15 @@ export default function ListViewBrand() {
               <thead>
                 <tr>
                   <th className="">ID</th>
-                  <th>Tên thương hiệu</th>
-                  <th>Quốc gia</th>
+                  <th>Tên danh mục</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {brands?.map((brand, index) => (
-                  <tr key={brand.id}>
-                    <td className="align-middle fw-bolder">#{brand.id}</td>
-                    <td className="align-middle">{brand.name}</td>
-                    <td className="align-middle">{brand.country}</td>
+                {categories?.map((category, index) => (
+                  <tr key={category.id}>
+                    <td className="align-middle fw-bolder">#{category.id}</td>
+                    <td className="align-middle">{category.name}</td>
                     <td className="align-middle">
                       <div className="d-flex flex-row justify-content-center">
                         <div className="btn-group">
@@ -166,7 +167,7 @@ export default function ListViewBrand() {
                             <li>
                               <Link
                                 className="dropdown-item"
-                                to={`${routes.adminEditBrand}/${brand.id}`}
+                                to={`${routes.adminEditCategory}/${category.id}`}
                               >
                                 Sửa
                               </Link>
@@ -177,7 +178,7 @@ export default function ListViewBrand() {
                             <li>
                               <Link
                                 className="dropdown-item text-danger"
-                                onClick={() => handleDelete(brand.id)}
+                                onClick={() => handleDelete(category.id)}
                               >
                                 Xoá
                               </Link>
@@ -191,14 +192,14 @@ export default function ListViewBrand() {
               </tbody>
             </table>
           </div>
-          {/* <div>
-              <nav className="mt-2" aria-label="Page navigation sample">
-                <Pagination
-                  currentPage={categories?.number + 1}
-                  totalPages={categories?.totalPages}
-                />
-              </nav>
-            </div> */}
+          <div>
+            <nav className="mt-2" aria-label="Page navigation sample">
+              <Pagination
+                currentPage={categories?.number + 1}
+                totalPages={categories?.totalPages}
+              />
+            </nav>
+          </div>
         </div>
       </div>
     </>
