@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API, { endpoints } from "~/api/API";
 import { tokenUserRole } from "~/service/AuthService";
+import { getBrowerInfo } from "~/service/BrowserInfo";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function AuthPage() {
     let requestBody = {
       username: username,
       password: password,
+      browserInfo: getBrowerInfo(),
     };
 
     try {
