@@ -71,5 +71,5 @@ if (isNaN(majorVersion)) {
 var OSName = navigator.userAgentData.platform;
 
 export const getBrowerInfo = () => {
-  return `${OSName} ${browserName} ${majorVersion}` + " " + majorVersion;
+  return `${OSName} ${browserName} ${majorVersion}`;
 };
