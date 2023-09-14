@@ -8,6 +8,8 @@ import {
   deleteByProductId,
   getCart,
   getOrderItems,
+  getProductIdsCart,
+  updateCart,
   updateQuantity,
 } from "~/service/CartService";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +17,7 @@ import { nameNormalization } from "~/utils/input";
 import EmptyCart from "./EmptyCart";
 import OrderSuccessful from "./OrderSuccessful";
 import ScrollTop from "~/utils/ScrollTop";
+import { toVND } from "~/utils/currency";
 
 export default function Cart() {
   document.title = "Giỏ hàng";
@@ -48,8 +51,26 @@ export default function Cart() {
       if (res.status === 200) setProvinces(res.data);
     }
 
+    const getProductsInCart = async () => {
+      const res = await API().get(endpoints.carts, {
+        params: {
+          ids: getProductIdsCart(),
+        },
+      });
+      if (res.status === 200) {
+        let result = res.data.result;
+        updateCart(result);
+        let currentCart = JSON.parse(localStorage.getItem("cart"));
+        result = result.map((r) => ({
+          ...r,
+          quantity: currentCart.find((c) => r.id === c.id).quantity,
+        }));
+        setCart(result);
+      }
+    };
+
     getProvinces();
-    setCart(getCart());
+    getProductsInCart();
   }, []);
 
   useEffect(() => {
@@ -107,7 +128,7 @@ export default function Cart() {
 
       const res = await API().post(endpoints.order, requestBody);
       if (res.status === 200) {
-        localStorage.removeItem("cart");
+        localStorage.setItem("cart", "[]");
         setOrderSuccessful(1);
         setOrder(res.data.result);
       } else {
@@ -119,6 +140,8 @@ export default function Cart() {
 
     addOrder();
   };
+
+  console.log(cart);
 
   if (orderSuccessful == 1) {
     <ScrollTop />;
@@ -298,13 +321,6 @@ export default function Cart() {
             ) : null}
 
             <div className="text-center mb-1">
-              {/* <input
-                type="submit"
-                className="btn btn-secondary w-50"
-                value="Đặt hàng ngay"
-                disabled={false}
-              /> */}
-
               <button
                 className="btn btn-secondary w-50"
                 type="submit"
@@ -324,57 +340,83 @@ export default function Cart() {
 
         <div className="card cart-card col-sm-12 col-lg px-4 py-3 me-3">
           <h5 className="mb-3">Giỏ hàng</h5>
-          {cart?.map((product, index) => {
-            return (
-              <div
-                key={index}
-                className="row mb-3 pb-3 border-bottom border-secondary-subtle"
-              >
-                <div className="col-4 col-sm-3 col-md-2 col-lg-3 col-xl-3 align-self-center">
-                  <Link to={`${endpoints.products}/${product.id}`}>
-                    <img
-                      width="80"
-                      height="80"
-                      src={product.image}
-                      className="rounded"
-                      style={{ objectFit: "cover" }}
+          {cart
+            ?.sort((c1, c2) => {
+              return c2.unitsInStock - c1.unitsInStock;
+            })
+            .map((product, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`row mb-3 pb-3 border-bottom border-secondary-subtle ${
+                    product.unitsInStock == 0 ? "opacity-50" : ""
+                  }`}
+                >
+                  <div className="mb-3 mb-sm-0 col-12 col-sm-3 col-md-2 col-lg-4 col-xl-3 align-self-center">
+                    <Link to={`${endpoints.products}/${product.id}`}>
+                      <img
+                        width="95"
+                        height="95"
+                        src={product.image}
+                        className="rounded"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </Link>
+                  </div>
+
+                  <div className="mb-3 mb-sm-0 col-12 col-sm-7 col-md-8 col-lg-6 col-xl-6">
+                    <Link to={`${endpoints.products}/${product.id}`}>
+                      <h6>{product.name}</h6>
+                      <p className="form-text my-1">
+                        {product.unitsInStock != 0 ? (
+                          <span>Số lượng còn lại: {product.unitsInStock}</span>
+                        ) : (
+                          <>
+                            <span className="text-danger text-uppercase fw-medium">
+                              Hết hàng
+                            </span>
+                            <br />
+                            <span className="fw-medium">
+                              Sản phẩm này sẽ không được đặt
+                            </span>
+                          </>
+                        )}
+                      </p>
+                      <p className="form-text mb-2">
+                        {`Giá sản phẩm: ${
+                          product.salePrice === 0
+                            ? "Liên hệ"
+                            : toVND(product.salePrice)
+                        }`}
+                      </p>
+                    </Link>
+                    <a
+                      href=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        deleteByProductId(product.id);
+                        setCart(getCart());
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} className="me-1" /> Xoá
+                    </a>
+                  </div>
+
+                  <div className="col-12 mt-2 mt-sm-0 col-sm-2 col-md-2 col-lg-2 col-xl-3 align-self-center">
+                    <input
+                      type="text"
+                      className="form-control text-center"
+                      disabled={product.unitsInStock == 0}
+                      value={product.quantity}
+                      onChange={(e) => {
+                        updateQuantity(product.id, e.target.value);
+                        setCart(getCart());
+                      }}
                     />
-                  </Link>
+                  </div>
                 </div>
-
-                <div className="col-8 col-sm-7 col-md-8 col-lg-6 col-xl-6">
-                  <Link to={`${endpoints.products}/${product.id}`}>
-                    <h6>{product.name}</h6>
-                    <p className="form-text mb-2">{`Giá sản phẩm: ${
-                      product.salePrice === 0 ? "Liên hệ" : product.salePrice
-                    }`}</p>
-                  </Link>
-                  <a
-                    href=""
-                    onClick={(e) => {
-                      e.preventDefault();
-                      deleteByProductId(product.id);
-                      setCart(getCart());
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTrash} className="me-1" /> Xoá
-                  </a>
-                </div>
-
-                <div className="col-12 mt-2 mt-sm-0 col-sm-2 col-md-2 col-lg-3 col-xl-3 align-self-center">
-                  <input
-                    type="text"
-                    className="form-control text-center"
-                    value={product.quantity}
-                    onChange={(e) => {
-                      updateQuantity(product.id, e.target.value);
-                      setCart(getCart());
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
           <div className="row">
             <div className="col-4">

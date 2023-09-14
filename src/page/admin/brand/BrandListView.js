@@ -55,11 +55,18 @@ export default function BrandListView() {
       <div className="container-fluid mt-3">
         <h3 className="mt-2 mb-4 text-gray-800">Danh sách thương hiệu</h3>
         {deleteSuccess ? (
-          <>
-            <div className="alert alert-success" role="alert">
-              Xoá thương hiệu thành công
-            </div>
-          </>
+          <div
+            className="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            Xoá thương hiệu thành công
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
         ) : null}
 
         <div className="mb-4">

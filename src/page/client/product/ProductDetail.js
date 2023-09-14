@@ -253,6 +253,7 @@ export default function ProductDetail() {
                         addProductToCart(product);
                         setShowModal(true);
                       }}
+                      disabled={product.unitsInStock == 0}
                     >
                       <FontAwesomeIcon icon={faCartShopping} className="me-2" />
                       Thêm vào giỏ hàng

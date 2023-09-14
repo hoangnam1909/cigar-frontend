@@ -58,11 +58,18 @@ export default function CategoryListView() {
       <div className="container-fluid mt-3">
         <h3 className="mt-2 mb-4 text-gray-800">Danh sách danh mục</h3>
         {deleteSuccess ? (
-          <>
-            <div className="alert alert-success" role="alert">
-              Xoá danh mục thành công
-            </div>
-          </>
+          <div
+            className="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            Xoá danh mục thành công
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
         ) : null}
 
         <div className="mb-4">

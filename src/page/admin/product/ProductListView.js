@@ -30,6 +30,17 @@ export default function ProductListView() {
   const [keyword, setKeyword] = useState();
   const PAGE_SIZE = 15;
 
+  const handleChangeActive = async (e, id) => {
+    const res = await AuthAPI().patch(`${adminEndpoints.products}/${id}`, {
+      active: e.target.checked.toString(),
+    });
+    if (res.status === 200) {
+      setDataImpact((dataImpact) => {
+        return dataImpact + 1;
+      });
+    }
+  };
+
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Bạn chắc chắn xoá sản phẩm này?");
     if (confirmDelete == true) {
@@ -91,11 +102,18 @@ export default function ProductListView() {
       <div className="container-fluid mt-3">
         <h3 className="mt-2 mb-4 text-gray-800">Danh sách sản phẩm</h3>
         {deleteSuccess ? (
-          <>
-            <div className="alert alert-success" role="alert">
-              Xoá sản phẩm thành công
-            </div>
-          </>
+          <div
+            className="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            Xoá sản phẩm thành công
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
         ) : null}
 
         <div className="mb-4">
@@ -203,6 +221,9 @@ export default function ProductListView() {
                     // style={{ width: "80px" }}
                     style={{ width: "5%" }}
                   ></th>
+                  <th className="align-self-center" style={{ width: "4%" }}>
+                    Kích hoạt
+                  </th>
                   <th className="align-self-center" style={{ width: "5%" }}>
                     ID
                   </th>
@@ -226,7 +247,7 @@ export default function ProductListView() {
               </thead>
               <tbody>
                 {productsRes?.content.map((p, index) => (
-                  <tr key={p.id}>
+                  <tr key={index}>
                     <td className="align-middle">
                       <Link to={`${routes.adminEditProduct}/${p.id}`}>
                         <img
@@ -236,6 +257,17 @@ export default function ProductListView() {
                           className="object-fit-cover rounded"
                         />
                       </Link>
+                    </td>
+                    <td className="align-middle fw-bolder">
+                      <div className="form-check form-switch">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          checked={p.active}
+                          onChange={(e) => handleChangeActive(e, p.id)}
+                        />
+                      </div>
                     </td>
                     <td className="align-middle fw-bolder">#{p.id}</td>
                     <td className="align-middle">

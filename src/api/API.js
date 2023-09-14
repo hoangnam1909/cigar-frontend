@@ -2,6 +2,7 @@ import axios from "axios";
 
 export let endpoints = {
   brands: "/brands",
+  carts: "/carts",
   categories: "/categories",
   products: "/products",
   productsSuggest: "/products/suggests",

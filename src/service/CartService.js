@@ -1,10 +1,11 @@
+import API, { endpoints } from "~/api/API";
+
 export const addProductToCart = (product) => {
   let cart = [];
   let existedIndex = -1;
 
   if (localStorage.getItem("cart")) {
     cart = JSON.parse(localStorage.getItem("cart"));
-
     existedIndex = cart.findIndex((p) => p.id === product.id);
 
     if (existedIndex >= 0) {
@@ -16,9 +17,9 @@ export const addProductToCart = (product) => {
 
   cart.push({
     id: product.id,
-    name: product.name,
-    image: product.productImages[0].linkToImage,
-    salePrice: product.salePrice,
+    // name: product.name,
+    // image: product.productImages[0].linkToImage,
+    // salePrice: product.salePrice,
     quantity: 1,
   });
 
@@ -27,6 +28,32 @@ export const addProductToCart = (product) => {
 
 export const getCart = () => {
   return JSON.parse(localStorage.getItem("cart"));
+};
+
+export const getProductIdsCart = () => {
+  let cart = JSON.parse(localStorage.getItem("cart"));
+  let productIds = cart.map((c) => c.id);
+  productIds = productIds.join(",");
+
+  return productIds;
+};
+
+export const updateCart = (productsInDB) => {
+  let newCart = [];
+  let cartItem;
+  let cart = JSON.parse(localStorage.getItem("cart"));
+
+  productsInDB = productsInDB.forEach((p) => {
+    cartItem = cart.find((c) => c.id == p.id);
+    if (cartItem != null) {
+      newCart.push({
+        id: p.id,
+        quantity: cartItem.quantity,
+      });
+    }
+  });
+
+  localStorage.setItem("cart", JSON.stringify(newCart));
 };
 
 export const updateQuantity = (productId, newQuantity) => {

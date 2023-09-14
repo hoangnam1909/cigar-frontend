@@ -31,7 +31,7 @@ export default function OrderListView() {
   const navigate = useNavigate();
   let location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 15;
 
   useEffect(() => {
     const getOrderStatuses = async () => {
