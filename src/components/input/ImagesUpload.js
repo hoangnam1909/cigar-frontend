@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Form } from "react-bootstrap";
 
-export const ImagesUpload = ({ images, setImages }) => {
+export const ImagesUpload = ({ setImages }) => {
   const handleChooseImage = (e) => {
     setImages([]);
 

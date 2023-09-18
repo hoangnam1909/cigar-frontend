@@ -7,7 +7,7 @@ import {
   Image,
   InputGroup,
 } from "react-bootstrap";
-import API, { endpoints } from "~/api/API";
+import API, { adminEndpoints, endpoints } from "~/api/API";
 import RichTextEditor from "~/components/input/RichTextEditor";
 import { ImagesUpload } from "~/components/input/ImagesUpload";
 import AuthAPI from "~/api/AuthAPI";
@@ -46,7 +46,7 @@ export default function ProductAdd() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    const res = await AuthAPI().post(endpoints.products, {
+    const res = await AuthAPI().post(adminEndpoints.products, {
       name: name,
       description: description,
       originalPrice: parseInt(originalPrice),
@@ -189,7 +189,7 @@ export default function ProductAdd() {
               </Form.Group>
 
               <Form.Group controlId="formFile" className="mb-3">
-                <ImagesUpload images={images} setImages={setImages} />
+                <ImagesUpload setImages={setImages} />
                 {images?.map((link, index) => {
                   return (
                     <Image

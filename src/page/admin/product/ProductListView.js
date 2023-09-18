@@ -132,7 +132,7 @@ export default function ProductListView() {
                 <input
                   type="text"
                   className="form-control border-0 outline-none"
-                  placeholder="Tìm kiếm tên sản phẩm"
+                  placeholder="Tìm kiếm sản phẩm"
                   onChange={(e) => {
                     setKeyword(e.target.value);
                     setTimeout(function () {

@@ -72,8 +72,6 @@ export default function OrderListView() {
     getOrders();
   }, [searchParams]);
 
-  console.log(orderSortData);
-
   return (
     <>
       <div className="container-fluid mt-3">
@@ -95,15 +93,15 @@ export default function OrderListView() {
                 <input
                   type="text"
                   className="form-control border-0 outline-none"
-                  placeholder="Tìm kiếm sản phẩm"
+                  placeholder="Tìm kiếm đơn hàng"
                   onChange={(e) => {
                     setTimeout(function () {
                       searchParams.delete("page");
                       if (e.target.value.length == 0) {
-                        searchParams.delete("name");
+                        searchParams.delete("kw");
                         setSearchParams(searchParams);
                       } else {
-                        searchParams.set("name", `${e.target.value}`);
+                        searchParams.set("kw", `${e.target.value}`);
                         setSearchParams(searchParams);
                       }
                     }, 500);
