@@ -47,65 +47,60 @@ export default function ProductEdit() {
     });
   };
 
+  async function getCategories() {
+    await API()
+      .get(endpoints.categories)
+      .then((res) => {
+        setCategories(res.data.result);
+      });
+  }
+
+  async function getBrands() {
+    await API()
+      .get(endpoints.brands)
+      .then((res) => {
+        setBrands(res.data.result);
+      });
+  }
+
+  const getProduct = async () => {
+    const response = await AuthAPI().get(
+      adminEndpoints.products + `/${productId}`
+    );
+    if (response.status === 200) {
+      setImages(
+        response?.data.result.productImages.map((img) => img.linkToImage)
+      );
+
+      setProduct({
+        ...product,
+        name: response?.data.result.name ? response?.data.result.name : "",
+        description: response?.data.result.description
+          ? response?.data.result.description
+          : "",
+        originalPrice: response?.data.result.originalPrice
+          ? response?.data.result.originalPrice
+          : 0,
+        salePrice: response?.data.result.salePrice
+          ? response?.data.result.salePrice
+          : 0,
+        unitsInStock: response?.data.result.unitsInStock
+          ? response?.data.result.unitsInStock
+          : 0,
+        categoryId: response?.data.result.category.id
+          ? response?.data.result.category.id
+          : 0,
+        brandId: response?.data.result.brand.id
+          ? response?.data.result.brand.id
+          : 0,
+        productImages: response?.data.result.productImages
+          ? response?.data.result.productImages.map((img) => img.linkToImage)
+          : [],
+      });
+    }
+  };
+
   useEffect(() => {
-    async function getProduct() {
-      await API()
-        .get(endpoints.products + `/${productId}`)
-        .then((response) => {
-          if (response?.status === 200) {
-            setImages(
-              response?.data.result.productImages.map((img) => img.linkToImage)
-            );
-
-            setProduct({
-              ...product,
-              name: response?.data.result.name
-                ? response?.data.result.name
-                : "",
-              description: response?.data.result.description
-                ? response?.data.result.description
-                : "",
-              originalPrice: response?.data.result.originalPrice
-                ? response?.data.result.originalPrice
-                : 0,
-              salePrice: response?.data.result.salePrice
-                ? response?.data.result.salePrice
-                : 0,
-              unitsInStock: response?.data.result.unitsInStock
-                ? response?.data.result.unitsInStock
-                : 0,
-              categoryId: response?.data.result.category.id
-                ? response?.data.result.category.id
-                : 0,
-              brandId: response?.data.result.brand.id
-                ? response?.data.result.brand.id
-                : 0,
-              productImages: response?.data.result.productImages
-                ? response?.data.result.productImages.map(
-                    (img) => img.linkToImage
-                  )
-                : [],
-            });
-          }
-        });
-    }
-
-    async function getCategories() {
-      await API()
-        .get(endpoints.categories)
-        .then((res) => {
-          setCategories(res.data.result);
-        });
-    }
-
-    async function getBrands() {
-      await API()
-        .get(endpoints.brands)
-        .then((res) => {
-          setBrands(res.data.result);
-        });
-    }
-
     getCategories();
     getBrands();
     getProduct();
