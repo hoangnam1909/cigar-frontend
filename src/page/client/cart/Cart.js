@@ -45,42 +45,42 @@ export default function Cart() {
     note: "",
   });
 
-  useEffect(() => {
-    async function getProvinces() {
-      const res = await API().get("https://provinces.open-api.vn/api/p/");
-      if (res.status === 200) setProvinces(res.data);
+  const getProductsInCart = async () => {
+    const res = await API().get(endpoints.carts, {
+      params: {
+        ids: getProductIdsCart(),
+      },
+    });
+    if (res.status === 200) {
+      let result = res.data.result;
+      updateCart(result);
+      let currentCart = JSON.parse(localStorage.getItem("cart"));
+      result = result.map((r) => ({
+        ...r,
+        quantity: currentCart.find((c) => r.id === c.id).quantity,
+      }));
+      setCart(result);
     }
+  };
 
-    const getProductsInCart = async () => {
-      const res = await API().get(endpoints.carts, {
-        params: {
-          ids: getProductIdsCart(),
-        },
-      });
-      if (res.status === 200) {
-        let result = res.data.result;
-        updateCart(result);
-        let currentCart = JSON.parse(localStorage.getItem("cart"));
-        result = result.map((r) => ({
-          ...r,
-          quantity: currentCart.find((c) => r.id === c.id).quantity,
-        }));
-        setCart(result);
-      }
-    };
+  const getProvinces = async () => {
+    const res = await API().get("https://provinces.open-api.vn/api/p/");
+    if (res.status === 200) setProvinces(res.data);
+  };
 
+  useEffect(() => {
     getProvinces();
     getProductsInCart();
   }, []);
 
   useEffect(() => {
     if (province) {
-      async function getDistricts() {
+      const getDistricts = async () => {
         const res = await API().get(
           `https://provinces.open-api.vn/api/p/${province.code}?depth=2`
         );
         if (res.status === 200) setDistricts(res.data.districts);
-      }
+      };
 
       getDistricts();
     }
@@ -91,12 +91,12 @@ export default function Cart() {
 
   useEffect(() => {
     if (district) {
-      async function getWards() {
+      const getWards = async () => {
         const res = await API().get(
           `https://provinces.open-api.vn/api/d/${district.code}?depth=2`
         );
         if (res.status === 200) setWards(res.data.wards);
-      }
+      };
 
       getWards();
     }
@@ -109,7 +109,7 @@ export default function Cart() {
 
     let requestBody = { ...orderRequest };
     let address = "";
-    if (requestBody.deliveryAddress.trim().length > 0)
+    if (requestBody.deliveryAddress.trim().ength > 0)
       address += requestBody.deliveryAddress;
     if (ward) address += `, ${ward.name}`;
     if (district) address += `, ${district.name}`;
@@ -140,8 +140,6 @@ export default function Cart() {
 
     addOrder();
   };
-
-  console.log(cart);
 
   if (orderSuccessful == 1) {
     <ScrollTop />;
@@ -395,7 +393,7 @@ export default function Cart() {
                       onClick={(e) => {
                         e.preventDefault();
                         deleteByProductId(product.id);
-                        setCart(getCart());
+                        getProductsInCart();
                       }}
                     >
                       <FontAwesomeIcon icon={faTrash} className="me-1" /> Xoá
@@ -409,8 +407,10 @@ export default function Cart() {
                       disabled={product.unitsInStock == 0}
                       value={product.quantity}
                       onChange={(e) => {
-                        updateQuantity(product.id, e.target.value);
-                        setCart(getCart());
+                        if (e.target.value < 1) updateQuantity(product.id, 1);
+                        else updateQuantity(product.id, e.target.value);
+
+                        getProductsInCart();
                       }}
                     />
                   </div>
