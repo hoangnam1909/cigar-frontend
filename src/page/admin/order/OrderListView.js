@@ -31,23 +31,22 @@ export default function OrderListView() {
   const navigate = useNavigate();
   let location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
+
   const PAGE_SIZE = 15;
 
-  useEffect(() => {
-    const getOrderStatuses = async () => {
-      const res = await AuthAPI().get(adminEndpoints.orderStatuses);
-      if (res.status === 200) setOrderStatuses(res.data.result);
-    };
+  const getOrderStatuses = async () => {
+    const res = await AuthAPI().get(adminEndpoints.orderStatuses);
+    if (res.status === 200) setOrderStatuses(res.data.result);
+  };
 
+  const getDeliveryCompanies = async () => {
+    const res = await AuthAPI().get(adminEndpoints.deliveryCompanies);
+    if (res.status === 200) setDeliveryCompanies(res.data.result);
+  };
+
+  useEffect(() => {
     getOrderStatuses();
-  }, []);
-
-  useEffect(() => {
-    const getDeliveryCompanies = async () => {
-      const res = await AuthAPI().get(adminEndpoints.deliveryCompanies);
-      if (res.status === 200) setDeliveryCompanies(res.data.result);
-    };
-
     getDeliveryCompanies();
   }, []);
 
@@ -55,6 +54,7 @@ export default function OrderListView() {
     const params = queryString.parse(location.search);
 
     const getOrders = async () => {
+      setLoading(true);
       const res = await AuthAPI().get(adminEndpoints.orders, {
         params: {
           ...params,
@@ -66,6 +66,7 @@ export default function OrderListView() {
       });
       if (res.status === 200) {
         setOrdersRes(res.data.result);
+        setLoading(false);
       }
     };
 
@@ -196,83 +197,104 @@ export default function OrderListView() {
                   <th style={{ width: "5%" }}></th>
                 </tr>
               </thead>
-              <tbody>
-                {ordersRes?.content?.map((order) => (
-                  <tr
-                    key={order.id}
-                    onDoubleClick={() => {
-                      navigate(`${routes.adminEditOrder}/${order.id}`);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <td className="fw-bolder py-3">
-                      <Link
-                        to={`${routes.adminEditOrder}/${order.id}`}
-                        className="d-block"
+
+              {!loading ? (
+                <>
+                  <tbody>
+                    {ordersRes?.content?.map((order) => (
+                      <tr
+                        key={order.id}
+                        onDoubleClick={() => {
+                          navigate(`${routes.adminEditOrder}/${order.id}`);
+                        }}
+                        style={{ cursor: "pointer" }}
                       >
-                        #{order.id}
-                      </Link>
-                    </td>
-                    <td className="align-middle text-end">
-                      {toVND(order.totalPrice)}
-                    </td>
-                    <td className="align-middle ps-5">
-                      {order.customer.fullName}
-                    </td>
-                    <td className="align-middle">
-                      {moment(order.createdAt).format("LT")}
-                      {" - "}
-                      {moment(order.createdAt).format("ll")}
-                    </td>
-                    <td className="align-middle">{order.orderStatus.name}</td>
-                    <td className="align-middle">
-                      {order.shipment?.deliveryCompany?.name}
-                    </td>
-                    <td
-                      className="align-middle"
-                      onClick={() => {
-                        if (order.shipment?.trackingNumber) {
-                          navigator.clipboard.writeText(
-                            order.shipment?.trackingNumber
-                          );
-                          alert("Đã sao chép mã vận đơn");
-                        }
-                      }}
-                    >
-                      {order.shipment?.trackingNumber ? (
-                        <>
-                          <FontAwesomeIcon icon={faCopy} className="me-2" />
-                          {order.shipment?.trackingNumber}
-                        </>
-                      ) : null}
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex flex-row justify-content-center">
-                        <div className="btn-group">
-                          <a
-                            className="btn rounded border-0"
-                            style={{ cursor: "pointer" }}
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                        <td className="fw-bolder py-3">
+                          <Link
+                            to={`${routes.adminEditOrder}/${order.id}`}
+                            className="d-block"
                           >
-                            <FontAwesomeIcon icon={faEllipsis} />
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <Link
-                                className="dropdown-item"
-                                to={`${routes.adminEditOrder}/${order.id}`}
+                            #{order.id}
+                          </Link>
+                        </td>
+                        <td className="align-middle text-end">
+                          {toVND(order.totalPrice)}
+                        </td>
+                        <td className="align-middle ps-5">
+                          {order.customer.fullName}
+                        </td>
+                        <td className="align-middle">
+                          {moment(order.createdAt).format("LT")}
+                          {" - "}
+                          {moment(order.createdAt).format("ll")}
+                        </td>
+                        <td className="align-middle">
+                          {order.orderStatus.name}
+                        </td>
+                        <td className="align-middle">
+                          {order.shipment?.deliveryCompany?.name}
+                        </td>
+                        <td
+                          className="align-middle"
+                          onClick={() => {
+                            if (order.shipment?.trackingNumber) {
+                              navigator.clipboard.writeText(
+                                order.shipment?.trackingNumber
+                              );
+                              alert("Đã sao chép mã vận đơn");
+                            }
+                          }}
+                        >
+                          {order.shipment?.trackingNumber ? (
+                            <>
+                              <FontAwesomeIcon icon={faCopy} className="me-2" />
+                              {order.shipment?.trackingNumber}
+                            </>
+                          ) : null}
+                        </td>
+                        <td className="align-middle">
+                          <div className="d-flex flex-row justify-content-center">
+                            <div className="btn-group">
+                              <a
+                                className="btn rounded border-0"
+                                style={{ cursor: "pointer" }}
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                               >
-                                Sửa
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+                                <FontAwesomeIcon icon={faEllipsis} />
+                              </a>
+                              <ul className="dropdown-menu">
+                                <li>
+                                  <Link
+                                    className="dropdown-item"
+                                    to={`${routes.adminEditOrder}/${order.id}`}
+                                  >
+                                    Sửa
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              ) : (
+                <>
+                  <tbody>
+                    <tr>
+                      <td colSpan={8} className="text-center py-5">
+                        <div
+                          class="spinner-border"
+                          style={{ width: "3rem", height: "3rem" }}
+                          role="status"
+                        ></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              )}
             </table>
           </div>
         </div>

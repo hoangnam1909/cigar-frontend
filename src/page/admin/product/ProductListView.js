@@ -54,45 +54,45 @@ export default function ProductListView() {
     }
   };
 
-  useEffect(() => {
-    async function getCategories() {
-      const res = await API().get(endpoints.categories);
-      const data = res.data.result;
-      setCategories(data);
-    }
+  const getCategories = async () => {
+    const res = await API().get(endpoints.categories);
+    const data = res.data.result;
+    setCategories(data);
+  };
 
+  const getBrands = async () => {
+    const res = await API().get(endpoints.brands);
+    setBrands(res.data.result);
+  };
+
+  useEffect(() => {
     getCategories();
-  }, []);
-
-  useEffect(() => {
-    async function getBrands() {
-      const res = await API().get(endpoints.brands);
-      setBrands(res.data.result);
-    }
-
     getBrands();
   }, []);
 
   useEffect(() => {
     const params = queryString.parse(location.search);
 
-    async function getProducts() {
+    const config = {
+      onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
+    };
+
+    const getProducts = async () => {
       setLoading(true);
-      await AuthAPI()
-        .get(adminEndpoints.products, {
-          params: {
-            ...params,
-            page: searchParams.get("page")
-              ? parseInt(searchParams.get("page"))
-              : 1,
-            size: PAGE_SIZE,
-          },
-        })
-        .then((res) => {
-          setProductsRes(res.data.result);
-          setLoading(false);
-        });
-    }
+      const res = await AuthAPI().get(adminEndpoints.products, {
+        params: {
+          ...params,
+          page: searchParams.get("page")
+            ? parseInt(searchParams.get("page"))
+            : 1,
+          size: PAGE_SIZE,
+        },
+      });
+      if (res.status === 200) {
+        setProductsRes(res.data.result);
+        setLoading(false);
+      }
+    };
 
     getProducts();
   }, [searchParams, dataImpact]);
@@ -131,6 +131,8 @@ export default function ProductListView() {
                 </span>
                 <input
                   type="text"
+                  name="keyword"
+                  id="keyword"
                   className="form-control border-0 outline-none"
                   placeholder="Tìm kiếm sản phẩm"
                   onChange={(e) => {
@@ -218,10 +220,9 @@ export default function ProductListView() {
                 <tr>
                   <th
                     className="align-self-center"
-                    // style={{ width: "80px" }}
                     style={{ width: "5%" }}
                   ></th>
-                  <th className="align-self-center" style={{ width: "4%" }}>
+                  <th className="align-self-center" style={{ width: "5%" }}>
                     Kích hoạt
                   </th>
                   <th className="align-self-center" style={{ width: "5%" }}>
@@ -230,10 +231,10 @@ export default function ProductListView() {
                   <th className="align-self-center" style={{ width: "" }}>
                     Tên sản phẩm
                   </th>
-                  <th className="align-self-center" style={{ width: "15%" }}>
+                  <th className="align-self-center" style={{ width: "14%" }}>
                     Danh mục
                   </th>
-                  <th className="align-self-center" style={{ width: "15%" }}>
+                  <th className="align-self-center" style={{ width: "14%" }}>
                     Thương hiệu
                   </th>
                   <th className="align-self-center" style={{ width: "15%" }}>
@@ -245,84 +246,102 @@ export default function ProductListView() {
                   ></th>
                 </tr>
               </thead>
-              <tbody>
-                {productsRes?.content.map((p, index) => (
-                  <tr key={index}>
-                    <td className="align-middle">
-                      <Link to={`${routes.adminEditProduct}/${p.id}`}>
-                        <img
-                          src={p.productImages[0]?.linkToImage}
-                          width={53}
-                          height={53}
-                          className="object-fit-cover rounded"
-                        />
-                      </Link>
-                    </td>
-                    <td className="align-middle fw-bolder">
-                      <div className="form-check form-switch">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          role="switch"
-                          checked={p.active}
-                          onChange={(e) => handleChangeActive(e, p.id)}
-                        />
-                      </div>
-                    </td>
-                    <td className="align-middle fw-bolder">#{p.id}</td>
-                    <td className="align-middle">
-                      <Link
-                        to={`${routes.adminEditProduct}/${p.id}`}
-                        className="text-primary"
-                      >
-                        {p.name}
-                      </Link>
-                    </td>
-                    <td className="align-middle">{p.category.name}</td>
-                    <td className="align-middle">{p.brand.name}</td>
-                    <td className="align-middle">
-                      {moment(p.createdDate).format("LT")}
-                      {" - "}
-                      {moment(p.createdDate).format("ll")}
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex flex-row justify-content-center">
-                        <div className="btn-group">
-                          <a
-                            className="btn rounded border-0"
-                            style={{ cursor: "pointer" }}
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
+              {!loading ? (
+                <>
+                  <tbody>
+                    {productsRes?.content.map((p, index) => (
+                      <tr key={index}>
+                        <td className="align-middle">
+                          <Link to={`${routes.adminEditProduct}/${p.id}`}>
+                            <img
+                              src={p.productImages[0]?.linkToImage}
+                              width={53}
+                              height={53}
+                              className="object-fit-cover rounded"
+                            />
+                          </Link>
+                        </td>
+                        <td className="align-middle fw-bolder">
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              role="switch"
+                              checked={p.active}
+                              onChange={(e) => handleChangeActive(e, p.id)}
+                            />
+                          </div>
+                        </td>
+                        <td className="align-middle fw-bolder">#{p.id}</td>
+                        <td className="align-middle">
+                          <Link
+                            to={`${routes.adminEditProduct}/${p.id}`}
+                            className="text-primary"
                           >
-                            <FontAwesomeIcon icon={faEllipsis} />
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <Link
-                                className="dropdown-item"
-                                to={`${routes.adminEditProduct}/${p.id}`}
+                            {p.name}
+                          </Link>
+                        </td>
+                        <td className="align-middle">{p.category.name}</td>
+                        <td className="align-middle">{p.brand.name}</td>
+                        <td className="align-middle">
+                          {moment(p.createdDate).format("LT")}
+                          {" - "}
+                          {moment(p.createdDate).format("ll")}
+                        </td>
+                        <td className="align-middle">
+                          <div className="d-flex flex-row justify-content-center">
+                            <div className="btn-group">
+                              <a
+                                className="btn rounded border-0"
+                                style={{ cursor: "pointer" }}
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                               >
-                                Sửa
-                              </Link>
-                            </li>
-                            <li>
-                              <hr className="dropdown-divider" />
-                            </li>
-                            <li>
-                              <Link
-                                className="dropdown-item text-danger"
-                                onClick={() => handleDelete(p.id)}
-                              >
-                                Xoá
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+                                <FontAwesomeIcon icon={faEllipsis} />
+                              </a>
+                              <ul className="dropdown-menu">
+                                <li>
+                                  <Link
+                                    className="dropdown-item"
+                                    to={`${routes.adminEditProduct}/${p.id}`}
+                                  >
+                                    Sửa
+                                  </Link>
+                                </li>
+                                <li>
+                                  <hr className="dropdown-divider" />
+                                </li>
+                                <li>
+                                  <Link
+                                    className="dropdown-item text-danger"
+                                    onClick={() => handleDelete(p.id)}
+                                  >
+                                    Xoá
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              ) : (
+                <>
+                  <tbody>
+                    <tr>
+                      <td colSpan={8} className="text-center py-5">
+                        <div
+                          class="spinner-border"
+                          style={{ width: "3rem", height: "3rem" }}
+                          role="status"
+                        ></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              )}
             </table>
           </div>
         </div>

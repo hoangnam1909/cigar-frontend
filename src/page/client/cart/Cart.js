@@ -337,7 +337,7 @@ export default function Cart() {
         </div>
 
         <div className="card cart-card col-sm-12 col-lg px-4 py-3 me-3">
-          <h5 className="mb-3">Giỏ hàng</h5>
+          <h5 className="mb-3">Giỏ hàng ({cart?.length})</h5>
           {cart
             ?.sort((c1, c2) => {
               return c2.unitsInStock - c1.unitsInStock;
@@ -346,15 +346,15 @@ export default function Cart() {
               return (
                 <div
                   key={index}
-                  className={`row mb-3 pb-3 border-bottom border-secondary-subtle ${
+                  className={`d-flex gap-3 mb-3 pb-3 border-bottom border-secondary-subtle ${
                     product.unitsInStock == 0 ? "opacity-50" : ""
                   }`}
                 >
-                  <div className="mb-3 mb-sm-0 col-12 col-sm-3 col-md-2 col-lg-4 col-xl-3 align-self-center">
+                  <div className="mb-3 mb-sm-0 align-self-baseline">
                     <Link to={`${endpoints.products}/${product.id}`}>
                       <img
-                        width="95"
-                        height="95"
+                        width="100"
+                        height="100"
                         src={product.image}
                         className="rounded"
                         style={{ objectFit: "cover" }}
@@ -362,7 +362,7 @@ export default function Cart() {
                     </Link>
                   </div>
 
-                  <div className="mb-3 mb-sm-0 col-12 col-sm-7 col-md-8 col-lg-6 col-xl-6">
+                  <div className="w-100 mb-3 mb-sm-0">
                     <Link to={`${endpoints.products}/${product.id}`}>
                       <h6>{product.name}</h6>
                       <p className="form-text my-1">
@@ -388,7 +388,23 @@ export default function Cart() {
                         }`}
                       </p>
                     </Link>
+                  </div>
+
+                  <div className="d-flex flex-column align-items-baseline">
+                    <input
+                      type="text"
+                      className="form-control text-center mb-3"
+                      disabled={product.unitsInStock == 0}
+                      value={product.quantity}
+                      onChange={(e) => {
+                        if (e.target.value < 1) updateQuantity(product.id, 1);
+                        else updateQuantity(product.id, e.target.value);
+
+                        getProductsInCart();
+                      }}
+                    />
                     <a
+                      className="w-100 text-center"
                       href=""
                       onClick={(e) => {
                         e.preventDefault();
@@ -399,22 +415,79 @@ export default function Cart() {
                       <FontAwesomeIcon icon={faTrash} className="me-1" /> Xoá
                     </a>
                   </div>
-
-                  <div className="col-12 mt-2 mt-sm-0 col-sm-2 col-md-2 col-lg-2 col-xl-3 align-self-center">
-                    <input
-                      type="text"
-                      className="form-control text-center"
-                      disabled={product.unitsInStock == 0}
-                      value={product.quantity}
-                      onChange={(e) => {
-                        if (e.target.value < 1) updateQuantity(product.id, 1);
-                        else updateQuantity(product.id, e.target.value);
-
-                        getProductsInCart();
-                      }}
-                    />
-                  </div>
                 </div>
+
+                // <div
+                //   key={index}
+                //   className={`row mb-3 pb-3 border-bottom border-secondary-subtle ${
+                //     product.unitsInStock == 0 ? "opacity-50" : ""
+                //   }`}
+                // >
+                //   <div className="mb-3 mb-sm-0 col-12 col-sm-3 col-md-2 col-lg-4 col-xl-3 align-self-center">
+                //     <Link to={`${endpoints.products}/${product.id}`}>
+                //       <img
+                //         width="95"
+                //         height="95"
+                //         src={product.image}
+                //         className="rounded"
+                //         style={{ objectFit: "cover" }}
+                //       />
+                //     </Link>
+                //   </div>
+
+                //   <div className="mb-3 mb-sm-0 col-12 col-sm-7 col-md-8 col-lg-6 col-xl-6">
+                //     <Link to={`${endpoints.products}/${product.id}`}>
+                //       <h6>{product.name}</h6>
+                //       <p className="form-text my-1">
+                //         {product.unitsInStock != 0 ? (
+                //           <span>Số lượng còn lại: {product.unitsInStock}</span>
+                //         ) : (
+                //           <>
+                //             <span className="text-danger text-uppercase fw-medium">
+                //               Hết hàng
+                //             </span>
+                //             <br />
+                //             <span className="fw-medium">
+                //               Sản phẩm này sẽ không được đặt
+                //             </span>
+                //           </>
+                //         )}
+                //       </p>
+                //       <p className="form-text mb-2">
+                //         {`Giá sản phẩm: ${
+                //           product.salePrice === 0
+                //             ? "Liên hệ"
+                //             : toVND(product.salePrice)
+                //         }`}
+                //       </p>
+                //     </Link>
+                //     <a
+                //       href=""
+                //       onClick={(e) => {
+                //         e.preventDefault();
+                //         deleteByProductId(product.id);
+                //         getProductsInCart();
+                //       }}
+                //     >
+                //       <FontAwesomeIcon icon={faTrash} className="me-1" /> Xoá
+                //     </a>
+                //   </div>
+
+                //   <div className="col-12 mt-2 mt-sm-0 col-sm-2 col-md-2 col-lg-2 col-xl-3 align-self-center">
+                //     <input
+                //       type="text"
+                //       className="form-control text-center"
+                //       disabled={product.unitsInStock == 0}
+                //       value={product.quantity}
+                //       onChange={(e) => {
+                //         if (e.target.value < 1) updateQuantity(product.id, 1);
+                //         else updateQuantity(product.id, e.target.value);
+
+                //         getProductsInCart();
+                //       }}
+                //     />
+                //   </div>
+                // </div>
               );
             })}
 

@@ -19,6 +19,7 @@ export default function CategoryListView() {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [keyword, setKeyword] = useState();
+  const [loading, setLoading] = useState(false);
   let location = useLocation();
   const PAGE_SIZE = 15;
 
@@ -39,15 +40,16 @@ export default function CategoryListView() {
     const params = queryString.parse(location.search);
 
     const getCategories = async () => {
-      await AuthAPI()
-        .get(adminEndpoints.categories, {
-          params: {
-            ...params,
-          },
-        })
-        .then((res) => {
-          setcategories(res.data.result);
-        });
+      setLoading(true);
+      const res = await AuthAPI().get(adminEndpoints.categories, {
+        params: {
+          ...params,
+        },
+      });
+      if (res.status === 200) {
+        setcategories(res.data.result);
+        setLoading(false);
+      }
     };
 
     getCategories();
@@ -154,49 +156,69 @@ export default function CategoryListView() {
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                {categories?.map((category, index) => (
-                  <tr key={category.id}>
-                    <td className="align-middle fw-bolder">#{category.id}</td>
-                    <td className="align-middle">{category.name}</td>
-                    <td className="align-middle">
-                      <div className="d-flex flex-row justify-content-center">
-                        <div className="btn-group">
-                          <a
-                            className="btn rounded border-0"
-                            style={{ cursor: "pointer" }}
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <FontAwesomeIcon icon={faEllipsis} />
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <Link
-                                className="dropdown-item"
-                                to={`${routes.adminEditCategory}/${category.id}`}
+              {!loading ? (
+                <>
+                  <tbody>
+                    {categories?.map((category, index) => (
+                      <tr key={category.id}>
+                        <td className="align-middle fw-bolder">
+                          #{category.id}
+                        </td>
+                        <td className="align-middle">{category.name}</td>
+                        <td className="align-middle">
+                          <div className="d-flex flex-row justify-content-center">
+                            <div className="btn-group">
+                              <a
+                                className="btn rounded border-0"
+                                style={{ cursor: "pointer" }}
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                               >
-                                Sửa
-                              </Link>
-                            </li>
-                            <li>
-                              <hr className="dropdown-divider" />
-                            </li>
-                            <li>
-                              <Link
-                                className="dropdown-item text-danger"
-                                onClick={() => handleDelete(category.id)}
-                              >
-                                Xoá
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+                                <FontAwesomeIcon icon={faEllipsis} />
+                              </a>
+                              <ul className="dropdown-menu">
+                                <li>
+                                  <Link
+                                    className="dropdown-item"
+                                    to={`${routes.adminEditCategory}/${category.id}`}
+                                  >
+                                    Sửa
+                                  </Link>
+                                </li>
+                                <li>
+                                  <hr className="dropdown-divider" />
+                                </li>
+                                <li>
+                                  <Link
+                                    className="dropdown-item text-danger"
+                                    onClick={() => handleDelete(category.id)}
+                                  >
+                                    Xoá
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              ) : (
+                <>
+                  <tbody>
+                    <tr>
+                      <td colSpan={8} className="text-center py-5">
+                        <div
+                          class="spinner-border"
+                          style={{ width: "3rem", height: "3rem" }}
+                          role="status"
+                        ></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              )}
             </table>
           </div>
           <div>

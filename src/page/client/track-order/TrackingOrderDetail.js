@@ -123,9 +123,9 @@ export default function TrackingOrderDetail({ order }) {
               return (
                 <div
                   key={orderItem.id}
-                  className="d-flex flex-wrap align-items-center mb-2"
+                  className="d-flex flex-wrap gap-0 align-items-center mb-3"
                 >
-                  <div className="me-3">
+                  <div className="w-25 align-self-baseline">
                     <img
                       src={orderItem.product.productImages[0]?.linkToImage}
                       width="80"
@@ -134,7 +134,7 @@ export default function TrackingOrderDetail({ order }) {
                     />
                   </div>
 
-                  <div className="py-2">
+                  <div className="w-75">
                     <h6>{orderItem.product.name}</h6>
                     <p className="mb-0">Số lượng: {orderItem.quantity}</p>
                     <p className="mb-0">

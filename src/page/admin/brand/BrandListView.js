@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import API, { adminEndpoints, endpoints } from "~/api/API";
+import { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 import { routes } from "~/routers/routes";
 
@@ -18,6 +18,8 @@ export default function BrandListView() {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [keyword, setKeyword] = useState();
+  const [loading, setLoading] = useState(false);
+
   let location = useLocation();
   const PAGE_SIZE = 15;
 
@@ -38,13 +40,17 @@ export default function BrandListView() {
     const params = queryString.parse(location.search);
 
     const getBrands = async () => {
+      setLoading(true);
       const res = await AuthAPI().get(adminEndpoints.brands, {
         params: {
           ...params,
         },
       });
 
-      if (res.status === 200) setBrands(res.data.result);
+      if (res.status === 200) {
+        setBrands(res.data.result);
+        setLoading(false);
+      }
     };
 
     getBrands();
@@ -152,50 +158,68 @@ export default function BrandListView() {
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                {brands?.map((brand, index) => (
-                  <tr key={brand.id}>
-                    <td className="align-middle fw-bolder">#{brand.id}</td>
-                    <td className="align-middle">{brand.name}</td>
-                    <td className="align-middle">{brand.country}</td>
-                    <td className="align-middle">
-                      <div className="d-flex flex-row justify-content-center">
-                        <div className="btn-group">
-                          <a
-                            className="btn rounded border-0"
-                            style={{ cursor: "pointer" }}
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <FontAwesomeIcon icon={faEllipsis} />
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <Link
-                                className="dropdown-item"
-                                to={`${routes.adminEditBrand}/${brand.id}`}
+              {!loading ? (
+                <>
+                  <tbody>
+                    {brands?.map((brand, index) => (
+                      <tr key={index}>
+                        <td className="align-middle fw-bolder">#{brand.id}</td>
+                        <td className="align-middle">{brand.name}</td>
+                        <td className="align-middle">{brand.country}</td>
+                        <td className="align-middle">
+                          <div className="d-flex flex-row justify-content-center">
+                            <div className="btn-group">
+                              <a
+                                className="btn rounded border-0"
+                                style={{ cursor: "pointer" }}
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                               >
-                                Sửa
-                              </Link>
-                            </li>
-                            <li>
-                              <hr className="dropdown-divider" />
-                            </li>
-                            <li>
-                              <Link
-                                className="dropdown-item text-danger"
-                                onClick={() => handleDelete(brand.id)}
-                              >
-                                Xoá
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+                                <FontAwesomeIcon icon={faEllipsis} />
+                              </a>
+                              <ul className="dropdown-menu">
+                                <li>
+                                  <Link
+                                    className="dropdown-item"
+                                    to={`${routes.adminEditBrand}/${brand.id}`}
+                                  >
+                                    Sửa
+                                  </Link>
+                                </li>
+                                <li>
+                                  <hr className="dropdown-divider" />
+                                </li>
+                                <li>
+                                  <Link
+                                    className="dropdown-item text-danger"
+                                    onClick={() => handleDelete(brand.id)}
+                                  >
+                                    Xoá
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              ) : (
+                <>
+                  <tbody>
+                    <tr>
+                      <td colSpan={8} className="text-center py-5">
+                        <div
+                          class="spinner-border"
+                          style={{ width: "3rem", height: "3rem" }}
+                          role="status"
+                        ></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              )}
             </table>
           </div>
           {/* <div>
