@@ -51,70 +51,67 @@ export default function OrderDetailInfo() {
                   </h6>
                 </div>
 
-                {/* <div className="row mb-3 border-bottom"> */}
                 <div className="row">
-                  <div className="d-flex justify-content-between flex-wrap">
-                    <div className="d-flex mb-3">
-                      <div className="customer-icon me-3">
-                        <FontAwesomeIcon
-                          className="mt-1"
-                          style={{ height: "30px" }}
-                          icon={faUser}
-                        />
-                      </div>
-
-                      <div className="customer-info">
-                        <h6>Khách hàng</h6>
-
-                        {order.customer.fullName ? (
-                          <p className="mb-0">{order.customer.fullName}</p>
-                        ) : null}
-
-                        {order.customer.phone ? (
-                          <p className="mb-0">
-                            {formatPhoneNumber(order.customer.phone)}
-                          </p>
-                        ) : null}
-
-                        {order.customer.email ? (
-                          <p className="mb-0">{order.customer.email}</p>
-                        ) : null}
-                      </div>
+                  <div className="col-12 col-xl-4 d-flex mb-3">
+                    <div className="customer-icon me-3">
+                      <FontAwesomeIcon
+                        className="mt-1"
+                        style={{ height: "30px" }}
+                        icon={faUser}
+                      />
                     </div>
 
-                    <div className="d-flex mb-3">
-                      <div className="customer-icon me-3">
-                        <FontAwesomeIcon
-                          className="mt-1"
-                          style={{ height: "30px" }}
-                          icon={faTruck}
-                        />
-                      </div>
+                    <div className="customer-info">
+                      <h6>Khách hàng</h6>
 
-                      <div className="customer-info">
-                        <h6>Đối tác giao hàng</h6>
+                      {order.customer.fullName ? (
+                        <p className="mb-0">{order.customer.fullName}</p>
+                      ) : null}
 
+                      {order.customer.phone ? (
                         <p className="mb-0">
-                          {order.shipment?.deliveryCompany?.name}
+                          {formatPhoneNumber(order.customer.phone)}
                         </p>
+                      ) : null}
 
-                        <p className="mb-0">{order.shipment?.trackingNumber}</p>
-                      </div>
+                      {order.customer.email ? (
+                        <p className="mb-0">{order.customer.email}</p>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-xl-4 d-flex mb-3">
+                    <div className="customer-icon me-3">
+                      <FontAwesomeIcon
+                        className="mt-1"
+                        style={{ height: "30px" }}
+                        icon={faTruck}
+                      />
                     </div>
 
-                    <div className="d-flex mb-3">
-                      <div className="customer-icon me-3">
-                        <FontAwesomeIcon
-                          className="mt-1"
-                          style={{ height: "30px" }}
-                          icon={faMapLocationDot}
-                        />
-                      </div>
+                    <div className="customer-info">
+                      <h6>Đối tác giao hàng</h6>
 
-                      <div className="customer-info">
-                        <h6>Địa chỉ giao hàng</h6>
-                        <p className="mb-0">{order.shipment?.address}</p>
-                      </div>
+                      <p className="mb-0">
+                        {order.shipment?.deliveryCompany?.name}
+                      </p>
+
+                      <p className="mb-0">{order.shipment?.trackingNumber}</p>
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-xl-4 d-flex mb-3">
+                    <div className="customer-icon me-3">
+                      <FontAwesomeIcon
+                        className="mt-1"
+                        style={{ height: "30px" }}
+                        icon={faMapLocationDot}
+                      />
+                    </div>
+
+                    <div className="customer-info">
+                      <h6>Địa chỉ giao hàng</h6>
+                      <p className="mb-0">{order.shipment?.address}</p>
                     </div>
                   </div>
                 </div>

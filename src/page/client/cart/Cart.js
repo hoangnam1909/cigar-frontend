@@ -109,7 +109,8 @@ export default function Cart() {
 
     let requestBody = { ...orderRequest };
     let address = "";
-    if (requestBody.deliveryAddress.trim().ength > 0)
+
+    if (requestBody.deliveryAddress.trim().length > 0)
       address += requestBody.deliveryAddress;
     if (ward) address += `, ${ward.name}`;
     if (district) address += `, ${district.name}`;
@@ -119,11 +120,11 @@ export default function Cart() {
       ...requestBody,
       fullName: nameNormalization(requestBody.fullName),
       email: requestBody.email.trim(),
-      deliveryAddress: address,
+      deliveryAddress: nameNormalization(address),
       orderItems: getOrderItems(),
     };
 
-    async function addOrder() {
+    const addOrder = async () => {
       setIsSubmitting(true);
 
       const res = await API().post(endpoints.order, requestBody);
@@ -136,7 +137,7 @@ export default function Cart() {
       }
 
       setIsSubmitting(false);
-    }
+    };
 
     addOrder();
   };
