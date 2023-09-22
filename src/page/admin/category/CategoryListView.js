@@ -210,7 +210,7 @@ export default function CategoryListView() {
                     <tr>
                       <td colSpan={8} className="text-center py-5">
                         <div
-                          class="spinner-border"
+                          className="spinner-border"
                           style={{ width: "3rem", height: "3rem" }}
                           role="status"
                         ></div>

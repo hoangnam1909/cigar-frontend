@@ -30,7 +30,9 @@ export default function TrackingOrderDetail({ order }) {
             </h5>
 
             <h5 className="text-center mb-0">
-              <span class="badge bg-secondary">{order.orderStatus?.name}</span>
+              <span className="badge bg-secondary">
+                {order.orderStatus?.name}
+              </span>
             </h5>
 
             <div className="mb-3"></div>

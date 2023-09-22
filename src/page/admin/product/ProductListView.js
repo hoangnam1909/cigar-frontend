@@ -2,9 +2,7 @@ import {
   faEllipsis,
   faFilterCircleXmark,
   faMagnifyingGlass,
-  faPen,
   faPlus,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import queryString from "query-string";
@@ -21,8 +19,10 @@ import "moment/locale/vi";
 export default function ProductListView() {
   const [dataImpact, setDataImpact] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [loadingActive, setLoadingActive] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [productsRes, setProductsRes] = useState();
+  const [productsPaginate, setProductsPaginate] = useState();
+  const [products, setProducts] = useState();
   const [categories, setCategories] = useState();
   const [brands, setBrands] = useState();
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -31,13 +31,16 @@ export default function ProductListView() {
   const PAGE_SIZE = 15;
 
   const handleChangeActive = async (e, id) => {
+    setLoadingActive(true);
     const res = await AuthAPI().patch(`${adminEndpoints.products}/${id}`, {
       active: e.target.checked.toString(),
     });
+
     if (res.status === 200) {
-      setDataImpact((dataImpact) => {
-        return dataImpact + 1;
-      });
+      setProducts(
+        products.map((p) => (p.id == id ? { ...p, active: !p.active } : p))
+      );
+      setLoadingActive(false);
     }
   };
 
@@ -89,7 +92,11 @@ export default function ProductListView() {
         },
       });
       if (res.status === 200) {
-        setProductsRes(res.data.result);
+        let fullRes = res.data.result;
+        setProducts(fullRes.content);
+
+        delete fullRes.content;
+        setProductsPaginate(fullRes);
         setLoading(false);
       }
     };
@@ -205,8 +212,8 @@ export default function ProductListView() {
         <div className="card shadow mb-4">
           <div className="d-flex justify-content-end mt-3 mb-1 px-4">
             <Pagination
-              currentPage={productsRes?.number + 1}
-              totalPages={productsRes?.totalPages}
+              currentPage={productsPaginate?.number + 1}
+              totalPages={productsPaginate?.totalPages}
             />
           </div>
           <div className="table-responsive rounded px-4 py-0">
@@ -249,7 +256,7 @@ export default function ProductListView() {
               {!loading ? (
                 <>
                   <tbody>
-                    {productsRes?.content.map((p, index) => (
+                    {products?.map((p, index) => (
                       <tr key={index}>
                         <td className="align-middle">
                           <Link to={`${routes.adminEditProduct}/${p.id}`}>
@@ -269,6 +276,7 @@ export default function ProductListView() {
                               role="switch"
                               checked={p.active}
                               onChange={(e) => handleChangeActive(e, p.id)}
+                              disabled={loadingActive}
                             />
                           </div>
                         </td>
@@ -333,7 +341,7 @@ export default function ProductListView() {
                     <tr>
                       <td colSpan={8} className="text-center py-5">
                         <div
-                          class="spinner-border"
+                          className="spinner-border"
                           style={{ width: "3rem", height: "3rem" }}
                           role="status"
                         ></div>
