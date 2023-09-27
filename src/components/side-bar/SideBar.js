@@ -176,7 +176,7 @@ export default function SideBar() {
               </li>
               <li>
                 <a
-                  href=""
+                  href="/"
                   onClick={(e) => {
                     e.preventDefault();
                     removeAuthInfo();

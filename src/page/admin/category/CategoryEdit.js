@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import API, { endpoints } from "~/api/API";
+import API, { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
 export default function CategoryEdit() {
@@ -15,7 +15,7 @@ export default function CategoryEdit() {
     e.preventDefault();
 
     const res = await AuthAPI().put(
-      `${endpoints.categories}/${categoryId}`,
+      `${adminEndpoints.categories}/${categoryId}`,
       category
     );
     if (res.status === 200) {

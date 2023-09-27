@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import API, { endpoints } from "~/api/API";
+import API, { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
 export default function BrandEdit() {
@@ -15,7 +15,10 @@ export default function BrandEdit() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    const res = await AuthAPI().put(`${endpoints.brands}/${brandId}`, brand);
+    const res = await AuthAPI().put(
+      `${adminEndpoints.brands}/${brandId}`,
+      brand
+    );
     if (res.status === 200) {
       setIsSuccess(true);
     }
@@ -41,7 +44,9 @@ export default function BrandEdit() {
   return (
     <>
       <div className="container-fluid mt-3">
-        <h3 className="mt-2 mb-4 text-gray-800">Sửa thông tin thương hiệu</h3>
+        <h3 className="mt-2 mb-4 text-gray-800">
+          Sửa thông tin thương hiệu #{brandId}
+        </h3>
 
         {isSuccess ? (
           <div className="alert alert-success" role="alert">

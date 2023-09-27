@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { endpoints } from "~/api/API";
+import { adminEndpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
 
 export default function CategoryAdd() {
@@ -18,7 +18,7 @@ export default function CategoryAdd() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    const res = await AuthAPI().post(endpoints.categories, category);
+    const res = await AuthAPI().post(adminEndpoints.categories, category);
     if (res.status === 200) {
       setIsSuccess(true);
       initialValue();

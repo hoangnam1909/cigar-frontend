@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button, Card, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import API, { adminEndpoints, endpoints } from "~/api/API";
 import AuthAPI from "~/api/AuthAPI";
@@ -10,6 +9,8 @@ import { numberInputOnly } from "~/utils/input";
 
 export default function ProductEdit() {
   const { productId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -18,25 +19,13 @@ export default function ProductEdit() {
     unitsInStock: 0,
     categoryId: 1,
     brandId: 1,
-    productImages: [],
+    // productImages: [],
   });
 
   const [images, setImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
-
-    setProduct({ ...product, productImages: images });
-
-    const res = await AuthAPI().put(
-      `${adminEndpoints.products}/${productId}`,
-      product
-    );
-    if (res.status === 200) setIsSuccess(true);
-  };
 
   const handleQuillEdit = (value) => {
     setProduct((prev) => {
@@ -45,6 +34,44 @@ export default function ProductEdit() {
         description: value,
       };
     });
+  };
+
+  const handleSubmitForm = async (e) => {
+    setIsLoading(true);
+
+    e.preventDefault();
+
+    // const res = await AuthAPI().put(
+    //   `${adminEndpoints.products}/${productId}`,
+    //   product
+    // );
+    // if (res.status === 200) {
+    //   setIsLoading(false);
+    //   getProduct();
+    // }
+
+    const formData = new FormData();
+    formData.append(
+      "product",
+      new Blob([JSON.stringify(product).toString()], {
+        type: "application/json",
+      })
+    );
+    Array.from(imageFiles).forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const res = await AuthAPI().put(
+      `${adminEndpoints.products}/${productId}`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    if (res.status == 200) {
+      setIsLoading(false);
+      getProduct();
+    }
   };
 
   async function getCategories() {
@@ -106,6 +133,8 @@ export default function ProductEdit() {
     getProduct();
   }, []);
 
+  console.log(product);
+
   return (
     <>
       <div className="container-fluid mt-3">
@@ -113,61 +142,59 @@ export default function ProductEdit() {
           Chỉnh sửa thông tin sản phẩm
         </h3>
 
-        {isSuccess ? (
-          <div className="alert alert-success mb-0" role="alert">
-            Sửa thông tin danh mục thành công!
-          </div>
-        ) : null}
-
-        <Card className="my-3">
-          <Card.Body>
-            <Form onSubmit={handleSubmitForm}>
-              <FloatingLabel
-                className="mb-3"
-                controlId="floatingSelect"
-                label="Phân loại sản phẩm"
-                defaultValue={product?.category?.id}
-                onChange={(e) =>
-                  setProduct({
-                    ...product,
-                    categoryId: parseInt(e.target.value),
-                  })
-                }
-              >
-                <Form.Select>
-                  {categories?.map((c) => {
+        <div className="card my-3">
+          <div className="card-body">
+            <form onSubmit={handleSubmitForm}>
+              <div className="mb-3 form-floating">
+                <select
+                  className="form-select"
+                  id="floating-select-category"
+                  value={product?.categoryId}
+                  onChange={(e) =>
+                    setProduct({
+                      ...product,
+                      categoryId: parseInt(e.target.value),
+                    })
+                  }
+                >
+                  {categories?.map((category) => {
                     return (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
+                      <option key={category.id} value={category.id}>
+                        {category.name}
                       </option>
                     );
                   })}
-                </Form.Select>
-              </FloatingLabel>
+                </select>
+                <label htmlFor="floating-select-category">Danh mục</label>
+              </div>
 
-              <FloatingLabel
-                className="mb-3"
-                controlId="floatingSelect"
-                label="Thương hiệu"
-                defaultValue={product?.brand?.id}
-                onChange={(e) =>
-                  setProduct({ ...product, brandId: parseInt(e.target.value) })
-                }
-              >
-                <Form.Select>
-                  {brands?.map((b) => {
+              <div className="form-floating mb-3">
+                <select
+                  className="form-select"
+                  id="floating-select-brand"
+                  value={product?.brandId}
+                  onChange={(e) =>
+                    setProduct({
+                      ...product,
+                      brandId: parseInt(e.target.value),
+                    })
+                  }
+                >
+                  {brands?.map((brand) => {
                     return (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
+                      <option key={brand.id} value={brand.id}>
+                        {brand.name}
                       </option>
                     );
                   })}
-                </Form.Select>
-              </FloatingLabel>
+                </select>
+                <label htmlFor="floating-select-brand">Thương hiệu</label>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Tên sản phẩm</Form.Label>
-                <Form.Control
+              <div className="mb-3">
+                <label className="mb-2">Tên sản phẩm</label>
+                <input
+                  className="form-control"
                   id="name-input"
                   type="text"
                   onChange={(e) =>
@@ -175,23 +202,24 @@ export default function ProductEdit() {
                   }
                   value={product?.name}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Mô tả sản phẩm</Form.Label>
+              <div className="mb-3">
+                <label className="mb-2">Mô tả sản phẩm</label>
                 <RichTextEditor
                   data={product?.description}
                   onChange={handleQuillEdit}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Giá gốc</Form.Label>
-                <InputGroup>
-                  <Form.Control
+              <div className="mb-3">
+                <label className="mb-2">Giá gốc</label>
+                <div className="input-group">
+                  <input
+                    className="form-control"
                     placeholder="Giá gốc"
                     aria-label="Giá gốc"
-                    aria-describedby="basic-addon2"
+                    aria-describedby="basic-addon1"
                     pattern="^[0-9]*$"
                     value={parseInt(
                       product?.originalPrice ? product?.originalPrice : 0
@@ -205,14 +233,17 @@ export default function ProductEdit() {
                       }
                     }}
                   />
-                  <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
-                </InputGroup>
-              </Form.Group>
+                  <span className="input-group-text" id="basic-addon1">
+                    VND
+                  </span>
+                </div>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Giá sau khuyến mại</Form.Label>
-                <InputGroup>
-                  <Form.Control
+              <div className="mb-3">
+                <label className="mb-2">Giá sau khuyến mại</label>
+                <div className="input-group">
+                  <input
+                    className="form-control"
                     placeholder="Giá sau khuyến mại"
                     aria-label="Giá sau khuyến mại"
                     aria-describedby="basic-addon2"
@@ -228,16 +259,16 @@ export default function ProductEdit() {
                       }
                     }}
                   />
-                  <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
-                </InputGroup>
-              </Form.Group>
+                  <span className="input-group-text" id="basic-addon2">
+                    VND
+                  </span>
+                </div>
+              </div>
 
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Số lượng</Form.Label>
-                <Form.Control
+              <div className="mb-3">
+                <label className="mb-2">Số lượng</label>
+                <input
+                  className="form-control"
                   value={parseInt(
                     product?.unitsInStock ? product?.unitsInStock : 0
                   )}
@@ -250,19 +281,33 @@ export default function ProductEdit() {
                     }
                   }}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group controlId="formFile" className="mb-3">
-                <ImagesUpload images={images} setImages={setImages} />
+              <div className="mb-3">
+                <ImagesUpload
+                  setImages={setImages}
+                  setImageFiles={setImageFiles}
+                />
                 <ListImagePreview imageList={images} />
-              </Form.Group>
+              </div>
 
-              <Button variant="dark" className="w-100 my-2" type="submit">
-                Lưu các thay đổi
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
+              <button
+                className="btn btn-dark w-100 mb-2"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    aria-hidden="true"
+                  ></span>
+                ) : (
+                  <span role="status">Lưu các thay đổi</span>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </>
   );

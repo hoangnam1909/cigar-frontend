@@ -1,70 +1,60 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  FloatingLabel,
-  Form,
-  Image,
-  InputGroup,
-} from "react-bootstrap";
 import API, { adminEndpoints, endpoints } from "~/api/API";
 import RichTextEditor from "~/components/input/RichTextEditor";
 import { ImagesUpload } from "~/components/input/ImagesUpload";
 import AuthAPI from "~/api/AuthAPI";
 import { useNavigate } from "react-router-dom";
+import ListImagePreview from "~/layout/component/img/ListImagePreview";
+import { numberInputOnly } from "~/utils/input";
 
 export default function ProductAdd() {
   const navigate = useNavigate();
-
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [originalPrice, setOriginalPrice] = useState("0");
-  const [salePrice, setSalePrice] = useState("0");
-  const [unitsInStock, setUnitsInStock] = useState("0");
-  const [categoryId, setCategoryId] = useState(1);
-  const [brandId, setBrandId] = useState(1);
-  const [images, setImages] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
 
-  useEffect(() => {
-    // console.log(originalPrice === 0 || salePrice === 0);
-  }, [salePrice, originalPrice]);
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    originalPrice: 0,
+    salePrice: 0,
+    unitsInStock: 0,
+    categoryId: 1,
+    brandId: 1,
+  });
+  const [images, setImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState();
 
-  const initialValue = () => {
-    setName("");
-    setDescription("");
-    setOriginalPrice("0");
-    setSalePrice("0");
-    setCategoryId(1);
-    setBrandId(1);
-    setUnitsInStock("0");
-    setImages([]);
+  const handleQuillEdit = (value) => {
+    setProduct((prev) => {
+      return {
+        ...prev,
+        description: value,
+      };
+    });
   };
 
   const handleSubmitForm = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
 
-    const res = await AuthAPI().post(adminEndpoints.products, {
-      name: name,
-      description: description,
-      originalPrice: parseInt(originalPrice),
-      salePrice: parseInt(salePrice),
-      categoryId: parseInt(categoryId),
-      brandId: parseInt(brandId),
-      unitsInStock: parseInt(unitsInStock),
-      productImagesLink: images,
+    const formData = new FormData();
+    formData.append(
+      "product",
+      new Blob([JSON.stringify(product).toString()], {
+        type: "application/json",
+      })
+    );
+    Array.from(imageFiles).forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const res = await AuthAPI().post(adminEndpoints.products, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
     if (res.status == 200) {
       navigate("/admin/products");
-    }
-  };
-
-  const handleNumberInputOnly = (e, setData) => {
-    const re = /^[0-9]*$/;
-    if (e.target.value === "" || re.test(e.target.value)) {
-      setData(e.target.value);
+      setIsLoading(false);
     }
   };
 
@@ -90,127 +80,171 @@ export default function ProductAdd() {
   }, []);
 
   return (
-    <>
-      <div className="container-fluid mt-3">
-        <h3 className="mt-2 mb-4 text-gray-800">Thêm sản phẩm</h3>
-        <Card className="mt-3">
-          <Card.Body>
-            <Form onSubmit={handleSubmitForm}>
-              <FloatingLabel
-                className="mb-3"
-                controlId="floatingSelect"
-                label="Phân loại sản phẩm"
-                value={categoryId}
-                defaultValue={"1"}
-                onChange={(e) => setCategoryId(e.target.value)}
+    <div
+      className={`container-fluid mt-3 ${
+        isLoading ? "pe-none opacity-75" : ""
+      }`}
+    >
+      <h3 className="mt-2 mb-4 text-gray-800">Thêm sản phẩm</h3>
+      <div className="card mt-3">
+        <div className="card-body">
+          <form onSubmit={handleSubmitForm}>
+            <div className="mb-3 form-floating">
+              <select
+                className="form-select"
+                id="floatingSelectCategory"
+                onChange={(e) =>
+                  setProduct({
+                    ...product,
+                    categoryId: parseInt(e.target.value),
+                  })
+                }
               >
-                <Form.Select aria-label="Floating label select example">
-                  {categories?.map((c) => {
-                    return (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    );
-                  })}
-                </Form.Select>
-              </FloatingLabel>
-
-              <FloatingLabel
-                className="mb-3"
-                controlId="floatingSelect"
-                label="Thương hiệu"
-                value={brandId}
-                defaultValue={"1"}
-                onChange={(e) => setBrandId(e.target.value)}
-              >
-                <Form.Select aria-label="Floating label select example">
-                  {brands?.map((b) => {
-                    return (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
-                      </option>
-                    );
-                  })}
-                </Form.Select>
-              </FloatingLabel>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Tên sản phẩm</Form.Label>
-                <Form.Control
-                  id="name-input"
-                  type="text"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Mô tả sản phẩm</Form.Label>
-                <RichTextEditor data={description} setData={setDescription} />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Giá gốc</Form.Label>
-                <InputGroup>
-                  <Form.Control
-                    placeholder="Giá gốc"
-                    aria-label="Giá gốc"
-                    aria-describedby="basic-addon2"
-                    value={originalPrice}
-                    onChange={(e) => handleNumberInputOnly(e, setOriginalPrice)}
-                  />
-                  <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
-                </InputGroup>
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Giá sau khuyến mại</Form.Label>
-                <InputGroup>
-                  <Form.Control
-                    placeholder="Giá sau khuyến mại"
-                    aria-label="Giá sau khuyến mại"
-                    aria-describedby="basic-addon2"
-                    value={salePrice}
-                    onChange={(e) => handleNumberInputOnly(e, setSalePrice)}
-                  />
-                  <InputGroup.Text id="basic-addon2">VND</InputGroup.Text>
-                </InputGroup>
-              </Form.Group>
-
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Số lượng</Form.Label>
-                <Form.Control
-                  value={unitsInStock}
-                  onChange={(e) => handleNumberInputOnly(e, setUnitsInStock)}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formFile" className="mb-3">
-                <ImagesUpload setImages={setImages} />
-                {images?.map((link, index) => {
+                {categories?.map((c) => {
                   return (
-                    <Image
-                      key={index}
-                      src={link}
-                      style={{ height: "200px", objectFit: "cover" }}
-                      fluid
-                      rounded
-                      className="me-2 mb-2 border"
-                    />
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
                   );
                 })}
-              </Form.Group>
+              </select>
+              <label htmlFor="floatingSelectCategory">Danh mục</label>
+            </div>
 
-              <Button variant="dark" className="w-100 my-2" type="submit">
-                Thêm sản phẩm
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
+            <div className="mb-3 form-floating">
+              <select
+                className="form-select"
+                id="floatingSelectBrand"
+                onChange={(e) =>
+                  setProduct({
+                    ...product,
+                    brandId: parseInt(e.target.value),
+                  })
+                }
+              >
+                {brands?.map((b) => {
+                  return (
+                    <option key={b.id} value={b.id}>
+                      {b.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <label htmlFor="floatingSelectBrand">Thương hiệu</label>
+            </div>
+
+            <div className="mb-3">
+              <label className="mb-2">Tên sản phẩm</label>
+              <input
+                className="form-control"
+                id="name-input"
+                type="text"
+                onChange={(e) =>
+                  setProduct({ ...product, name: e.target.value })
+                }
+                value={product?.name}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="mb-2">Mô tả sản phẩm</label>
+              <RichTextEditor
+                data={product?.description}
+                onChange={handleQuillEdit}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="mb-2">Giá gốc</label>
+              <div className="input-group">
+                <input
+                  className="form-control"
+                  placeholder="Giá gốc"
+                  aria-label="Giá gốc"
+                  aria-describedby="basic-addon1"
+                  pattern="^[0-9]*$"
+                  value={parseInt(
+                    product?.originalPrice ? product?.originalPrice : 0
+                  )}
+                  onChange={(e) => {
+                    if (numberInputOnly(e.target.value)) {
+                      setProduct({
+                        ...product,
+                        originalPrice: parseInt(e.target.value),
+                      });
+                    }
+                  }}
+                />
+                <span className="input-group-text" id="basic-addon1">
+                  VND
+                </span>
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label className="mb-2">Giá sau khuyến mại</label>
+              <div className="input-group">
+                <input
+                  className="form-control"
+                  placeholder="Giá sau khuyến mại"
+                  aria-label="Giá sau khuyến mại"
+                  aria-describedby="basic-addon2"
+                  value={parseInt(product?.salePrice ? product?.salePrice : 0)}
+                  onChange={(e) => {
+                    if (numberInputOnly(e.target.value)) {
+                      setProduct({
+                        ...product,
+                        salePrice: parseInt(e.target.value),
+                      });
+                    }
+                  }}
+                />
+                <span className="input-group-text" id="basic-addon2">
+                  VND
+                </span>
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label className="mb-2">Số lượng</label>
+              <input
+                className="form-control"
+                value={parseInt(
+                  product?.unitsInStock ? product?.unitsInStock : 0
+                )}
+                onChange={(e) => {
+                  if (numberInputOnly(e.target.value)) {
+                    setProduct({
+                      ...product,
+                      unitsInStock: parseInt(e.target.value),
+                    });
+                  }
+                }}
+              />
+            </div>
+
+            <div className="mb-3">
+              <ImagesUpload
+                setImages={setImages}
+                setImageFiles={setImageFiles}
+              />
+              <ListImagePreview imageList={images} />
+            </div>
+
+            <button
+              className="btn btn-dark btn-lg w-100 mb-2"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className="spinner-border me-2" aria-hidden="true"></span>
+              ) : (
+                <span role="status">Thêm sản phẩm</span>
+              )}
+            </button>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
